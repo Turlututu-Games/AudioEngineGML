@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"__AudioEngineConfig",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__AudioEngineConfig",
+  "parent":{
+    "name":"__CONFIG",
+    "path":"folders/AudioEngine/__CONFIG.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
