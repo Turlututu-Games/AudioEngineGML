@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"AudioEnginePlayMusic",
+  "%Name":"AudioEngineMusicEffectClearAll",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"AudioEnginePlayMusic",
+  "name":"AudioEngineMusicEffectClearAll",
   "parent":{
     "name":"Music",
     "path":"folders/AudioEngine/Music.yy",

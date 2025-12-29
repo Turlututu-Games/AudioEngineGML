@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"AudioEngineMusicEffectClear",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"AudioEngineMusicEffectClear",
+  "parent":{
+    "name":"Music",
+    "path":"folders/AudioEngine/Music.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

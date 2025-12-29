@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"AudioEngineMusicPlay",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"AudioEngineMusicPlay",
+  "parent":{
+    "name":"Music",
+    "path":"folders/AudioEngine/Music.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

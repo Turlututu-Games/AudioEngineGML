@@ -61,15 +61,15 @@ dbg_button(">||", function() {
 }, 40);
 
 dbg_button("State : Cute", function() {
-    AudioEngineMusicSetMood(AUDIO_MULTITRACK_MOOD.CUTE, AUDIO_CATEGORIES.MAIN, oExample.getCrossfade());
+    AudioEngineMusicMoodSet(AUDIO_MULTITRACK_MOOD.CUTE, AUDIO_CATEGORIES.MAIN, oExample.getCrossfade());
 });
 dbg_same_line();
 dbg_button("State : Festive", function() {
-    AudioEngineMusicSetMood(AUDIO_MULTITRACK_MOOD.FESTIVE, AUDIO_CATEGORIES.MAIN, oExample.getCrossfade());
+    AudioEngineMusicMoodSet(AUDIO_MULTITRACK_MOOD.FESTIVE, AUDIO_CATEGORIES.MAIN, oExample.getCrossfade());
 });
 dbg_same_line();
 dbg_button("State : Silly", function() {
-    AudioEngineMusicSetMood(AUDIO_MULTITRACK_MOOD.SILLY, AUDIO_CATEGORIES.MAIN, oExample.getCrossfade());
+    AudioEngineMusicMoodSet(AUDIO_MULTITRACK_MOOD.SILLY, AUDIO_CATEGORIES.MAIN, oExample.getCrossfade());
 });
 
 dbg_watch(ref_create(self, "debugMusicPlayed"), "Music Played");
