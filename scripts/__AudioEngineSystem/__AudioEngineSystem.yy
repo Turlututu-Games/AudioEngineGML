@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"__AudioEngineSystem",
   "parent":{
-    "name":"__SYSTEM",
-    "path":"folders/AudioEngine/__SYSTEM.yy",
+    "name":"(System)",
+    "path":"folders/AudioEngine/(System).yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

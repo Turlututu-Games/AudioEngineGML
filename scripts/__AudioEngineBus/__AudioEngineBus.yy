@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"AudioEngineDefine",
+  "%Name":"__AudioEngineBus",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"AudioEngineDefine",
+  "name":"__AudioEngineBus",
   "parent":{
-    "name":"__SYSTEM",
-    "path":"folders/AudioEngine/__SYSTEM.yy",
+    "name":"(System)",
+    "path":"folders/AudioEngine/(System).yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

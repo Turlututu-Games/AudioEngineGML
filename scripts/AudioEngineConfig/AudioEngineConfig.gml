@@ -1,10 +1,17 @@
-function __AudioEngineConfig(){
+#macro __AUDIOENGINE_MUSIC_DEFAULT_FADE  0
+
+function __AudioEngineConfig() {
+	
+	enum AUDIO_CATEGORIES {
+		MAIN
+	}
+	
 	enum AUDIO_MUSIC {
 		DECORATE,
 		EXPLORE
 	}
 	
-	enum AUDIO_MULTITRACK_STATE {
+	enum AUDIO_MULTITRACK_MOOD {
 		CUTE,
 		FESTIVE,
 		SILLY,
@@ -32,9 +39,9 @@ function __AudioEngineConfig(){
 	 * _volume: initial volume
 	 */
 	AudioEngineDefineMultiTrackMusic(AUDIO_MUSIC.EXPLORE, [
-		new AudioEngineTrack(Interior_Birdecorator_Explore_CUTE, AUDIO_MULTITRACK_STATE.CUTE),
-		new AudioEngineTrack(Interior_Birdecorator_Explore_FESTIVE, AUDIO_MULTITRACK_STATE.FESTIVE),
-		new AudioEngineTrack(Interior_Birdecorator_Explore_SILLY, AUDIO_MULTITRACK_STATE.SILLY),
+		new AudioEngineTrack(Interior_Birdecorator_Explore_CUTE, AUDIO_MULTITRACK_MOOD.CUTE),
+		new AudioEngineTrack(Interior_Birdecorator_Explore_FESTIVE, AUDIO_MULTITRACK_MOOD.FESTIVE),
+		new AudioEngineTrack(Interior_Birdecorator_Explore_SILLY, AUDIO_MULTITRACK_MOOD.SILLY),
 	]);
 	
 	// Add your UI sounds here

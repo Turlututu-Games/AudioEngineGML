@@ -2,4 +2,4 @@
 
 var _system = __AudioEngineSystem();
 
-__AudioEnginePlayMusicStop(_system);
+__AEMusicStop(_system);

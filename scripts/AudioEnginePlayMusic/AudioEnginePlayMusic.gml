@@ -1,159 +1,278 @@
-function AudioEnginePlayMusic(_musicInstance, _crossfadeTime = 0) {
-	static _system = __AudioEngineSystem();
+/// @desc Play a music, replacing existing one
+/// @param {Enum.AUDIO_MUSIC} _musicInstance Music key
+/// @param {Enum.AUDIO_CATEGORIES} [_category] Optional category. 0 by default
+/// @param {Real} [_crossfadeTime] Optional crossfade value. Default to __AUDIOENGINE_MUSIC_DEFAULT_FADE
+function AudioEngineMusicPlay(_musicInstance, _category = 0, _crossfadeTime = __AUDIOENGINE_MUSIC_DEFAULT_FADE) {
+	var _currentMusic = __AEMusicGetCurrentMusic(_category);
 	
 	// If the new track is the same than the old, do nothing
-	if(_system.currentMusic != undefined && _system.currentMusic.id == _musicInstance) {
+	if(_currentMusic.id == _musicInstance) {
 		return;	
 	}
 	
-	if(_crossfadeTime <= 0) {
-		__AudioEnginePlayMusicStop(_system);
-	} else {
-		__AudioEnginePlayMusicStopWithFade(_system, _crossfadeTime);
+	var _previousMoods = _currentMusic.moods;
+	
+	if(!_currentMusic.id != -1) {
+		if(_crossfadeTime <= 0) {
+			__AEMusicStop( _category);
+		} else {
+			__AEMusicStopWithFade(_category, _crossfadeTime);
+		}
 	}
 	
-	__AudioEnginePlayMusicPlayWithFade(_system, _musicInstance, _crossfadeTime);
+	__AEMusicPlayWithFade(_musicInstance, _category, _crossfadeTime, _previousMoods);
 }
 
-function AudioEngineStopMusic(_crossfadeTime = 0) {
-	static _system = __AudioEngineSystem();
+/// @desc Stop the current music
+/// @param {Enum.AUDIO_CATEGORIES} [_category] Optional category. 0 by default
+/// @param {Real} [_crossfadeTime] Optional crossfade value. Default to __AUDIOENGINE_MUSIC_DEFAULT_FADE
+function AudioEngineMusicStop(_category = 0, _crossfadeTime = __AUDIOENGINE_MUSIC_DEFAULT_FADE) {
+	
+	__AEMusicGetCurrentMusic(_category);
 	
 	if(_crossfadeTime <= 0) {
-		__AudioEnginePlayMusicStop(_system);
+		__AEMusicStop(_category);
 	} else {
-		__AudioEnginePlayMusicStopWithFade(_system, _crossfadeTime);
+		__AEMusicStopWithFade(_category, _crossfadeTime);
 	}
 	
-	_system.currentMusic = undefined;
+	// Erase data from currentMusics store
+	__AEMusicResetCurrentMusic(_category)
+	
+	// Clear the audio bus
+	__AEBusClear($"music-{_category}");
 }
 
-function AudioEngineSetStateMusic(_state, _crossfadeTime = 0) {
-	static _system = __AudioEngineSystem();
+/// @desc Pause the current music
+/// @param {Enum.AUDIO_CATEGORIES} [_category] Optional category. 0 by default
+function AudioEngineMusicPause(_category = 0) {
+	var _currentMusic = __AEMusicGetCurrentMusic(_category);
+	
+	if(_currentMusic.id != -1) {
+		for(var _i = 0; _i < array_length(_currentMusic.tracks); _i++) {
+			var _track = _currentMusic.tracks[_i];
 			
-	if(is_array(_state)) {
-		_system.currentState = _state;
+			if(!audio_is_paused(_track.ref)) {
+				audio_pause_sound(_track.ref);
+			}
+
+		}	
+	}
+}
+
+/// @desc Resume the current paused music
+/// @param {Enum.AUDIO_CATEGORIES} [_category] Optional category. 0 by default
+function AudioEngineMusicResume(_category = 0) {
+	var _currentMusic = __AEMusicGetCurrentMusic(_category);
+	
+	if(_currentMusic.id != -1) {
+		for(var _i = 0; _i < array_length(_currentMusic.tracks); _i++) {
+			var _track = _currentMusic.tracks[_i];
+			
+			if(audio_is_paused(_track.ref)) {
+				audio_resume_sound(_track.ref);
+			}
+
+		}	
+	}
+}
+
+/// @desc Set the moods for the current multi-track music
+/// @param {Enum.AUDIO_MULTITRACK_MOOD,Array<Enum.AUDIO_MULTITRACK_MOOD>} _mood New mood. Can be an array to play multiple mood track on the same time
+/// @param {Enum.AUDIO_CATEGORIES} [_category] Optional category. 0 by default
+/// @param {Real} [_crossfadeTime] Optional crossfade value. Default to __AUDIOENGINE_MUSIC_DEFAULT_FADE
+function AudioEngineMusicSetMood(_mood, _category = 0, _crossfadeTime = __AUDIOENGINE_MUSIC_DEFAULT_FADE) {
+	var _currentMusic = __AEMusicGetCurrentMusic(_category);
+			
+	if(is_array(_mood)) {
+		_currentMusic.moods = _mood;
 	} else {
-		_system.currentState = [_state];
+		_currentMusic.moods = [_mood];
 	}
 	
-	if(_system.currentMusic != undefined && _system.currentMusic.multi) {
-		for(var _i = 0; _i < array_length(_system.currentMusic.assets); _i++) {
-			var _music = _system.currentMusic.assets[_i];
+	if(_currentMusic.id != -1 && _currentMusic.multi) {
+		for(var _i = 0; _i < array_length(_currentMusic.tracks); _i++) {
+			var _track = _currentMusic.tracks[_i];
 			
-			if(array_get_index(_system.currentState, _music.state) == -1) {
-				audio_sound_gain(_music.asset, 0, _crossfadeTime);
+			if(array_get_index(_currentMusic.moods, _track.mood) == -1) {
+				audio_sound_gain(_track.ref, 0, _crossfadeTime);
 			} else {
-				audio_sound_gain(_music.asset, _music.volume, _crossfadeTime);
+				audio_sound_gain(_track.ref, _track.volume, _crossfadeTime);
 			}			
 			
 		}	
 	}
 }
 
+/// @desc Set a music effect to a category
+/// @param {Struct.AudioEffect} _effect Effect to apply
+/// @param {Real} [_effectIndex] Optional canal to apply the effect. Must be a number between 0 and 7. 0 by default
+/// @param {Enum.AUDIO_CATEGORIES} [_category] Optional category. 0 by default
+function AudioEngineMusicEffectSet(_effect, _effectIndex = 0, _category = 0) {
+	__AEBusEffectSet(_effect, _effectIndex, $"music-{_category}")
+}
 
-function __AudioEnginePlayMusicStop(_system) {
-	if(_system.currentMusic != undefined) {
+/// @desc Clear a music effect from a category
+/// @param {Real} [_effectIndex] Optional canal to clear the effect. Must be a number between 0 and 7. 0 by default
+/// @param {Enum.AUDIO_CATEGORIES} [_category] Optional category. 0 by default
+function AudioEngineMusicEffectClear(_effectIndex = 0, _category = 0) {
+	__AEBusEffectClear(_effectIndex, $"music-{_category}")
+}
+
+/// @desc Clear all effects from a category
+/// @param {Enum.AUDIO_CATEGORIES} [_category] Optional category. 0 by default
+function AudioEngineMusicEffectClearAll(_category = 0) {
+	__AEBusEffectClearAll($"music-{_category}")
+}
+
+/// @desc Get Current Music
+/// @param {Enum.AUDIO_CATEGORIES} _category
+/// @return {Struct.__AEMusicCurrentMusic}
+function __AEMusicGetCurrentMusic(_category) {
+	static _system = __AudioEngineSystem();
+	
+	if(_system.currentMusics[$ _category] == undefined) {
+		_system.currentMusics[$ _category] = new __AEMusicCurrentMusic();
+	}	
+	
+	return _system.currentMusics[$ _category];
+}
+
+/// @desc Reset Current Music
+/// @param {Enum.AUDIO_CATEGORIES} _category
+function __AEMusicResetCurrentMusic(_category) {
+	static _system = __AudioEngineSystem();
+	
+	_system.currentMusics[$ _category] = new __AEMusicCurrentMusic();
+
+}
+
+/// @desc Directly Stop Current Music
+/// @param {Enum.AUDIO_CATEGORIES} _category
+function __AEMusicStop(_category) {
+	var _currentMusic = __AEMusicGetCurrentMusic(_category);
+	
+	if(_currentMusic.id != -1) {
 			
-		if(_system.currentMusic.multi) {
-			audio_stop_sync_group(_system.currentMusic.group);
+		if(_currentMusic.multi) {				
+			for(var _i = 0; _i < array_length(_currentMusic.tracks); _i++) {
+				var _track = _currentMusic.tracks[_i];
 				
-			for(var _i = 0; _i < array_length(_system.currentMusic.assets); _i++) {
-				var _music = _system.currentMusic.assets[_i];
-				if(_music.isStream) {
-					audio_destroy_stream(_music.asset);
+				audio_stop_sound(_track.asset);
+				
+				if(_track.isStream) {
+					audio_destroy_stream(_track.asset);
 				}
 			}		
-			
-			audio_destroy_sync_group(_system.currentMusic.group);
 		} else {
-			audio_stop_sound(_system.currentMusic.asset);
+			audio_stop_sound(_currentMusic.tracks[0].asset);
 			
-			if(_system.currentMusic.isStream) {
-				audio_destroy_stream(_system.currentMusic.asset);
+			if(_currentMusic.tracks[0].isStream) {
+				audio_destroy_stream(_currentMusic.tracks[0].asset);
 			}
 		}
 	}
 }
 
-function __AudioEnginePlayMusicStopWithFade(_system, _fade) {
-	if(_system.currentMusic != undefined) {
+/// @desc Stop Current Music with fade-out
+/// @param {Enum.AUDIO_CATEGORIES} _category
+/// @param {Real} _fade
+function __AEMusicStopWithFade(_category, _fade) {
+		
+	var _currentMusic = __AEMusicGetCurrentMusic(_category);
+	
+	if(_currentMusic.id != -1) {
 			
-		if(_system.currentMusic.multi) {
-			for(var _i = 0; _i < array_length(_system.currentMusic.assets); _i++) {
-				var _music = _system.currentMusic.assets[_i];
+		if(_currentMusic.multi) {
+			for(var _i = 0; _i < array_length(_currentMusic.tracks); _i++) {
+				var _track = _currentMusic.tracks[_i];
 				
-				audio_sound_gain(_music.asset, 0, _fade);
+				audio_sound_gain(_track.ref, 0, _fade);
 
 			}	
 		} else {
-			audio_sound_gain(_system.currentMusic.asset, 0, _fade);
+			audio_sound_gain(_currentMusic.tracks[0].ref, 0, _fade);
 		}
 		
-		with(oAudioEngineManager) {
+		with(__oAudioEngineManager) {
 			alarm_set(0, _fade);
 		}		
 	}
 }
 
-function __AudioEnginePlayMusicPlayWithFade(_system, _musicInstance, _fade) {
-	var _newMusic = _system.library.music[@ _musicInstance];
+/// @desc Play a new music
+/// @param {Enum.AUDIO_MUSIC} _musicInstance
+/// @param {Enum.AUDIO_CATEGORIES} _category
+/// @param {Real} _fade
+/// @param {Array<Enum.AUDIO_MULTITRACK_MOOD>} _previousMoods
+function __AEMusicPlayWithFade(_musicInstance, _category, _fade, _previousMoods) {
+	
+	static _system = __AudioEngineSystem();
+	
+	var _newMusic = _system.library.music[$ _musicInstance];
 		
 	if(!_newMusic) {
 		// The music does not exists! Log it
+		show_debug_message("Invalid music id: {0}", _musicInstance);
 		return;	
 	}
 		
+	
+	var _bus = __AEBusGet($"music-{_category}");			
+		
 	if(_newMusic.multi) {
 		// Multi-track music	
-		var _currentMusic = new __AudioEngineSystemCurrentMusic(_musicInstance);
-		
-		var _group = audio_create_sync_group(true);
+		var _currentMusic = new __AEMusicCurrentMusic(_musicInstance, [], true, _previousMoods);		
 			
 		for(var _i = 0; _i < array_length(_newMusic.assets); _i++) {
 			var _music = _newMusic.assets[_i];
 				
-			var _musicAsset = __AudioEngineReturnAsset(_music);
-				
-			array_push(_currentMusic.assets, {
-				asset: _musicAsset, 
-				isStream: _music.isStream,
-				state: _music.state,
-				volume: _music.volume
-			});
-				
-			audio_play_in_sync_group(_group, _musicAsset);
-			if(array_get_index(_system.currentState, _music.state) == -1) {
-				audio_sound_gain(_musicAsset, 0, 0);
+			var _musicAsset = __AEMusicReturnAsset(_music);
+
+			var _ref = audio_play_sound_on(_bus.emitter, _musicAsset, true, _newMusic.priority);
+			
+			array_push(_currentMusic.tracks, new __AEMusicCurrentMusicTrack(_musicAsset, _music.isStream, _music.mood, _music.volume, _ref) );
+
+			if(array_get_index(_currentMusic.moods, _music.mood) == -1) {
+				audio_sound_gain(_ref, 0, 0);
 			} else {
-				audio_sound_gain(_musicAsset, _music.volume, _fade);
+				if(_fade > 0) {
+					// Immediate start at volume 0 then go to wanted volume on fade time
+					audio_sound_gain(_ref, 0, 0);
+					audio_sound_gain(_ref, _music.volume, _fade);				
+				} else {
+					audio_sound_gain(_ref, _music.volume, 0);	
+				}
 			}
 		}
-			
-		audio_start_sync_group(_group);
-			
-			
-		_currentMusic.multi = true;
-		_currentMusic.group = _group;
-			
-		_system.currentMusic = _currentMusic;			
+							
+		_system.currentMusics[$ _category] = _currentMusic;		
 	} else {
 			
-		var _music = __AudioEngineReturnAsset(_newMusic);
-		audio_play_sound(_music, _newMusic.priority, true);
-		audio_sound_gain(_music, 0, 0);
-		audio_sound_gain(_music, _newMusic.volume, _fade);
+		var _music = __AEMusicReturnAsset(_newMusic);
+
+		var _ref = audio_play_sound_on(_bus.emitter, _music, true, _newMusic.priority);
+		
+		if(_fade > 0) {
+			audio_sound_gain(_ref, 0, 0);
+			audio_sound_gain(_ref, _newMusic.volume, _fade);
+		} else {
+			audio_sound_gain(_ref, _newMusic.volume, 0);
+		}
 			
-		var _currentMusic = new __AudioEngineSystemCurrentMusic(_musicInstance);
-		_currentMusic.asset = _music;
-		_currentMusic.isStream = _newMusic.isStream;
+		var _currentMusic = new __AEMusicCurrentMusic(_musicInstance);
+		_currentMusic.tracks = [new __AEMusicCurrentMusicTrack(_music, _newMusic.isStream, 0, _newMusic.volume, _ref)];
 		_currentMusic.multi = false;
 			
-		_system.currentMusic = _currentMusic;
+		_system.currentMusics[$ _category] = _currentMusic;
 			
 	}
 }
 
-function __AudioEngineReturnAsset(_asset) {
+/// @desc Return the sound asset
+/// @param {Asset.GMSound,String} _asset
+/// @return {Asset.GMSound}
+function __AEMusicReturnAsset(_asset) {
 	if(_asset.isStream) {
 		return audio_create_stream(_asset.asset);
 	}
@@ -162,11 +281,33 @@ function __AudioEngineReturnAsset(_asset) {
 	
 }
 
-function __AudioEngineSystemCurrentMusic(_id, _asset = noone, _assets = [], _group = undefined, _isStream = false, _multi = false) constructor {
-	id = _id;
+/// @desc Current Music Track
+/// @param {Asset.GMSound,String} _asset
+/// @param {Bool} _isStream
+/// @param {Enum.AUDIO_MULTITRACK_MOOD} _mood
+/// @param {Real} _volume
+/// @param {Id.Sound} _ref
+function __AEMusicCurrentMusicTrack(_asset = noone, _isStream = false, _mood = 0, _volume = 1, _ref = noone) constructor {
 	asset = _asset;
-	assets = _assets
-	group = _group
-	isStream = _isStream
-	multi = _multi
+	isStream = _isStream;
+	mood = _mood;
+	volume = _volume;
+	ref = _ref;
+}
+
+/// @desc Current Music
+/// @param {Enum.AUDIO_MUSIC} _id
+/// @param {Array<Struct.__AEMusicCurrentMusicTrack>} _tracks
+/// @param {Bool} _multi
+/// @param {Array<Enum.AUDIO_MULTITRACK_MOOD>} _moods
+function __AEMusicCurrentMusic(_id = -1, _tracks = [], _multi = false, _moods = [0]) constructor {
+	id = _id;
+	tracks = _tracks
+	multi = _multi;	
+	moods = _moods;
+	
+	// Ensure mood 0 is set if moods are empty
+	if(array_length(moods) == 0) {
+		array_push(moods, 0)	
+	}
 }

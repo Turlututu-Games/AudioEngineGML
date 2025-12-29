@@ -1,0 +1,11 @@
+{
+  "$GMNotes":"v1",
+  "%Name":"Credits",
+  "name":"Credits",
+  "parent":{
+    "name":"musics",
+    "path":"folders/Example/musics.yy",
+  },
+  "resourceType":"GMNotes",
+  "resourceVersion":"2.0",
+}
