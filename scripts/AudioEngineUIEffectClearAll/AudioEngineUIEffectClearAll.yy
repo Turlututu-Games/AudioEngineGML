@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"AudioEngineUIEffectClearAll",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"AudioEngineUIEffectClearAll",
+  "parent":{
+    "name":"UI",
+    "path":"folders/AudioEngine/UI.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

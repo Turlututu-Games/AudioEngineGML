@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"Voice_Male_V1_Attack_Mono_01",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":0.46866214,
+  "exportDir":"",
+  "name":"Voice_Male_V1_Attack_Mono_01",
+  "parent":{
+    "name":"attack",
+    "path":"folders/Example/sounds/attack.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"Voice_Male_V1_Attack_Mono_01.wav",
+  "volume":1.0,
+}

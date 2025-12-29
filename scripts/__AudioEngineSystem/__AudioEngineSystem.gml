@@ -12,20 +12,7 @@ function __AudioEngineSystem() {
 		return _system;
 	}
 	
-	_system = {
-		volumes: {
-			music: 1,
-			ui: 1,
-			game: 1
-		},
-		bus: {},
-		currentMusics: {},
-		library: {
-			music: {},
-			ui: {},
-			game: {},
-		}
-	};
+	_system = new __AESystem();
 	
 	__AudioEngineConfig();
 	
@@ -73,6 +60,16 @@ function __AESystemVolumes(_music = 1, _ui = 1, _game = 1 ) constructor {
 }
 
 /// @param {Asset.GMSound,String} _asset
+/// @param {Id.Sound} _ref Reference to the sound
+/// @param {String} _type Type of asset. Can be music, ui, static or spatial
+function __AESystemPlaying(_asset = noone, _ref = noone, _type = undefined ) constructor {
+	asset = _asset;
+	ref = _ref;
+	type = _type;
+}
+
+
+/// @param {Asset.GMSound,String} _asset
 /// @param {Real} _volume Initial volume
 /// @param {Real} _priority Sound priority
 /// @param {Bool} _isStream Indicate if the track is a stream
@@ -112,7 +109,8 @@ function __AESystemLibraryMusicMulti(_assets = [], _priority = 1 ) constructor {
 /// @param {Real} _priority Sound priority
 /// @param {Bool} _isStream Indicate if the sound is a stream
 /// @param {Bool} _spatialized Indicate if the sound is spatialized
-function __AESystemLibrarySound(_asset = noone, _volume = 1,_volumeVariance = 0, _pitch = 1, _pitchVariance = 0, _priority = 1, _spatialized = false, _isStream = false ) constructor {
+/// @param {Bool} _loop Indicate if the sound is a loop
+function __AESystemLibrarySound(_asset = noone, _volume = 1,_volumeVariance = 0, _pitch = 1, _pitchVariance = 0, _priority = 1, _spatialized = false, _isStream = false, _loop = false ) constructor {
 	asset = _asset;
 	volume = _volume;
 	volumeVariance = _volumeVariance;
@@ -122,6 +120,7 @@ function __AESystemLibrarySound(_asset = noone, _volume = 1,_volumeVariance = 0,
 	multi = false;
 	isStream = _isStream;
 	spatialized = _spatialized;
+	loop = _loop;
 }
 
 /// @param {Asset.GMSound,String} _asset
@@ -138,7 +137,8 @@ function __AESystemLibrarySoundTrack(_asset = noone, _isStream = false ) constru
 /// @param {Real} _pitchVariance Pitch random variation
 /// @param {Real} _priority Sound priority
 /// @param {Bool} _spatialized Indicate if the sound is spatialized
-function __AESystemLibrarySoundArray(_assets = [], _volume = 1,_volumeVariance = 0, _pitch = 1, _pitchVariance = 0, _priority = 1, _spatialized = false) constructor {
+/// @param {Bool} _loop Indicate if the sound is a loop
+function __AESystemLibrarySoundArray(_assets = [], _volume = 1,_volumeVariance = 0, _pitch = 1, _pitchVariance = 0, _priority = 1, _spatialized = false, _loop = false) constructor {
 	assets = _assets;
 	volume = _volume;
 	volumeVariance = _volumeVariance;
@@ -147,6 +147,7 @@ function __AESystemLibrarySoundArray(_assets = [], _volume = 1,_volumeVariance =
 	priority = _priority;
 	multi = true;
 	spatialized = _spatialized;
+	loop = _loop;
 }
 
 /// @desc System Libraries
@@ -161,11 +162,15 @@ function __AESystemLibrary(_music = {}, _ui = {}, _game = {} ) constructor {
 
 /// @desc System
 /// @param {Struct.__AESystemVolumes} _volumes
+/// @param {Struct} _streams Stream cache
+/// @param {Array<Struct.__AESystemPlaying>} _playing List of currently played sounds
 /// @param {Struct} _bus
 /// @param {Struct.__AEMusicCurrentMusic} _currentMusics
 /// @param {Struct.__AESystemLibrary} _library
-function __AESystem(_volumes = new __AESystemVolumes(), _bus = {}, _currentMusics = {}, _library = new __AESystemLibrary() ) constructor {
+function __AESystem(_volumes = new __AESystemVolumes(), _streams = {}, _playing = [], _bus = {}, _currentMusics = {}, _library = new __AESystemLibrary() ) constructor {
 	volumes = _volumes;
+	streams = _streams;
+	playing = _playing;
 	bus = _bus;
 	currentMusics = _currentMusics;
 	library = _library;

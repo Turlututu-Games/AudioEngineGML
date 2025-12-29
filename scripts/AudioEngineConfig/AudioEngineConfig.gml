@@ -20,7 +20,8 @@ function __AudioEngineConfig() {
 	}	
 	
 	enum AUDIO_UI_SOUND {
-		
+		CLICK,
+		ATTACK,
 	}
 	
 	enum AUDIO_GAME_SOUND {
@@ -28,7 +29,7 @@ function __AudioEngineConfig() {
 	}	
 		
 	// Add your music here
-	AudioEngineDefineMusic(AUDIO_MUSIC.DECORATE, Interior_Birdecorator_Decorate);
+	AudioEngineDefineMusic(AUDIO_MUSIC.DECORATE, Interior_Birdecorator_Decorate, {volume: 0.8});
 	AudioEngineDefineMusic(AUDIO_MUSIC.MENU, "Interior Birdecorator Menu_LOOP.ogg");
 
 	AudioEngineDefineMultiTrackMusic(AUDIO_MUSIC.EXPLORE, [
@@ -38,7 +39,17 @@ function __AudioEngineConfig() {
 	]);
 	
 	// Add your UI sounds here
-	//AudioEngineDefineUISound();
+	AudioEngineDefineUISound(AUDIO_UI_SOUND.CLICK, Household_Closet_Key_Insertion_Stereo);
+	AudioEngineDefineUISoundArray(AUDIO_UI_SOUND.ATTACK, [
+		Voice_Male_V1_Attack_Mono_01,
+		Voice_Male_V1_Attack_Mono_02,
+		Voice_Male_V1_Attack_Mono_03,
+		Voice_Male_V1_Attack_Mono_04,
+		Voice_Male_V1_Attack_Mono_05,
+		Voice_Male_V1_Attack_Mono_06,
+		Voice_Male_V1_Attack_Mono_07,
+		Voice_Male_V1_Attack_Mono_08,
+	]);
 	
 	// Add your Game sounds here
 	//AudioEngineDefineGameSound();

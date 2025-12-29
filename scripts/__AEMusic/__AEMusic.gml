@@ -32,17 +32,11 @@ function __AEMusicStop(_category) {
 				var _track = _currentMusic.tracks[_i];
 				
 				audio_stop_sound(_track.asset);
-				
-				if(_track.isStream) {
-					audio_destroy_stream(_track.asset);
-				}
+			
 			}		
 		} else {
 			audio_stop_sound(_currentMusic.tracks[0].asset);
-			
-			if(_currentMusic.tracks[0].isStream) {
-				audio_destroy_stream(_currentMusic.tracks[0].asset);
-			}
+
 		}
 	}
 }
@@ -100,9 +94,11 @@ function __AEMusicPlayWithFade(_musicInstance, _category, _fade, _previousMoods)
 		for(var _i = 0; _i < array_length(_newMusic.assets); _i++) {
 			var _music = _newMusic.assets[_i];
 				
-			var _musicAsset = __AEMusicReturnAsset(_music);
+			var _musicAsset = __AEStreamReturnAsset(_music);
 
 			var _ref = audio_play_sound_on(_bus.emitter, _musicAsset, true, _newMusic.priority);
+			
+			array_push(_system.playing, new __AESystemPlaying(_music.asset, _ref, "music"));
 			
 			array_push(_currentMusic.tracks, new __AEMusicCurrentMusicTrack(_musicAsset, _music.isStream, _music.mood, _music.volume, _ref) );
 
@@ -122,7 +118,7 @@ function __AEMusicPlayWithFade(_musicInstance, _category, _fade, _previousMoods)
 		_system.currentMusics[$ _category] = _currentMusic;		
 	} else {
 			
-		var _music = __AEMusicReturnAsset(_newMusic);
+		var _music = __AEStreamReturnAsset(_newMusic);
 
 		var _ref = audio_play_sound_on(_bus.emitter, _music, true, _newMusic.priority);
 		
@@ -132,6 +128,8 @@ function __AEMusicPlayWithFade(_musicInstance, _category, _fade, _previousMoods)
 		} else {
 			audio_sound_gain(_ref, _newMusic.volume, 0);
 		}
+		
+		array_push(_system.playing, new __AESystemPlaying(_newMusic.asset, _ref, "music"));
 			
 		var _currentMusic = new __AEMusicCurrentMusic(_musicInstance);
 		_currentMusic.tracks = [new __AEMusicCurrentMusicTrack(_music, _newMusic.isStream, 0, _newMusic.volume, _ref)];
@@ -140,18 +138,6 @@ function __AEMusicPlayWithFade(_musicInstance, _category, _fade, _previousMoods)
 		_system.currentMusics[$ _category] = _currentMusic;
 			
 	}
-}
-
-/// @desc Return the sound asset
-/// @param {Asset.GMSound,String} _asset
-/// @return {Asset.GMSound}
-function __AEMusicReturnAsset(_asset) {
-	if(_asset.isStream) {
-		return audio_create_stream(_asset.asset);
-	}
-	
-	return _asset.asset;
-	
 }
 
 /// @desc Current Music Track

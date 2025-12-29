@@ -1,18 +1,26 @@
+/// Options for a single-track music
+/// @param {Real} _priority Sound Priority
+/// @param {Real} _volume Initial _volume
+function AudioEngineDefineMusicOptions(_priority = 1, _volume = 1) constructor {
+	priority = _priority;
+	volume = _volume;
+}
+
 /// Define a single-track music
 /// @param {Enum.AUDIO_MUSIC} _musicIndex
 /// @param {Asset.GMSound,String} _asset
-/// @param {Real} _priority Sound Priority
-/// @param {Real} _volume Initial _volume
-function AudioEngineDefineMusic(_musicIndex, _asset, _priority = 1, _volume = 1){
+/// @param {Struct.AudioEngineDefineMusicOptions} [_options] Options
+function AudioEngineDefineMusic(_musicIndex, _asset, _options = {}){
 	
 	static _system = __AudioEngineSystem();
+	static _defaultOptions = new AudioEngineDefineMusicOptions();
 	
 	with(_system) {	
 		var _newMusicSingle = new __AESystemLibraryMusicSingle();
 		
 		_newMusicSingle.asset = _asset;
-		_newMusicSingle.volume = _volume;
-		_newMusicSingle.priority = _priority;
+		_newMusicSingle.volume = _options[$ "volume"] ?? _defaultOptions.volume;
+		_newMusicSingle.priority = _options[$ "priority"] ?? _defaultOptions.priority;
 		_newMusicSingle.isStream = is_string(_asset);
 		
 		library.music[$ _musicIndex] = _newMusicSingle;
@@ -22,19 +30,26 @@ function AudioEngineDefineMusic(_musicIndex, _asset, _priority = 1, _volume = 1)
 /// @param {Asset.GMSound,String} _asset
 /// @param {Enum.AUDIO_MULTITRACK_MOOD} _mood Music Mood
 /// @param {Real} _volume Initial volume
-function AudioEngineDefineTrack(_asset = noone, _mood = 0, _volume = 1) constructor {
+function AudioEngineDefineTrack(_asset, _mood = 0, _volume = 1) constructor {
 	asset = _asset;
 	mood = _mood;
 	volume = _volume;
 }
 
+/// Options for a multi-track music
+/// @param {Real} _priority Sound Priority
+function AudioEngineDefineMultiTrackOptions(_priority = 1) constructor {
+	priority = _priority;
+}
+
 /// Define a multi-track music
 /// @param {Enum.AUDIO_MUSIC} _musicIndex
 /// @param {Array<Struct.AudioEngineDefineTrack>} _tracks
-/// @param {Real} _priority Sound Priority
-function AudioEngineDefineMultiTrackMusic(_musicIndex, _tracks, _priority = 1){
+/// @param {Struct.AudioEngineDefineMultiTrackOptions} [_options] Options
+function AudioEngineDefineMultiTrackMusic(_musicIndex, _tracks, _options = {}){
 	
 	static _system = __AudioEngineSystem();
+	static _defaultOptions = new AudioEngineDefineMultiTrackOptions();
 	
 	with(_system) {	
 		
@@ -55,23 +70,34 @@ function AudioEngineDefineMultiTrackMusic(_musicIndex, _tracks, _priority = 1){
 		var _newMusicMulti = new __AESystemLibraryMusicMulti();
 		
 		_newMusicMulti.assets = _assets;
-		_newMusicMulti.priority = _priority;
+		_newMusicMulti.priority = _options[$ "priority"] ?? _defaultOptions.priority;
 		
 		library.music[$ _musicIndex] = _newMusicMulti;
 	}
 }
 
-/// Define a UI sound
-/// @param {Enum.AUDIO_UI_SOUND} _uiSoundIndex
-/// @param {Asset.GMSound|String} _asset
+/// Options for a UI sound
 /// @param {Real} _priority Sound Priority
 /// @param {Real} _volume Initial volume
 /// @param {Real} _volumeVariance Random volume variance
 /// @param {Real} _pitch Initial pitch
 /// @param {Real} _pitchVariance Random pitch variance
-function AudioEngineDefineUISound(_uiSoundIndex, _asset, _priority = 1, _volume = 1, _volumeVariance = 0, _pitch = 1, _pitchVariance = 0){
+function AudioEngineDefineUISoundOptions(_priority = 1, _volume = 1, _volumeVariance = 0, _pitch = 1, _pitchVariance = 0) constructor {
+	priority = _priority;
+	volume = _volume;
+	volumeVariance = _volumeVariance;
+	pitch = _pitch;
+	pitchVariance = _pitchVariance;
+}
+
+/// Define a UI sound
+/// @param {Enum.AUDIO_UI_SOUND} _uiSoundIndex
+/// @param {Asset.GMSound|String} _asset
+/// @param {Struct.AudioEngineDefineUISoundOptions} [_options] Options
+function AudioEngineDefineUISound(_uiSoundIndex, _asset, _options = {}){
 	
 	static _system = __AudioEngineSystem();
+	static _defaultOptions = new AudioEngineDefineUISoundOptions();
 	
 	with(_system) {	
 		
@@ -79,11 +105,11 @@ function AudioEngineDefineUISound(_uiSoundIndex, _asset, _priority = 1, _volume 
 		
 		_newUISound.asset = _asset;
 		_newUISound.isStream = is_string(_asset);
-		_newUISound.pitch = _pitch;
-		_newUISound.pitchVariance = _pitchVariance;
-		_newUISound.priority = _priority;
-		_newUISound.volume = _volume;
-		_newUISound.volumeVariance = _volumeVariance;
+		_newUISound.pitch = _options[$ "pitch"] ?? _defaultOptions.pitch;
+		_newUISound.pitchVariance = _options[$ "pitchVariance"] ?? _defaultOptions.pitchVariance;
+		_newUISound.priority = _options[$ "priority"] ?? _defaultOptions.priority;
+		_newUISound.volume = _options[$ "volume"] ?? _defaultOptions.volume;
+		_newUISound.volumeVariance = _options[$ "volumeVariance"] ?? _defaultOptions.volumeVariance;
 		
 		library.ui[$ _uiSoundIndex] = _newUISound;
 	}
@@ -92,14 +118,11 @@ function AudioEngineDefineUISound(_uiSoundIndex, _asset, _priority = 1, _volume 
 /// Define a UI sound
 /// @param {Enum.AUDIO_UI_SOUND} _uiSoundIndex
 /// @param {Array<Asset.GMSound,String>} _assets
-/// @param {Real} _priority Sound Priority
-/// @param {Real} _volume Initial volume
-/// @param {Real} _pitch Initial pitch
-/// @param {Real} _volumeVariance Random volume variance
-/// @param {Real} _pitchVariance Random volume variance
-function AudioEngineDefineUISoundArray(_uiSoundIndex, _assets, _priority = 1, _volume = 1, _volumeVariance = 0, _pitch = 1, _pitchVariance = 0){
+/// @param {Struct.AudioEngineDefineUISoundOptions} [_options] Options
+function AudioEngineDefineUISoundArray(_uiSoundIndex, _assets, _options = {}){
 	
 	static _system = __AudioEngineSystem();
+	static _defaultOptions = new AudioEngineDefineUISoundOptions();
 	
 	with(_system) {	
 		
@@ -107,8 +130,8 @@ function AudioEngineDefineUISoundArray(_uiSoundIndex, _assets, _priority = 1, _v
 		for(var _i = 0; _i < array_length(_assets); _i++) {
 			var _asset = _assets[_i];
 			var _track = new __AESystemLibrarySoundTrack();
-			_track.asset = _asset.asset;
-			_track.isStream = is_string(_asset.asset);
+			_track.asset = _asset;
+			_track.isStream = is_string(_asset);
 			
 			array_push(_assetsList, _track)
 		}		
@@ -116,29 +139,43 @@ function AudioEngineDefineUISoundArray(_uiSoundIndex, _assets, _priority = 1, _v
 		var _newUISoundArray = new __AESystemLibrarySoundArray();
 		
 		_newUISoundArray.assets = _assetsList;
-		_newUISoundArray.priority = _priority;
-		_newUISoundArray.pitch = _pitch;
-		_newUISoundArray.pitchVariance = _pitchVariance;
-		_newUISoundArray.volume = _volume;
-		_newUISoundArray.volumeVariance = _volumeVariance;
+		_newUISoundArray.pitch = _options[$ "pitch"] ?? _defaultOptions.pitch;
+		_newUISoundArray.pitchVariance = _options[$ "pitchVariance"] ?? _defaultOptions.pitchVariance;
+		_newUISoundArray.priority = _options[$ "priority"] ?? _defaultOptions.priority;
+		_newUISoundArray.volume = _options[$ "volume"] ?? _defaultOptions.volume;
+		_newUISoundArray.volumeVariance = _options[$ "volumeVariance"] ?? _defaultOptions.volumeVariance;
 		
 		
 		library.ui[$ _uiSoundIndex] = _newUISoundArray;
 	}
 }
 
-/// Define a Game sound
-/// @param {Enum.AUDIO_UI_SOUND} _uiSoundIndex
-/// @param {Asset.GMSound|String} _asset
+/// Options for a Game sound
+/// @param {Bool} _loop Indicate if the sound is a loop
 /// @param {Bool} _spatialized Indicate if the sound is spatialized
 /// @param {Real} _priority Sound Priority
 /// @param {Real} _volume Initial volume
-/// @param {Real} _pitch Initial pitch
 /// @param {Real} _volumeVariance Random volume variance
-/// @param {Real} _pitchVariance Random volume variance
-function AudioEngineDefineGameSound(_uiSoundIndex, _asset, _spatialized = false, _priority = 1,  _volume = 1, _volumeVariance = 0, _pitch = 1, _pitchVariance = 0){
+/// @param {Real} _pitch Initial pitch
+/// @param {Real} _pitchVariance Random pitch variance
+function AudioEngineDefineGameSoundOptions(_loop = false, _spatialized = false, _priority = 1, _volume = 1, _volumeVariance = 0, _pitch = 1, _pitchVariance = 0) constructor {
+	loop = _loop;
+	spatialized = _spatialized;
+	priority = _priority;
+	volume = _volume;
+	volumeVariance = _volumeVariance;
+	pitch = _pitch;
+	pitchVariance = _pitchVariance;
+}
+
+/// Define a Game sound
+/// @param {Enum.AUDIO_UI_SOUND} _uiSoundIndex
+/// @param {Asset.GMSound|String} _asset
+/// @param {Struct.AudioEngineDefineGameSoundOptions} [_options] Options
+function AudioEngineDefineGameSound(_uiSoundIndex, _asset, _options = {}){
 	
 	static _system = __AudioEngineSystem();
+	static _defaultOptions = new AudioEngineDefineGameSoundOptions();
 	
 	with(_system) {	
 		
@@ -146,12 +183,13 @@ function AudioEngineDefineGameSound(_uiSoundIndex, _asset, _spatialized = false,
 		
 		_newGameSound.asset = _asset;
 		_newGameSound.isStream = is_string(_asset);
-		_newGameSound.pitch = _pitch;
-		_newGameSound.pitchVariance = _pitchVariance;
-		_newGameSound.priority = _priority;
-		_newGameSound.spatialized = _spatialized;
-		_newGameSound.volume = _volume;
-		_newGameSound.volumeVariance = _volumeVariance;
+		_newGameSound.pitch = _options[$ "pitch"] ?? _defaultOptions.pitch;
+		_newGameSound.pitchVariance = _options[$ "pitchVariance"] ?? _defaultOptions.pitchVariance;
+		_newGameSound.priority = _options[$ "priority"] ?? _defaultOptions.priority;
+		_newGameSound.volume = _options[$ "volume"] ?? _defaultOptions.volume;
+		_newGameSound.volumeVariance = _options[$ "volumeVariance"] ?? _defaultOptions.volumeVariance;
+		_newGameSound.spatialized = _options[$ "spatialized"] ?? _defaultOptions.spatialized;
+		_newGameSound.loop = _options[$ "loop"] ?? _defaultOptions.loop;
 		
 		library.game[$ _uiSoundIndex] = _newGameSound;
 	}
@@ -160,15 +198,11 @@ function AudioEngineDefineGameSound(_uiSoundIndex, _asset, _spatialized = false,
 /// Define a UI sound
 /// @param {Enum.AUDIO_UI_SOUND} _uiSoundIndex
 /// @param {Array<Asset.GMSound,String>} _assets
-/// @param {Bool} _spatialized Indicate if the sound is spatialized
-/// @param {Real} _priority Sound Priority
-/// @param {Real} _volume Initial volume
-/// @param {Real} _pitch Initial pitch
-/// @param {Real} _volumeVariance Random volume variance
-/// @param {Real} _pitchVariance Random volume variance
-function AudioEngineDefineGameSoundArray(_uiSoundIndex, _assets, _spatialized = false,_priority = 1,  _volume = 1, _volumeVariance = 0, _pitch = 1, _pitchVariance = 0){
+/// @param {Struct.AudioEngineDefineGameSoundOptions} [_options] Options
+function AudioEngineDefineGameSoundArray(_uiSoundIndex, _assets, _options = {}){
 	
 	static _system = __AudioEngineSystem();
+	static _defaultOptions = new AudioEngineDefineGameSoundOptions();
 	
 	with(_system) {	
 		
@@ -185,12 +219,13 @@ function AudioEngineDefineGameSoundArray(_uiSoundIndex, _assets, _spatialized = 
 		var _newGameSoundArray = new __AESystemLibrarySoundArray();
 		
 		_newGameSoundArray.assets = _assetsList;
-		_newGameSoundArray.pitch = _pitch;
-		_newGameSoundArray.pitchVariance = _pitchVariance;
-		_newGameSoundArray.priority = _priority;
-		_newGameSoundArray.spatialized = _spatialized;
-		_newGameSoundArray.volume = _volume;
-		_newGameSoundArray.volumeVariance = _volumeVariance;
+		_newGameSoundArray.pitch = _options[$ "pitch"] ?? _defaultOptions.pitch;
+		_newGameSoundArray.pitchVariance = _options[$ "pitchVariance"] ?? _defaultOptions.pitchVariance;
+		_newGameSoundArray.priority = _options[$ "priority"] ?? _defaultOptions.priority;
+		_newGameSoundArray.volume = _options[$ "volume"] ?? _defaultOptions.volume;
+		_newGameSoundArray.volumeVariance = _options[$ "volumeVariance"] ?? _defaultOptions.volumeVariance;
+		_newGameSoundArray.spatialized = _options[$ "spatialized"] ?? _defaultOptions.spatialized;
+		_newGameSoundArray.loop = _options[$ "loop"] ?? _defaultOptions.loop;
 		
 		library.game[$ _uiSoundIndex] = _newGameSoundArray;
 	}
