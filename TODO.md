@@ -1,0 +1,5 @@
+- Manage global volumes
+- Add UI Stop, UI Pause and UI Resume
+- Add GameStatic functions
+- Add GameSpatial functions
+- Add basic logging system with integration of popular librairies ?
