@@ -1,5 +1,13 @@
 - Manage global volumes
-- Add UI Stop, UI Pause and UI Resume
-- Add GameStatic functions
-- Add GameSpatial functions
+- Manage per-categories volumes
+- Missing API:
+  - UI Stop
+  - UI Pause
+  - UI Resume
+  - UI Effects
+  - Game Pause
+  - Game Resume
+  - Game Effects
+- Add Auto-Tracking object
+- Add Auto-Cleaning on room_end
 - Add basic logging system with integration of popular librairies ?
