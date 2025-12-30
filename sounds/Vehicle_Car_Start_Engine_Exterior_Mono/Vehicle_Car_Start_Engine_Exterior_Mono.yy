@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"Vehicle_Car_Start_Engine_Exterior_Mono",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":0.86804986,
+  "exportDir":"",
+  "name":"Vehicle_Car_Start_Engine_Exterior_Mono",
+  "parent":{
+    "name":"car",
+    "path":"folders/Example/sounds/car.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"Vehicle_Car_Start_Engine_Exterior_Mono.wav",
+  "volume":1.0,
+}

@@ -17,7 +17,7 @@ function __AudioEngineSystem() {
 	__AudioEngineConfig();
 	
 	__AudioEngineSystemInitManager();
-	__AEBusSetListenerPosition(0, 0);
+
 	
 	return _system;
 }
@@ -47,6 +47,41 @@ function __AudioEngineSystemInitManager() {
 	}
 }
 
+function __AudioEngineSystemUniqueId() {
+    static counter = 0;
+	
+    counter++;
+	
+    return counter;
+}
+
+/// @desc Get a music library item
+/// @param {Enum.AUDIO_MUSIC} _musicInstance
+/// @return {Struct.__AESystemLibraryMusicSingle,Struct.__AESystemLibraryMusicMulti}
+function __AudioEngineLibraryMusicGet(_musicInstance) {
+	static _system = __AudioEngineSystem();
+	
+	return _system.library.music[$ _musicInstance];
+}
+
+/// @desc Get a ui sound library item
+/// @param {Enum.AUDIO_UI_SOUND} _uiSoundInstance
+/// @return {Struct.__AESystemLibrarySound,Struct.__AESystemLibrarySoundArray}
+function __AudioEngineLibraryUISoundGet(_uiSoundInstance) {
+	static _system = __AudioEngineSystem();
+	
+	return _system.library.ui[$ _uiSoundInstance];
+}
+
+/// @desc Get a game sound library item
+/// @param {Enum.AUDIO_GAME_SOUND} _gameSoundInstance
+/// @return {Struct.__AESystemLibrarySound,Struct.__AESystemLibrarySoundArray}
+function __AudioEngineLibraryGameSoundGet(_gameSoundInstance) {
+	static _system = __AudioEngineSystem();
+	
+	return _system.library.game[$ _gameSoundInstance];
+}
+
 #region Types
 
 /// @desc System Volumes
@@ -61,11 +96,13 @@ function __AESystemVolumes(_music = 1, _ui = 1, _game = 1 ) constructor {
 
 /// @param {Asset.GMSound,String} _asset
 /// @param {Id.Sound} _ref Reference to the sound
-/// @param {String} _type Type of asset. Can be music, ui, static or spatial
-function __AESystemPlaying(_asset = noone, _ref = noone, _type = undefined ) constructor {
+/// @param {String} _busName bus name
+/// @param {Bool} The sound is spatialized
+function __AESystemPlaying(_asset = noone, _ref = noone, _busName = undefined, _spatialized = false ) constructor {
 	asset = _asset;
 	ref = _ref;
-	type = _type;
+	busName = _busName;
+	spatialized = _spatialized;
 }
 
 
@@ -160,6 +197,16 @@ function __AESystemLibrary(_music = {}, _ui = {}, _game = {} ) constructor {
 	game = _game;
 }
 
+/// @desc System Position
+/// @param {Real} _x
+/// @param {Real} _y
+/// @param {Real} _z
+function __AESystemPosition(_x = 0, _y = 0, _z = 0 ) constructor {
+	x = _x;
+	y = _y;
+	z = _z;
+}
+
 /// @desc System
 /// @param {Struct.__AESystemVolumes} _volumes
 /// @param {Struct} _streams Stream cache
@@ -167,13 +214,19 @@ function __AESystemLibrary(_music = {}, _ui = {}, _game = {} ) constructor {
 /// @param {Struct} _bus
 /// @param {Struct.__AEMusicCurrentMusic} _currentMusics
 /// @param {Struct.__AESystemLibrary} _library
-function __AESystem(_volumes = new __AESystemVolumes(), _streams = {}, _playing = [], _bus = {}, _currentMusics = {}, _library = new __AESystemLibrary() ) constructor {
+/// @param {Struct.__AESystemPosition} _position
+function __AESystem(_volumes = new __AESystemVolumes(), _streams = {}, _playing = [], _bus = {}, _currentMusics = {}, _library = new __AESystemLibrary(), _position = new __AESystemPosition()) constructor {
 	volumes = _volumes;
 	streams = _streams;
 	playing = _playing;
 	bus = _bus;
 	currentMusics = _currentMusics;
 	library = _library;
+	position = _position;
+	
+	audio_listener_position(_position.x, _position.y, _position.z);
+	// Fix default inverted stereo
+	audio_listener_orientation(0, 0, 1000, 0, -1 ,0);
 }
 
 #endregion

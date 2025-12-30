@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"Ambiance_River_Moderate_Loop_Stereo",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":20.587008,
+  "exportDir":"",
+  "name":"Ambiance_River_Moderate_Loop_Stereo",
+  "parent":{
+    "name":"sounds",
+    "path":"folders/Example/sounds.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"Ambiance_River_Moderate_Loop_Stereo.wav",
+  "volume":1.0,
+}

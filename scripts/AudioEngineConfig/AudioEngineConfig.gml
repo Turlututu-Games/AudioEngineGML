@@ -22,11 +22,19 @@ function __AudioEngineConfig() {
 	enum AUDIO_UI_SOUND {
 		CLICK,
 		ATTACK,
+		COUGH,
+		CLICK_VARIANCE
 	}
 	
 	enum AUDIO_GAME_SOUND {
-		
+		WIPER,
+		START_ENGINE,
+		ENGINE,
+		WARNING,
+		RIVER
 	}	
+	
+	
 		
 	// Add your music here
 	AudioEngineDefineMusic(AUDIO_MUSIC.DECORATE, Interior_Birdecorator_Decorate, {volume: 0.8});
@@ -50,7 +58,13 @@ function __AudioEngineConfig() {
 		Voice_Male_V1_Attack_Mono_07,
 		Voice_Male_V1_Attack_Mono_08,
 	]);
+	AudioEngineDefineUISound(AUDIO_UI_SOUND.COUGH, "Voice_Male_V1_Cough_Multiple_Mono_04.ogg");
+	AudioEngineDefineUISound(AUDIO_UI_SOUND.CLICK_VARIANCE, Household_Closet_Key_Insertion_Stereo, { pitchVariance: 0.2, volumeVariance: 0.3 });
 	
 	// Add your Game sounds here
-	//AudioEngineDefineGameSound();
+	AudioEngineDefineGameSound(AUDIO_GAME_SOUND.WIPER, Vehicle_Car_Wiper_Exterior_Loop_Mono, { loop: true, cleanOnRoomEnd: false });
+	AudioEngineDefineGameSound(AUDIO_GAME_SOUND.ENGINE, Vehicle_Car_Engine_Idle_Exterior_Loop_Mono_01, { loop: true, spatialized: true });
+	AudioEngineDefineGameSoundArray(AUDIO_GAME_SOUND.START_ENGINE, [Vehicle_Car_Start_Engine_Exterior_Mono, "Vehicle_Car_Start_Engine_Exterior_Mono.ogg"]);
+	AudioEngineDefineGameSound(AUDIO_GAME_SOUND.WARNING, Vehicle_Car_Warning_Interior_Loop_Mono_01, { spatialized: true });
+	AudioEngineDefineGameSound(AUDIO_GAME_SOUND.RIVER, Ambiance_River_Moderate_Loop_Stereo, { loop: true, spatialized: true });
 }

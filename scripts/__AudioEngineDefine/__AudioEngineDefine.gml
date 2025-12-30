@@ -152,14 +152,16 @@ function AudioEngineDefineUISoundArray(_uiSoundIndex, _assets, _options = {}){
 
 /// Options for a Game sound
 /// @param {Bool} _loop Indicate if the sound is a loop
+/// @param {Bool} _cleanOnRoomEnd The sound will be cleaned on room_end event
 /// @param {Bool} _spatialized Indicate if the sound is spatialized
 /// @param {Real} _priority Sound Priority
 /// @param {Real} _volume Initial volume
 /// @param {Real} _volumeVariance Random volume variance
 /// @param {Real} _pitch Initial pitch
 /// @param {Real} _pitchVariance Random pitch variance
-function AudioEngineDefineGameSoundOptions(_loop = false, _spatialized = false, _priority = 1, _volume = 1, _volumeVariance = 0, _pitch = 1, _pitchVariance = 0) constructor {
+function AudioEngineDefineGameSoundOptions(_loop = false, _cleanOnRoomEnd = true, _spatialized = false, _priority = 1, _volume = 1, _volumeVariance = 0, _pitch = 1, _pitchVariance = 0) constructor {
 	loop = _loop;
+	cleanOnRoomEnd = _cleanOnRoomEnd;
 	spatialized = _spatialized;
 	priority = _priority;
 	volume = _volume;
@@ -210,8 +212,8 @@ function AudioEngineDefineGameSoundArray(_uiSoundIndex, _assets, _options = {}){
 		for(var _i = 0; _i < array_length(_assets); _i++) {
 			var _asset = _assets[_i];
 			var _track = new __AESystemLibrarySoundTrack();
-			_track.asset = _asset.asset;
-			_track.isStream = is_string(_asset.asset);			
+			_track.asset = _asset;
+			_track.isStream = is_string(_asset);			
 			
 			array_push(_assetsList, _track)
 		}		

@@ -16,6 +16,10 @@ function __AEBusSetListenerPosition(_x, _y, _z = 0) {
 	
 	audio_listener_position(_x, _y, _z);
 	
+	_system.position.x = _x;
+	_system.position.y = _y;
+	_system.position.z = _z;
+	
 	var _busNames = struct_get_names(_system.bus);
 	
 	for(var _i = 0; _i < array_length(_busNames); _i++) {
@@ -47,6 +51,11 @@ function __AEBusGet(_busName) {
 	
 	audio_emitter_bus(_system.bus[$ _busName].emitter, _system.bus[$ _busName].bus);
 	
+	if(string_starts_with(_busName, "music-") || string_starts_with(_busName, "ui-") || string_starts_with(_busName, "static-")) {
+			
+		audio_emitter_position(_system.bus[$ _busName].emitter, _system.position.x, _system.position.y, _system.position.z);
+	}	
+	
 	return _system.bus[$ _busName];
 }
 
@@ -55,14 +64,18 @@ function __AEBusGet(_busName) {
 function __AEBusClear(_busName) {
 	static _system = __AudioEngineSystem();
 	
+	show_debug_message("check cleaning bus {0}", _busName);
+	
 	if(_system.bus[$ _busName] == undefined) {
 		return;
 	}
 	
+	show_debug_message("cleaning bus {0}", _busName);
+	
 	audio_emitter_free(_system.bus[$ _busName].emitter);
 	audio_bus_clear_emitters(_system.bus[$ _busName].bus);
 	
-	_system.bus[$ _busName] = undefined;
+	struct_remove(_system.bus, _busName);
 }
 
 /// @desc Clear all Buses
@@ -77,7 +90,7 @@ function __AEBusClearAll() {
 		audio_emitter_free(_system.bus[$ _busName].emitter);
 		audio_bus_clear_emitters(_system.bus[$ _busName].bus);
 	
-		_system.bus[$ _busName] = undefined;
+		struct_remove(_system.bus, _busName);
 	}
 }
 

@@ -3,8 +3,8 @@
   "%Name":"Credits",
   "name":"Credits",
   "parent":{
-    "name":"AudioEngineGML",
-    "path":"AudioEngineGML.yyp",
+    "name":"Example",
+    "path":"folders/Example.yy",
   },
   "resourceType":"GMNotes",
   "resourceVersion":"2.0",

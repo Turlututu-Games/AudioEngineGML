@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"__AEGame",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__AEGame",
+  "parent":{
+    "name":"Game",
+    "path":"folders/AudioEngine/Game.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -7,13 +7,15 @@ function AudioEngineMusicStop(_category = 0, _crossfadeTime = __AUDIOENGINE_MUSI
 	
 	if(_crossfadeTime <= 0) {
 		__AEMusicStop(_category);
+		
+		// Erase data from currentMusics store
+		__AEMusicResetCurrentMusic(_category)
+	
+		// Clear the audio bus
+		__AEBusClear($"music-{_category}");		
 	} else {
 		__AEMusicStopWithFade(_category, _crossfadeTime);
 	}
 	
-	// Erase data from currentMusics store
-	__AEMusicResetCurrentMusic(_category)
-	
-	// Clear the audio bus
-	__AEBusClear($"music-{_category}");
+
 }

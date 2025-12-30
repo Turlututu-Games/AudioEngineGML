@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"AudioEngineGamePosition",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"AudioEngineGamePosition",
+  "parent":{
+    "name":"Game",
+    "path":"folders/AudioEngine/Game.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

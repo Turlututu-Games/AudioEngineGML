@@ -32,7 +32,7 @@ function __AEStreamCleanup(_assetName, _assetId) {
 	show_debug_message("destroying stream {0} for asset {1}", _assetId, _assetName);
 
 	if(_system.streams[$ _assetName] != undefined) {
-		_system.streams[$ _assetName] = undefined;
+		struct_remove(_system.streams, _assetName);
 	}
 	
 	audio_destroy_stream(_assetId);

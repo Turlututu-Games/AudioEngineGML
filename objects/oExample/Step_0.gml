@@ -3,6 +3,8 @@ var _currentMusic = __AEMusicGetCurrentMusic(0);
 var _system = __AudioEngineSystem();
 
 playing = _system.playing;
+busCount = struct_names_count(_system.bus);
+cachedStreamCount = struct_names_count(_system.streams);
 
 var count = 0;
 
@@ -56,6 +58,31 @@ if(debugReberbPrevious != reverbEnabled) {
 		AudioEngineUIEffectClear(1);
 	}
 	debugReberbPrevious = reverbEnabled;
+}
+
+if(listenerAtCursor) {
+	__AEBusSetListenerPosition(device_mouse_x_to_gui(0), device_mouse_y_to_gui(0), 0);
+}
+
+if(listenerAtCursor != listenerAtCursorPrevious) {
+	listenerAtCursorPrevious = listenerAtCursor;
+	if(!listenerAtCursor) {
+		__AEBusSetListenerPosition(room_width * 0.5, room_height * 0.5);
+	}
+}
+
+
+
+var _listenerInfo = audio_get_listener_info(0);
+var _listenerData = audio_listener_get_data(_listenerInfo[? "index"]);
+listener_x = _listenerData[? "x"];
+listener_y = _listenerData[? "y"];
+listener_z = _listenerData[? "z"];
+ds_map_destroy(_listenerInfo);
+ds_map_destroy(_listenerData);
+
+if(riverSound != undefined) {
+	AudioEngineGamePositionAtObject	(riverSound, oEmitterCircle, 0, AUDIO_CATEGORIES.MAIN);
 }
 
 /*var _system = __AudioEngineSystem()
