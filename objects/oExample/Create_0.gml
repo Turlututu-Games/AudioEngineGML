@@ -139,7 +139,7 @@ dbg_button(">", function() {
 		AudioEngineGameStop(engineSound);
 	}	
 	
-    var _engineSound = AudioEngineGamePlayAtObject(AUDIO_GAME_SOUND.ENGINE, oEmitterTop, 0, AUDIO_CATEGORIES.MAIN, oExample.gameVolumeOffset, oExample.gamePitchOffset);
+    var _engineSound = AudioEngineGamePlayAtObject(AUDIO_GAME_SOUND.ENGINE, oEmitterTop, 0, oExample.gameVolumeOffset, oExample.gamePitchOffset);
 	// Check with direct ref instead of playing instance
 	engineSound = _engineSound.ref;
 });
@@ -158,11 +158,11 @@ dbg_button(">", function() {
 
 dbg_text("Warning (spatialized)");
 dbg_button("Left", function() {
-    AudioEngineGamePlayAt(AUDIO_GAME_SOUND.WARNING, oEmitterLeft.x, oEmitterLeft.y, 0, AUDIO_CATEGORIES.MAIN, oExample.gameVolumeOffset, oExample.gamePitchOffset);
+    AudioEngineGamePlayAt(AUDIO_GAME_SOUND.WARNING, oEmitterLeft.x, oEmitterLeft.y, 0, oExample.gameVolumeOffset, oExample.gamePitchOffset);
 });
 dbg_same_line();
 dbg_button("Right", function() {
-    AudioEngineGamePlayAt(AUDIO_GAME_SOUND.WARNING, oEmitterRight.x, oEmitterRight.y, 0, AUDIO_CATEGORIES.MAIN, oExample.gameVolumeOffset, oExample.gamePitchOffset);
+    AudioEngineGamePlayAt(AUDIO_GAME_SOUND.WARNING, oEmitterRight.x, oEmitterRight.y, 0, oExample.gameVolumeOffset, oExample.gamePitchOffset);
 });
 
 dbg_text("River (circling object)");
@@ -172,7 +172,7 @@ dbg_button(">", function() {
 		AudioEngineGameStop(riverSound);
 	}	
 	
-    riverSound = AudioEngineGamePlayAtObject(AUDIO_GAME_SOUND.RIVER, oEmitterCircle, 0, AUDIO_CATEGORIES.MAIN, oExample.gameVolumeOffset, oExample.gamePitchOffset);
+    riverSound = AudioEngineGamePlayAtObject(AUDIO_GAME_SOUND.RIVER, oEmitterCircle, 0, oExample.gameVolumeOffset, oExample.gamePitchOffset);
 
 });
 dbg_same_line();

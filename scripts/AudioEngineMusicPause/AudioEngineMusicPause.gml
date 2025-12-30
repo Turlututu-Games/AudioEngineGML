@@ -4,13 +4,17 @@ function AudioEngineMusicPause(_category = 0) {
 	var _currentMusic = __AEMusicGetCurrentMusic(_category);
 	
 	if(_currentMusic.id != -1) {
-		for(var _i = 0; _i < array_length(_currentMusic.tracks); _i++) {
-			var _track = _currentMusic.tracks[_i];
-			
-			if(!audio_is_paused(_track.ref)) {
-				audio_pause_sound(_track.ref);
-			}
-
-		}	
+		
+		array_foreach(_currentMusic.tracks, __AEPause);
+	
 	}
+}
+
+/// @desc Pause all current music
+function AudioEngineMusicPauseAll() {
+	
+	var _filtered = __AESystemFilterSoundByTypeAndCategory(__AUDIOENGINE_PREFIX_MUSIC);
+
+	array_foreach(_filtered, __AEPause);
+
 }

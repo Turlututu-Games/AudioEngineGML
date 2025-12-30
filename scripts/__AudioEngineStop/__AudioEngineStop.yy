@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"__AudioEngineStop",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__AudioEngineStop",
+  "parent":{
+    "name":"(System)",
+    "path":"folders/AudioEngine/(System).yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

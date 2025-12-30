@@ -3,6 +3,11 @@
 #macro __AUDIOENGINE_VERSION  "1.0.0"
 #macro __AUDIOENGINE_DATE     "2025-12-29"
 
+#macro __AUDIOENGINE_PREFIX_MUSIC				"music"
+#macro __AUDIOENGINE_PREFIX_UI					"ui"
+#macro __AUDIOENGINE_PREFIX_STATIC_GAME			"static"
+#macro __AUDIOENGINE_PREFIX_SPATIALIZED_GAME    "spatial"
+
 /// @desc Get the AudioEngine System
 /// @return {Struct.__AESystem}
 function __AudioEngineSystem() {
@@ -16,14 +21,14 @@ function __AudioEngineSystem() {
 	
 	__AudioEngineConfig();
 	
-	__AudioEngineSystemInitManager();
+	__AESystemInitManager();
 
 	
 	return _system;
 }
 
 /// @desc Initialize the AudioEngine Manager Object
-function __AudioEngineSystemInitManager() {
+function __AESystemInitManager() {
 	
 	var _exists = true;
 	
@@ -47,7 +52,8 @@ function __AudioEngineSystemInitManager() {
 	}
 }
 
-function __AudioEngineSystemUniqueId() {
+/// @desc Get an auto-incremented id
+function __AESystemUniqueId() {
     static counter = 0;
 	
     counter++;
@@ -55,32 +61,53 @@ function __AudioEngineSystemUniqueId() {
     return counter;
 }
 
-/// @desc Get a music library item
-/// @param {Enum.AUDIO_MUSIC} _musicInstance
-/// @return {Struct.__AESystemLibraryMusicSingle,Struct.__AESystemLibraryMusicMulti}
-function __AudioEngineLibraryMusicGet(_musicInstance) {
+
+/// @desc Filter and return all the sounds from a category
+/// @param {String} _type
+/// @param {Enum.AUDIO_CATEGORIES,Undefined} _category
+/// @return {Array<Struct.__AESystemPlaying>}
+function __AESystemFilterSoundByTypeAndCategory(_type, _category) {
 	static _system = __AudioEngineSystem();
+			
+	var _playingLength = array_length(_system.playing);
 	
-	return _system.library.music[$ _musicInstance];
+	var _term = is_undefined(_category) ? $"{_type}-" : $"{_type}-{_category}"
+	
+	var _filtered = [];
+	
+	for(var _i = 0; _i < _playingLength; _i++) {
+		_playing = _system.playing[_i];
+		
+		if(string_starts_with(_playing.busName, _term) ) {
+			array_push(_filtered, _playing)
+		}
+	}
+	
+	return _filtered
 }
 
-/// @desc Get a ui sound library item
-/// @param {Enum.AUDIO_UI_SOUND} _uiSoundInstance
-/// @return {Struct.__AESystemLibrarySound,Struct.__AESystemLibrarySoundArray}
-function __AudioEngineLibraryUISoundGet(_uiSoundInstance) {
+/// @desc Find a sound in the playing array
+/// @param {Id.Sound} _ref
+/// @return {Struct.__AESystemPlaying,Undefined}
+function __AESystemFindSound(_ref) {
 	static _system = __AudioEngineSystem();
+			
+	var _playingLength = array_length(_system.playing);
 	
-	return _system.library.ui[$ _uiSoundInstance];
+	var _found = undefined;
+	
+	for(var _i = 0; _i < _playingLength; _i++) {
+		_playing = _system.playing[_i];
+		
+		if(_playing.ref == _ref) {
+			_found = _playing;
+			break;
+		}
+	}
+	
+	return _found
 }
 
-/// @desc Get a game sound library item
-/// @param {Enum.AUDIO_GAME_SOUND} _gameSoundInstance
-/// @return {Struct.__AESystemLibrarySound,Struct.__AESystemLibrarySoundArray}
-function __AudioEngineLibraryGameSoundGet(_gameSoundInstance) {
-	static _system = __AudioEngineSystem();
-	
-	return _system.library.game[$ _gameSoundInstance];
-}
 
 #region Types
 
@@ -225,6 +252,7 @@ function __AESystem(_volumes = new __AESystemVolumes(), _streams = {}, _playing 
 	position = _position;
 	
 	audio_listener_position(_position.x, _position.y, _position.z);
+	
 	// Fix default inverted stereo
 	audio_listener_orientation(0, 0, 1000, 0, -1 ,0);
 }

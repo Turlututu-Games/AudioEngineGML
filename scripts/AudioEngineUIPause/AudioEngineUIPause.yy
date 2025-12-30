@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"AudioEngineUIPause",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"AudioEngineUIPause",
+  "parent":{
+    "name":"UI",
+    "path":"folders/AudioEngine/UI.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

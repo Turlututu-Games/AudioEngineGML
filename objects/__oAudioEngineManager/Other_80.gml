@@ -37,7 +37,7 @@ for(var _i = 0; _i < _arraySize; _i++) {
 
 
 
-if(string_starts_with(_found.busName, "spatial-")) {
+if(string_starts_with(_found.busName, $"{__AUDIOENGINE_PREFIX_SPATIALIZED_GAME}-")) {
 	__AEBusClear(_found.busName);
 }
 

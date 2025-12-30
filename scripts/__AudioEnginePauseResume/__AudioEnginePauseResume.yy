@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"__AudioEnginePauseResume",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__AudioEnginePauseResume",
+  "parent":{
+    "name":"(System)",
+    "path":"folders/AudioEngine/(System).yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"AudioEngineGameEffectClearAll",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"AudioEngineGameEffectClearAll",
+  "parent":{
+    "name":"Game",
+    "path":"folders/AudioEngine/Game.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

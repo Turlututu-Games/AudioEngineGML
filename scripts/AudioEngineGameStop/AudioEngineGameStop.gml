@@ -1,28 +1,36 @@
-/// @desc Stop a sound
+/// @desc Stop a game sound
 /// @param {Id.Sound,Struct.__AESystemPlaying} _ref Sound reference
+function AudioEngineGameStop(_ref) {
+	//Simply call the generic method
+	__AEStopByRef(_ref);
+}
+
+/// @desc Stop game static sounds from a category
 /// @param {Enum.AUDIO_CATEGORIES} [_category] Optional category. 0 by default
-function AudioEngineGameStop(_ref, _category = 0) {
+function AudioEngineGameStopCategory(_category = 0) {
+	var _filtered = __AESystemFilterSoundByTypeAndCategory(__AUDIOENGINE_PREFIX_STATIC_GAME, _category);
 	
-	// If it's a real value, it means we receive the Id.Sound instead of Played reference
-	if(is_real(_ref)) {
-		var _sound = __AEGameFindSound(_ref, _category);
-	
-		if(_sound != undefined) {
-			__AEGameStopFound(_sound)	
-		}
-	} else {
-		__AEGameStopFound(_ref)	
-	}
-	
-
+	array_foreach(_filtered, __AEStop);
 }
 
-/// @desc Stop a sound currently playing
-/// @param {Struct.__AESystemPlaying} _sound Sound playing
-function __AEGameStopFound(_sound) {
-
-		audio_stop_sound(_sound.ref);
-
-		// Clear the audio bus
-		//__AEBusClear(_sound.busName);		
+/// @desc Stop all game static sounds
+function AudioEngineGameStopAllStatic() {
+	var _filtered = __AESystemFilterSoundByTypeAndCategory(__AUDIOENGINE_PREFIX_STATIC_GAME);
+	
+	array_foreach(_filtered, __AEStop);
 }
+
+/// @desc Stop all game spatialized sounds
+function AudioEngineGameStopAllSpatialized() {
+	var _filtered = __AESystemFilterSoundByTypeAndCategory(__AUDIOENGINE_PREFIX_SPATIALIZED_GAME);
+	
+	array_foreach(_filtered, __AEStop);
+}
+
+/// @desc Stop all game sounds
+function AudioEngineGameStopAll() {
+	AudioEngineGameStopAllStatic();
+	AudioEngineGameStopAllSpatialized();
+}
+
+

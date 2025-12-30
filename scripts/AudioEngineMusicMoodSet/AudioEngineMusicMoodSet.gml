@@ -1,4 +1,3 @@
-
 /// @desc Set the moods for the current multi-track music
 /// @param {Enum.AUDIO_MULTITRACK_MOOD,Array<Enum.AUDIO_MULTITRACK_MOOD>} _mood New mood. Can be an array to play multiple mood track on the same time
 /// @param {Enum.AUDIO_CATEGORIES} [_category] Optional category. 0 by default

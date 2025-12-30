@@ -53,6 +53,9 @@ if(debugReberbPrevious != reverbEnabled) {
 	if(reverbEnabled) {
 		AudioEngineMusicEffectSet(reverbEffect, 1);
 		AudioEngineUIEffectSet(reverbEffect, 1);
+		AudioEngineUIEffectSet({}, 2);
+		AudioEngineUIEffectSet(undefined, 3);
+		AudioEngineUIEffectSet(riverSound, 4);
 	} else {
 		AudioEngineMusicEffectClear(1);
 		AudioEngineUIEffectClear(1);

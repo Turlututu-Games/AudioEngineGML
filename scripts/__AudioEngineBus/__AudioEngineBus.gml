@@ -25,7 +25,11 @@ function __AEBusSetListenerPosition(_x, _y, _z = 0) {
 	for(var _i = 0; _i < array_length(_busNames); _i++) {
 		var _busName = _busNames[_i];
 		
-		if(string_starts_with(_busName, "music-") || string_starts_with(_busName, "ui-") || string_starts_with(_busName, "static-")) {
+		if(
+			string_starts_with(_busName, $"{__AUDIOENGINE_PREFIX_MUSIC}-") || 
+			string_starts_with(_busName, $"{__AUDIOENGINE_PREFIX_UI}-") || 
+			string_starts_with(_busName, $"{__AUDIOENGINE_PREFIX_STATIC_GAME}-"
+		)) {
 			var _bus = 	_system.bus[$ _busName];
 			
 			audio_emitter_position(_bus.emitter, _x, _y, _z);
@@ -51,8 +55,11 @@ function __AEBusGet(_busName) {
 	
 	audio_emitter_bus(_system.bus[$ _busName].emitter, _system.bus[$ _busName].bus);
 	
-	if(string_starts_with(_busName, "music-") || string_starts_with(_busName, "ui-") || string_starts_with(_busName, "static-")) {
-			
+	if(
+		string_starts_with(_busName, $"{__AUDIOENGINE_PREFIX_MUSIC}-") || 
+		string_starts_with(_busName, $"{__AUDIOENGINE_PREFIX_UI}-") || 
+		string_starts_with(_busName, $"{__AUDIOENGINE_PREFIX_STATIC_GAME}-"
+	)) {
 		audio_emitter_position(_system.bus[$ _busName].emitter, _system.position.x, _system.position.y, _system.position.z);
 	}	
 	
@@ -99,11 +106,38 @@ function __AEBusClearAll() {
 /// @param {Real} _effectIndex Canal to apply the effect. Must be a number between 0 and 7
 /// @param {String} _busName Bus name
 function __AEBusEffectSet(_effect, _effectIndex, _busName) {
+	
+	if(!__AEBusCheckEffectValid(_effect)) {
+		show_debug_message("Effect is not valid");
+		return;	
+	}
+		
 	if(_effectIndex >= 0 && _effectIndex <=7) {
 		var _bus = __AEBusGet(_busName);	
 	
 		_bus.bus.effects[_effectIndex] = _effect;
 	}
+}
+
+/// @desc Set multiple effects to a bus
+/// @param {Array<Struct.AudioEffect>} _effects Array of effect to apply
+/// @param {String} _busName Bus name
+function __AEBusEffectsSet(_effects, _busName) {
+	
+	var _effectsLength = min(8, array_length(_effects));
+	
+	for(var _effectIndex = 0; _effectIndex < _effectsLength; _effectIndex++) {
+		var _bus = __AEBusGet(_busName);	
+		var _effect = _effects[_effectIndex];
+		
+		if(!__AEBusCheckEffectValid(_effect)) {
+			show_debug_message("Effect is not valid");
+			continue;	
+		}		
+	
+		_bus.bus.effects[_effectIndex] = _effect;
+	}
+
 }
 
 /// @desc Clear an effect from a bus
@@ -122,7 +156,52 @@ function __AEBusEffectClear(_effectIndex, _busName) {
 function __AEBusEffectClearAll(_busName) {
 	var _bus = __AEBusGet(_busName);	
 	
-	for(var _effectIndex = 0; __effectIndex < 8; _effectIndex++) {
+	for(var _effectIndex = 0; _effectIndex < 8; _effectIndex++) {
 		_bus.bus.effects[_effectIndex] = undefined;
+	}
+}
+
+/// @desc Check if an effect is valid. Only executed in "run" mode (development)
+/// @param {Struct.AudioEffect} _effect Effect to apply
+/// @return {Bool}
+function __AEBusCheckEffectValid(_effect) {
+	if(GM_build_type == "exe") {
+		// No check on production
+		return true;
+	}
+	
+	try {
+		if(!is_struct(_effect)) {
+			show_debug_message("not a struct");
+			return false;	
+		}
+	
+		if(!struct_exists(_effect, "type")) {
+			show_debug_message("no type");
+			return false;	
+		}
+		
+		// Effect are stored as int32, but documentation indicate int64 for enum
+		// It safer to check for every numeric type here
+		if(!is_numeric(_effect.type)) {
+			show_debug_message("invalid type");
+			return false;	
+		}
+	
+		if(!struct_exists(_effect, "bypass")) {
+			show_debug_message("no bypass");
+			return false;	
+		}	
+		
+		if(!is_bool(_effect.bypass)) {
+			show_debug_message("invalid bypass");
+			return false;	
+		}			
+
+	
+		return true;
+	} catch(_exception) {
+		show_debug_message({_exception});
+		return false;	
 	}
 }

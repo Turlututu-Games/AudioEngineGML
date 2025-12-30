@@ -1,7 +1,17 @@
-function __AEUIGamePlay(_gameSoundInstance, _category, _id, _x, _y, _z, _volumeOffset, _pitchOffset) {
+/// @desc Play a game sound
+/// @param {Enum.AUDIO_GAME_SOUND} _gameSoundInstance Sound key
+/// @param {Enum.AUDIO_CATEGORIES,Real} _id Id for the category or position
+/// @param {Real} _x
+/// @param {Real} _y
+/// @param {Real} _z
+/// @param {Real} _volumeOffset
+/// @param {Real} _pitchOffset
+/// @param {Array<Struct.AudioEffect>} _effects
+/// @return {Struct.__AESystemPlaying} Sound reference
+function __AEGamePlay(_gameSoundInstance, _id, _x, _y, _z, _volumeOffset, _pitchOffset, _effects) {
 	static _system = __AudioEngineSystem();
 	
-	var _newSound = __AudioEngineLibraryGameSoundGet(_gameSoundInstance);
+	var _newSound = __AEGameLibraryGetSound(_gameSoundInstance);
 	
 	if(!_newSound) {
 		// The sound does not exists! Log it
@@ -9,10 +19,10 @@ function __AEUIGamePlay(_gameSoundInstance, _category, _id, _x, _y, _z, _volumeO
 		return;	
 	}	
 	
-	var _busName = $"static-{_category}";
+	var _busName = $"{__AUDIOENGINE_PREFIX_STATIC_GAME}-{_id}";
 	
 	if(_newSound.spatialized) {
-		_busName = $"spatial-{_id}-{_category}"
+		_busName = $"{__AUDIOENGINE_PREFIX_SPATIALIZED_GAME}-{_id}"
 	} 
 	
 	var _bus = __AEBusGet(_busName);
@@ -20,6 +30,10 @@ function __AEUIGamePlay(_gameSoundInstance, _category, _id, _x, _y, _z, _volumeO
 	if(_newSound.spatialized) {
 		audio_emitter_position(_bus.emitter, _x, _y, _z);
 	} 
+	
+	if(array_length(_effects) > 0) {
+		__AEBusEffectsSet(_effects, _busName);
+	}
 	
 	if(_newSound.multi) {
 		return __AEGamePlayMulti(_volumeOffset, _pitchOffset, _newSound, _bus, _busName);
@@ -29,16 +43,16 @@ function __AEUIGamePlay(_gameSoundInstance, _category, _id, _x, _y, _z, _volumeO
 	
 }
 
-/// @desc Play a new game sound from an array
+/// @desc Play a game sound from an array
 /// @param {Real} _volumeOffset
 /// @param {Real} _pitchOffset
 /// @param {Struct.__AESystemLibrarySoundArray} _newSound
 /// @param {Struct.__AEBus} _bus
 /// @param {String} _prefix
+/// @return {Struct.__AESystemPlaying} Sound reference
 function __AEGamePlayMulti(_volumeOffset, _pitchOffset, _newSound, _bus, _prefix) {
 	static _system = __AudioEngineSystem();
 	
-		
 	var _index = irandom_range(0, array_length(_newSound.assets) - 1);
 	var _selectedAsset = _newSound.assets[_index];
 	var _sound = __AEStreamReturnAsset(_selectedAsset);
@@ -54,12 +68,13 @@ function __AEGamePlayMulti(_volumeOffset, _pitchOffset, _newSound, _bus, _prefix
 }
 
 
-/// @desc Play a new game sound from an single track
+/// @desc Play a game sound from an single track
 /// @param {Real} _volumeOffset
 /// @param {Real} _pitchOffset
 /// @param {Struct.__AESystemLibrarySound} _newSound
 /// @param {Struct.__AEBus} _bus
 /// @param {String} _prefix
+/// @return {Struct.__AESystemPlaying} Sound reference
 function __AEGamePlaySingle(_volumeOffset, _pitchOffset, _newSound, _bus, _prefix) {
 	static _system = __AudioEngineSystem();
 			
@@ -85,44 +100,47 @@ function __AEGamePlaySingle(_volumeOffset, _pitchOffset, _newSound, _bus, _prefi
 /// @param {Real} _volumeOffset
 /// @param {Real} _pitchOffset
 /// @param {Real} _priority
-function __AEGamePlaySound(_sound, _bus, _loop, _volume, _pitch, _volumeVariance, _pitchVariance, _volumeOffset, _pitchOffset, _priority) {
+/// @return {Id.Sound}
+function __AEGamePlaySound(_sound, _bus, _loop, _volume, _pitch, _volumeVariance, _pitchVariance, _volumeOffset, _pitchOffset, _priority) {	
+	var _baseVolume = _volume;
+	var _basePitch = _pitch;
 		
-		var _baseVolume = _volume;
-		var _basePitch = _pitch;
+	if(_volumeVariance > 0) {
+		_baseVolume += random_range(-_volumeVariance, _volumeVariance);
+	}
 		
-		if(_volumeVariance > 0) {
-			_baseVolume += random_range(-_volumeVariance, _volumeVariance);
-		}
+	if(_pitchVariance > 0) {
+		_basePitch += random_range(-_pitchVariance, _pitchVariance);
+	}
 		
-		if(_pitchVariance > 0) {
-			_basePitch += random_range(-_pitchVariance, _pitchVariance);
-		}
+	_baseVolume += _volumeOffset;
+	_basePitch += _pitchOffset;
 		
-		_baseVolume += _volumeOffset;
-		_basePitch += _pitchOffset;
-		
-		return audio_play_sound_on(_bus.emitter, _sound, _loop, _priority, _baseVolume, 0, _basePitch);	
+	return audio_play_sound_on(_bus.emitter, _sound, _loop, _priority, _baseVolume, 0, _basePitch);	
 }
 
-/// @desc Play a new game sound from an single track
-/// @param {Id.Sound} _ref
-/// @param {Enum.AUDIO_CATEGORIES} _category
-/// @return {Struct.__AESystemPlaying,Undefined}
-function __AEGameFindSound(_ref, _category) {
-	static _system = __AudioEngineSystem();
-			
-	var _playingLength = array_length(_system.playing);
-	
-	var _found = undefined;
-	
-	for(var _i = 0; _i < _playingLength; _i++) {
-		_playing = _system.playing[_i];
-		
-		if(_playing.ref == _ref) {
-			_found = _playing;
-			break;
+/// @desc Set the position for an object
+/// @param {Struct.__AESystemPlaying} _sound Sound playing
+/// @param {Real} _x X position
+/// @param {Real} _y Y position
+/// @param {Real} _z Z position
+function __AEGamePositionFound(_sound, _x, _y, _z) {
+		if(!_sound.spatialized) {
+			// The sound is not spatialized
+			return
 		}
-	}
+
+		var _bus = __AEBusGet(_sound.busName);
+
+		audio_emitter_position(_bus.emitter, _x, _y, _z);
+
+}
+
+/// @desc Get a game sound library item
+/// @param {Enum.AUDIO_GAME_SOUND} _gameSoundInstance
+/// @return {Struct.__AESystemLibrarySound,Struct.__AESystemLibrarySoundArray}
+function __AEGameLibraryGetSound(_gameSoundInstance) {
+	static _system = __AudioEngineSystem();
 	
-	return _found
+	return _system.library.game[$ _gameSoundInstance];
 }

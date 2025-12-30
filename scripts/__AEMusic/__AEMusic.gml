@@ -46,18 +46,12 @@ function __AEMusicStop(_category) {
 function __AEMusicStopCrossfaded(_crossfadedSounds) {
 	
 	var _unfaded = []
-	var _categories = []
 	
 	
 	// Stop fading sound with volume 0, store unfaded sounds
 	for(var _i = 0; _i < array_length(_crossfadedSounds); _i++) {
 		var _item = _crossfadedSounds[_i];
 		var _sound = _item.ref;
-		var _category = _item.category;
-		
-		if(!array_contains(_categories, _category)) {
-			array_push(_categories, _category);
-		}
 		
 		var _volume = audio_sound_get_gain(_sound);
 		
@@ -67,29 +61,6 @@ function __AEMusicStopCrossfaded(_crossfadedSounds) {
 			array_push(_unfaded);
 		}
 	}
-	
-	// Remove from categories array categories from unfaded
-	/*for(var _i = 0; _i < array_length(_unfaded); _i++) {
-		var _item = _unfaded[_i];
-		var _category = _item.category;
-		
-		var _pos = array_get_index(_categories, _category);
-		
-		if(_pos != -1) {
-			array_delete(_categories, _pos, 1);
-		}
-
-	}*/
-	
-	// Remove categories for fully-faded sounds with no other running sound
-	/*for(var _i = 0; _i < array_length(_categories); _i++) {
-		var _category = _categories[_i];
-		// Erase data from currentMusics store
-		__AEMusicResetCurrentMusic(_category)
-	
-		// Clear the audio bus
-		__AEBusClear($"music-{_category}");	
-	}*/
 	
 	return _unfaded;
 }
@@ -130,7 +101,7 @@ function __AEMusicStopWithFade(_category, _fade) {
 	}
 }
 
-/// @desc Play a new music
+/// @desc Play music with fade-in
 /// @param {Enum.AUDIO_MUSIC} _musicInstance
 /// @param {Enum.AUDIO_CATEGORIES} _category
 /// @param {Real} _fade
@@ -139,7 +110,7 @@ function __AEMusicPlayWithFade(_musicInstance, _category, _fade, _previousMoods)
 	
 	static _system = __AudioEngineSystem();
 	
-	var _newMusic = __AudioEngineLibraryMusicGet(_musicInstance);
+	var _newMusic = __AEMusicLibraryGetSound(_musicInstance);
 		
 	if(!_newMusic) {
 		// The music does not exists! Log it
@@ -147,7 +118,7 @@ function __AEMusicPlayWithFade(_musicInstance, _category, _fade, _previousMoods)
 		return;	
 	}	
 	
-	var _bus = __AEBusGet($"music-{_category}");			
+	var _bus = __AEBusGet($"{__AUDIOENGINE_PREFIX_MUSIC}-{_category}");			
 		
 	if(_newMusic.multi) {
 		__AEMusicPlayMultiTrackWithFade(_musicInstance, _category, _fade, _previousMoods, _newMusic, _bus);
@@ -156,7 +127,7 @@ function __AEMusicPlayWithFade(_musicInstance, _category, _fade, _previousMoods)
 	}
 }
 
-/// @desc Play a new music
+/// @desc Play multi-track music with fade-in
 /// @param {Enum.AUDIO_MUSIC} _musicInstance
 /// @param {Enum.AUDIO_CATEGORIES} _category
 /// @param {Real} _fade
@@ -175,7 +146,7 @@ function __AEMusicPlayMultiTrackWithFade(_musicInstance, _category, _fade, _prev
 
 		var _ref = audio_play_sound_on(_bus.emitter, _musicAsset, true, _newMusic.priority);
 			
-		array_push(_system.playing, new __AESystemPlaying(_music.asset, _ref, "music"));
+		array_push(_system.playing, new __AESystemPlaying(_music.asset, _ref, __AUDIOENGINE_PREFIX_MUSIC));
 			
 		array_push(_currentMusic.tracks, new __AEMusicCurrentMusicTrack(_musicAsset, _music.isStream, _music.mood, _music.volume, _ref) );
 
@@ -195,7 +166,7 @@ function __AEMusicPlayMultiTrackWithFade(_musicInstance, _category, _fade, _prev
 	_system.currentMusics[$ _category] = _currentMusic;			
 }
 
-/// @desc Play a new music
+/// @desc Play single-track music with fade-in
 /// @param {Enum.AUDIO_MUSIC} _musicInstance
 /// @param {Enum.AUDIO_CATEGORIES} _category
 /// @param {Real} _fade
@@ -215,7 +186,7 @@ function __AEMusicPlaySingleTrackWithFade(_musicInstance, _category, _fade, _new
 		audio_sound_gain(_ref, _newMusic.volume, 0);
 	}
 		
-	array_push(_system.playing, new __AESystemPlaying(_newMusic.asset, _ref, "music"));
+	array_push(_system.playing, new __AESystemPlaying(_newMusic.asset, _ref, __AUDIOENGINE_PREFIX_MUSIC));
 			
 	var _currentMusic = new __AEMusicCurrentMusic(_musicInstance);
 	_currentMusic.tracks = [new __AEMusicCurrentMusicTrack(_music, _newMusic.isStream, 0, _newMusic.volume, _ref)];
@@ -255,4 +226,13 @@ function __AEMusicCurrentMusic(_id = -1, _tracks = [], _multi = false, _moods = 
 	if(array_length(moods) == 0) {
 		array_push(moods, 0)	
 	}
+}
+
+/// @desc Get a music library item
+/// @param {Enum.AUDIO_MUSIC} _musicInstance
+/// @return {Struct.__AESystemLibraryMusicSingle,Struct.__AESystemLibraryMusicMulti}
+function __AEMusicLibraryGetSound(_musicInstance) {
+	static _system = __AudioEngineSystem();
+	
+	return _system.library.music[$ _musicInstance];
 }

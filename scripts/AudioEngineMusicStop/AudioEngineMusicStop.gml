@@ -12,7 +12,7 @@ function AudioEngineMusicStop(_category = 0, _crossfadeTime = __AUDIOENGINE_MUSI
 		__AEMusicResetCurrentMusic(_category)
 	
 		// Clear the audio bus
-		__AEBusClear($"music-{_category}");		
+		__AEBusClear($"{__AUDIOENGINE_PREFIX_MUSIC}-{_category}");		
 	} else {
 		__AEMusicStopWithFade(_category, _crossfadeTime);
 	}
