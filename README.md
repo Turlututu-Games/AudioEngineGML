@@ -4,6 +4,8 @@
 
 ---
 
+![Logo Markdown](./logo.png)
+
 Sound management in GameMaker can be a little intimidating. It requires managing sound buses, storing identifiers and states, etc.
 
 AudioEngineGML is a library designed to simplify all this, with pre-configured sound channels.
