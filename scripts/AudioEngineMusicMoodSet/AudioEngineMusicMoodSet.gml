@@ -12,15 +12,18 @@ function AudioEngineMusicMoodSet(_mood, _category = 0, _crossfadeTime = __AUDIOE
 	} else {
 		_currentMusic.moods = [_mood];
 	}
+
+	var _bus = __AEBusGet(__AUDIOENGINE_PREFIX_MUSIC, _category);
 	
 	if(_currentMusic.id != -1 && _currentMusic.multi) {
 		for(var _i = 0; _i < array_length(_currentMusic.tracks); _i++) {
 			var _track = _currentMusic.tracks[_i];
+			var _volume = __AEMusicResolveVolume(_category, _track, _bus);
 			
 			if(array_get_index(_currentMusic.moods, _track.mood) == -1) {
 				audio_sound_gain(_track.ref, 0, _crossfadeTime);
 			} else {
-				audio_sound_gain(_track.ref, _track.volume, _crossfadeTime);
+				audio_sound_gain(_track.ref, _volume, _crossfadeTime);
 			}			
 			
 		}	

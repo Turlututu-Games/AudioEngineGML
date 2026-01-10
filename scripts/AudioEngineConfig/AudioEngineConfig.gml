@@ -2,44 +2,7 @@
 
 /// @desc Configure AudioEngine
 function __AudioEngineConfig() {
-	
-	enum AE_CATEGORIES {
-		MAIN,
-		ALTERNATE
-	}
-	
-	enum AE_MUSIC {
-		DECORATE,
-		EXPLORE,
-		MENU,		
-		RIVER_SOUNDSCAPE,
-
-	}
-	
-	enum AE_MULTITRACK_MOOD {
-		CUTE,
-		FESTIVE,
-		SILLY,
-	}	
-	
-	enum AE_UI_SOUND {
-		CLICK,
-		ATTACK,
-		COUGH,
-		CLICK_VARIANCE,
-		RIVER_SOUNDSCAPE,
-	}
-	
-	enum AE_GAME_SOUND {
-		WIPER,
-		START_ENGINE,
-		ENGINE,
-		WARNING,
-		RIVER
-	}	
-	
-	
-		
+			
 	// Add your music here
 	AudioEngineDefineMusic(AE_MUSIC.DECORATE, Interior_Birdecorator_Decorate, {volume: 0.8});
 	AudioEngineDefineMusic(AE_MUSIC.MENU, "Interior Birdecorator Menu_LOOP.ogg");

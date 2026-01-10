@@ -166,7 +166,9 @@ function __AEMusicPlayMultiTrackWithFade(_musicInstance, _category, _fade, _prev
 		
 		var _ref = audio_play_sound_on(_bus.emitter, _musicAsset, true, _newMusic.priority);
 			
-		array_push(_system.playing, new __AESystemPlaying(_music.asset, _ref, $"{__AUDIOENGINE_PREFIX_MUSIC}-{_category}", false, _music.volume));
+		var _playing = new __AESystemPlaying(_music.asset, _ref, $"{__AUDIOENGINE_PREFIX_MUSIC}-{_category}", false, _music.volume);
+		_system.playingMap[$ _ref] = _playing;		
+		array_push(_system.playing, _playing);
 			
 		// Feather ignore once GM1041 The enum value is correct			
 		array_push(_currentMusic.tracks, new __AEMusicCurrentMusicTrack(_musicAsset, _music.isStream, _music.mood, _music.volume, _ref) );
@@ -210,7 +212,9 @@ function __AEMusicPlaySingleTrackWithFade(_musicInstance, _category, _fade, _new
 		audio_sound_gain(_ref, _volume, 0);
 	}
 		
-	array_push(_system.playing, new __AESystemPlaying(_newMusic.asset, _ref, $"{__AUDIOENGINE_PREFIX_MUSIC}-{_category}", false, _newMusic.volume));
+	var _playing = new __AESystemPlaying(_newMusic.asset, _ref, $"{__AUDIOENGINE_PREFIX_MUSIC}-{_category}", false, _newMusic.volume);
+	_system.playingMap[$ _ref] = _playing;
+	array_push(_system.playing, _playing);
 			
 	// Feather ignore once GM1041
 	var _currentMusic = new __AEMusicCurrentMusic(_musicInstance);

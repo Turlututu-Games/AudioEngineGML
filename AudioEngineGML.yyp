@@ -55,6 +55,7 @@
     {"id":{"name":"__AudioEngineSystem","path":"scripts/__AudioEngineSystem/__AudioEngineSystem.yy",},},
     {"id":{"name":"__AudioEngineVolume","path":"scripts/__AudioEngineVolume/__AudioEngineVolume.yy",},},
     {"id":{"name":"AudioEngineConfig","path":"scripts/AudioEngineConfig/AudioEngineConfig.yy",},},
+    {"id":{"name":"AudioEngineDefineEnums","path":"scripts/AudioEngineDefineEnums/AudioEngineDefineEnums.yy",},},
     {"id":{"name":"AudioEngineGameEffectClear","path":"scripts/AudioEngineGameEffectClear/AudioEngineGameEffectClear.yy",},},
     {"id":{"name":"AudioEngineGameEffectClearAll","path":"scripts/AudioEngineGameEffectClearAll/AudioEngineGameEffectClearAll.yy",},},
     {"id":{"name":"AudioEngineGameEffectSet","path":"scripts/AudioEngineGameEffectSet/AudioEngineGameEffectSet.yy",},},

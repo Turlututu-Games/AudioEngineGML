@@ -40,3 +40,18 @@ function __AEStreamCleanup(_assetName, _assetId) {
 	return audio_destroy_stream(_assetId);
 
 }
+
+/// @desc Destroy all the streams
+function __AEStreamCleanupAll() {
+    static _system = __AudioEngineSystem();
+	
+    var _streamNames = struct_get_names(_system.streams);
+	
+    for(var _i = 0; _i < array_length(_streamNames); _i++) {
+        var _name = _streamNames[_i];
+		
+        audio_destroy_stream(_system.streams[$ _name]);
+    }
+	
+    _system.streams = {};
+}

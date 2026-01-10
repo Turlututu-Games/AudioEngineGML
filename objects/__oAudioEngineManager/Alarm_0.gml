@@ -11,5 +11,7 @@ if(array_length(crossfadedMusic) > 0) {
 	// Feather ignore once GM1019 Ignore invalid type error
 	__AELogVerbose("retrigger alarm");
 	
-	alarm_set(0, 5 * game_get_speed(gamespeed_fps))
+    if(alarm_get(0) == -1) {  // Only set if not already running
+        alarm_set(0, 5 * game_get_speed(gamespeed_fps));
+    }
 }

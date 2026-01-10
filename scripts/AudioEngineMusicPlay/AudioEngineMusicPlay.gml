@@ -15,7 +15,7 @@ function AudioEngineMusicPlay(_musicInstance, _category = 0, _volume = undefined
 	
 	var _previousMoods = _currentMusic.moods;
 	
-	if(!_currentMusic.id != -1) {
+	if(_currentMusic.id != -1) {
 		if(_crossfadeTime <= 0) {
 			// Feather ignore once GM1041 The enum value is correct
 			__AEMusicStop( _category);

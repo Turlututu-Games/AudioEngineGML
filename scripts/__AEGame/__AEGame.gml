@@ -28,7 +28,7 @@ function __AEGamePlay(_gameSoundInstance, _id, _x, _y, _z, _volumeOffset, _pitch
 	} 
 	
 	var _busName = $"{_busType}-{_id}"
-	var _bus = __AEBusGet(_busType, _id);
+	var _bus = __AEBusGet(_busType, _id, _newSound.cleanOnRoomEnd);
 	
 	if(_newSound.spatialized) {
 		audio_emitter_position(_bus.emitter, _x, _y, _z);
@@ -67,6 +67,7 @@ function __AEGamePlayMulti(_volumeOffset, _pitchOffset, _newSound, _bus, _prefix
 
 	var _playing = new __AESystemPlaying(_selectedAsset.asset, _ref, _prefix, _newSound.spatialized, _newSound.volume);
 
+	_system.playingMap[$ _ref] = _playing;
 	array_push(_system.playing, _playing);
 	
 	return _playing;
@@ -93,6 +94,7 @@ function __AEGamePlaySingle(_volumeOffset, _pitchOffset, _newSound, _bus, _prefi
 
 	var _playing = new __AESystemPlaying(_newSound.asset, _ref, _prefix, _newSound.spatialized, _newSound.volume);
 
+	_system.playingMap[$ _ref] = _playing;
 	array_push(_system.playing, _playing);
 
 	return _playing;
@@ -134,14 +136,19 @@ function __AEGamePlaySound(_sound, _bus, _loop, _volume, _pitch, _volumeVariance
 /// @param {Real} _y Y position
 /// @param {Real} _z Z position
 function __AEGamePositionFound(_sound, _x, _y, _z) {
-		if(!_sound.spatialized) {
-			// The sound is not spatialized
-			return
-		}
+    if(_sound == undefined || !_sound.spatialized) {
+		// No sound, or the sound is not spatialized
+        return;
+    }	
 
-		var _bus = __AEBusGet(_sound.busName);
+	var _bus = __AEBusGetByName(_sound.busName);
 
-		audio_emitter_position(_bus.emitter, _x, _y, _z);
+	if(!_bus) {
+		// The bus does not exists
+		return;
+	}
+
+	audio_emitter_position(_bus.emitter, _x, _y, _z);
 
 }
 

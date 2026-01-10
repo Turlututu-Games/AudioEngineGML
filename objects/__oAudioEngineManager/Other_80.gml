@@ -14,6 +14,7 @@ for(var _i = 0; _i < _arraySize; _i++) {
 	if(_system.playing[_i].ref == _ref) {
 		
 		_found = _system.playing[_i];
+		_system.playingMap[$ _ref] = undefined;
 		array_delete(_system.playing, _i, 1);
 		break;
 	}

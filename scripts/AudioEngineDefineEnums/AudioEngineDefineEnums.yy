@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"AudioEngineDefineEnums",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"AudioEngineDefineEnums",
+  "parent":{
+    "name":"Config",
+    "path":"folders/AudioEngine/Config.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

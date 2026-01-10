@@ -91,7 +91,7 @@ function AudioEngineDefineUISoundOptions(_priority = 1, _volume = 1, _volumeVari
 
 /// Define a UI sound
 /// @param {Enum.AE_UI_SOUND} _uiSoundIndex
-/// @param {Asset.GMSound|String} _asset
+/// @param {Asset.GMSound,String} _asset
 /// @param {Struct.AudioEngineDefineUISoundOptions} [_options] Options
 function AudioEngineDefineUISound(_uiSoundIndex, _asset, _options = {}){
 	
@@ -191,6 +191,7 @@ function AudioEngineDefineGameSound(_gameSoundIndex, _asset, _options = {}){
 		_newGameSound.volumeVariance = _options[$ "volumeVariance"] ?? _defaultOptions.volumeVariance;
 		_newGameSound.spatialized = _options[$ "spatialized"] ?? _defaultOptions.spatialized;
 		_newGameSound.loop = _options[$ "loop"] ?? _defaultOptions.loop;
+		_newGameSound.cleanOnRoomEnd = _options[$ "cleanOnRoomEnd"] ?? _defaultOptions.cleanOnRoomEnd;
 		
 		library.game[$ _gameSoundIndex] = _newGameSound;
 	}

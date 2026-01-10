@@ -1,14 +1,19 @@
+#macro __AUDIOENGINE_MAX_EFFECT_SLOTS 8
 
 /// @desc AudioEngine Bus Instance
 /// @param {Id.AudioEmitter} _emitter Emitter
 /// @param {Struct.AudioBus} _bus Audio Bus
 /// @param {Real} _volume Volume offset
 /// @param {Real} _category Bus category. Used for reverse search
-function __AEBus(_emitter, _bus, _volume, _category) constructor {
+/// @param {Bool} _cleanOnRoomEnd Indicate that the bus must be cleaned on room_end event
+/// @param {String} _type Bus type. Can be "music", "ui", "static", "spatialized"
+function __AEBus(_emitter, _bus, _volume, _category, _cleanOnRoomEnd, _type) constructor {
 	emitter = _emitter;
 	bus = _bus;
 	volume = _volume;
 	category = _category;
+	cleanOnRoomEnd = _cleanOnRoomEnd;
+	type = _type; // "music", "ui", "static", "spatialized"
 }
 
 /// @desc Set Main Listener position. All emitter from categories music, ui and static will move too
@@ -29,14 +34,13 @@ function __AEBusSetListenerPosition(_x, _y, _z = 0) {
 	
 	for(var _i = 0; _i < array_length(_busNames); _i++) {
 		var _busName = _busNames[_i];
+		var _bus = 	_system.bus[$ _busName];
 		
 		if(
-			string_starts_with(_busName, $"{__AUDIOENGINE_PREFIX_MUSIC}-") || 
-			string_starts_with(_busName, $"{__AUDIOENGINE_PREFIX_UI}-") || 
-			string_starts_with(_busName, $"{__AUDIOENGINE_PREFIX_STATIC_GAME}-"
-		)) {
-			var _bus = 	_system.bus[$ _busName];
-			
+			_bus.type == __AUDIOENGINE_PREFIX_MUSIC || 
+			_bus.type == __AUDIOENGINE_PREFIX_UI || 
+			_bus.type == __AUDIOENGINE_PREFIX_STATIC_GAME
+		) {
 			audio_emitter_position(_bus.emitter, _x, _y, _z);
 		}
 	}
@@ -44,13 +48,25 @@ function __AEBusSetListenerPosition(_x, _y, _z = 0) {
 }
 
 /// @desc Get or create Bus
-/// @param {String} _busType Bus type or Bus name
+/// @param {String} _busName Bus name
+/// @return {Struct.__AEBus,Undefined}
+function __AEBusGetByName(_busName) {
+	static _system = __AudioEngineSystem();	
+
+	if(_system.bus[$ _busName] != undefined) {
+		return _system.bus[$ _busName];
+	}
+}
+
+/// @desc Get or create Bus
+/// @param {String} _busType Bus type
 /// @param {Real} _busCategory Bus category/id
+/// @param {Bool} _cleanOnRoomEnd Indicate that the bus must be cleaned on room_end event
 /// @return {Struct.__AEBus}
-function __AEBusGet(_busType, _busCategory = undefined) {
+function __AEBusGet(_busType, _busCategory, _cleanOnRoomEnd = false) {
 	static _system = __AudioEngineSystem();
 	
-	var _busName = _busCategory != undefined ? $"{_busType}-{_busCategory}" : _busType;
+	var _busName = $"{_busType}-{_busCategory}";
 	var _busVolumeCategory = _busName;
 	
 	if(_system.bus[$ _busName] != undefined) {
@@ -58,8 +74,8 @@ function __AEBusGet(_busType, _busCategory = undefined) {
 	}
 	
 	if(
-		string_starts_with(_busName, $"{__AUDIOENGINE_PREFIX_SPATIALIZED_GAME}-"
-	)) {
+		_busType == __AUDIOENGINE_PREFIX_SPATIALIZED_GAME
+	) {
 		_busVolumeCategory = __AUDIOENGINE_PREFIX_SPATIALIZED_GAME;
 	}
 	
@@ -68,15 +84,15 @@ function __AEBusGet(_busType, _busCategory = undefined) {
 	var _newEmitter = audio_emitter_create();
 	var _newBus = audio_bus_create();
 	
-	_system.bus[$ _busName] = new __AEBus(_newEmitter, _newBus, _defaultVolume, _busCategory);
+	_system.bus[$ _busName] = new __AEBus(_newEmitter, _newBus, _defaultVolume, _busCategory, _cleanOnRoomEnd, _busType);
 	
 	audio_emitter_bus(_system.bus[$ _busName].emitter, _system.bus[$ _busName].bus);
 	
 	if(
-		string_starts_with(_busName, $"{__AUDIOENGINE_PREFIX_MUSIC}-") || 
-		string_starts_with(_busName, $"{__AUDIOENGINE_PREFIX_UI}-") || 
-		string_starts_with(_busName, $"{__AUDIOENGINE_PREFIX_STATIC_GAME}-"
-	)) {
+		_busType == __AUDIOENGINE_PREFIX_MUSIC || 
+		_busType == __AUDIOENGINE_PREFIX_UI || 
+		_busType == __AUDIOENGINE_PREFIX_STATIC_GAME
+	) {
 		audio_emitter_position(_system.bus[$ _busName].emitter, _system.position.x, _system.position.y, _system.position.z);
 	}	
 	
@@ -95,8 +111,9 @@ function __AEBusGetAll(_busType) {
 	
 	for(var _i = 0; _i < array_length(_busNames); _i++) {
 		var _busName = _busNames[_i];
+		var _bus = 	_system.bus[$ _busName];
 		
-		if(string_starts_with(_busName, _busType)) {
+		if(_bus.type == _busType) {
 			array_push(_busArray, _system.bus[$ _busName])
 		}
 	}
@@ -155,13 +172,17 @@ function __AEBusEffectSet(_effect, _effectIndex, _busName) {
 		return;	
 	}
 	
-	if(_effectIndex < 0 || _effectIndex > 7) {
+	if(_effectIndex < 0 || _effectIndex > __AUDIOENGINE_MAX_EFFECT_SLOTS - 1) {
 		// Feather ignore once GM1019 Ignore invalid type error
 		__AELogError(_effectIndex, "is out of bound");
 		return;	
 	}
 		
-	var _bus = __AEBusGet(_busName);	
+	var _bus = __AEBusGetByName(_busName);	
+
+	if(!_bus) {
+		return;
+	}
 	
 	_bus.bus.effects[_effectIndex] = _effect;
 	
@@ -172,10 +193,14 @@ function __AEBusEffectSet(_effect, _effectIndex, _busName) {
 /// @param {String} _busName Bus name
 function __AEBusEffectsSet(_effects, _busName) {
 	
-	var _effectsLength = min(8, array_length(_effects));
+	var _effectsLength = min(__AUDIOENGINE_MAX_EFFECT_SLOTS, array_length(_effects));
 	
 	for(var _effectIndex = 0; _effectIndex < _effectsLength; _effectIndex++) {
-		var _bus = __AEBusGet(_busName);	
+		var _bus = __AEBusGetByName(_busName);	
+		if(!_bus) {
+			continue;
+		}
+
 		var _effect = _effects[_effectIndex];
 		
 		if(!__AEBusCheckEffectValid(_effect)) {
@@ -193,14 +218,18 @@ function __AEBusEffectsSet(_effects, _busName) {
 /// @param {Real} _effectIndex Canal to apply the effect. Must be a number between 0 and 7
 /// @param {String} _busName Bus name
 function __AEBusEffectClear(_effectIndex, _busName) {
-	if(_effectIndex < 0 || _effectIndex > 7) {
+	if(_effectIndex < 0 || _effectIndex > __AUDIOENGINE_MAX_EFFECT_SLOTS - 1) {
 		// Feather ignore once GM1019 Ignore invalid type error
 		__AELogError(_effectIndex, "is out of bound");
 		return;	
 	}	
 
-	var _bus = __AEBusGet(_busName);	
+	var _bus = __AEBusGetByName(_busName);	
 	
+	if(!_bus) {
+		return;
+	}
+
 	_bus.bus.effects[_effectIndex] = undefined;
 	
 }
@@ -208,9 +237,13 @@ function __AEBusEffectClear(_effectIndex, _busName) {
 /// @desc Clear all effects from a bus
 /// @param {String} _busName Bus name
 function __AEBusEffectClearAll(_busName) {
-	var _bus = __AEBusGet(_busName);	
+	var _bus = __AEBusGetByName(_busName);	
 	
-	for(var _effectIndex = 0; _effectIndex < 8; _effectIndex++) {
+	if(!_bus) {
+		return;
+	}
+
+	for(var _effectIndex = 0; _effectIndex < __AUDIOENGINE_MAX_EFFECT_SLOTS; _effectIndex++) {
 		_bus.bus.effects[_effectIndex] = undefined;
 	}
 }
@@ -268,7 +301,7 @@ function __AEBusCheckEffectValid(_effect) {
 		return true;
 	} catch(_exception) {
 		// Feather ignore once GM1019 Ignore invalid type error
-		__AELogWarning(_effect, "throw exception", _exception);
+		__AELogWarning(_effect, "Effect validation failed:", _exception.message);
 
 		return false;	
 	}

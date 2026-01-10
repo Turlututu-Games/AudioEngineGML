@@ -19,11 +19,11 @@ function __AELogger(){
 	static _logger = undefined;
 	
 	if(_logger != undefined) {
-		// Feather ignore once GM1045 
 		return _logger;	
 	}
 	
-	_logger = new __AELoggerInstance(AE_LOGGER_TARGET.INTERNAL, AE_LOGGER_LEVEL.VERBOSE);
+	_logger = new __AELoggerInstance();
+	__AELoggerInit(_logger);
 	
 	return _logger;
 }
@@ -296,7 +296,7 @@ function __AELoggerInitLevel() {
 /// @param {Function,Undefined} _errorCallback
 /// @param {Function,Undefined} _warningCallback
 /// @param {Function,Undefined} _verboseCallback
-function __AELoggerInstance(_target, _level, _errorCallback = undefined, _warningCallback = undefined, _verboseCallback = undefined) constructor {
+function __AELoggerInstance(_target = 1, _level = 2, _errorCallback = undefined, _warningCallback = undefined, _verboseCallback = undefined) constructor {
 		target = _target;
 		level = _level;
 		callback = {

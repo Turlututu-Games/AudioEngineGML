@@ -8,6 +8,13 @@
 #macro __AUDIOENGINE_PREFIX_STATIC_GAME			"static"
 #macro __AUDIOENGINE_PREFIX_SPATIALIZED_GAME    "spatial"
 
+// If true, volume calculation will be added in verbose logs
+#macro __AUDIOENGINE_DEBUG_VOLUME false
+
+// If true, stream will be checked on run mode
+#macro __AUDIOENGINE_DEBUG_CHECK_STREAM false
+
+
 /// @desc Get the AudioEngine System
 /// @return {Struct.__AESystem}
 function __AudioEngineSystem() {
@@ -94,20 +101,7 @@ function __AESystemFilterSoundByTypeAndCategory(_type, _category = undefined) {
 function __AESystemFindSound(_ref) {
 	static _system = __AudioEngineSystem();
 			
-	var _playingLength = array_length(_system.playing);
-	
-	var _found = undefined;
-	
-	for(var _i = 0; _i < _playingLength; _i++) {
-		var _playing = _system.playing[_i];
-		
-		if(_playing.ref == _ref) {
-			_found = _playing;
-			break;
-		}
-	}
-	
-	return _found
+	return _system.playingMap[$ _ref];
 }
 
 #region Types
@@ -179,7 +173,7 @@ function __AESystemLibraryMusicMulti(_assets = [], _priority = 1 ) constructor {
 /// @param {Bool} _spatialized Indicate if the sound is spatialized
 /// @param {Bool} _isStream Indicate if the sound is a stream
 /// @param {Bool} _loop Indicate if the sound is a loop
-function __AESystemLibrarySound(_asset = noone, _volume = 1,_volumeVariance = 0, _pitch = 1, _pitchVariance = 0, _priority = 1, _spatialized = false, _isStream = false, _loop = false ) constructor {
+function __AESystemLibrarySound(_asset = noone, _volume = 1,_volumeVariance = 0, _pitch = 1, _pitchVariance = 0, _priority = 1, _spatialized = false, _isStream = false, _loop = false, _cleanOnRoomEnd = false ) constructor {
 	asset = _asset;
 	volume = _volume;
 	volumeVariance = _volumeVariance;
@@ -190,6 +184,7 @@ function __AESystemLibrarySound(_asset = noone, _volume = 1,_volumeVariance = 0,
 	isStream = _isStream;
 	spatialized = _spatialized;
 	loop = _loop;
+	cleanOnRoomEnd = _cleanOnRoomEnd;
 }
 
 /// @param {Asset.GMSound,String} _asset
@@ -248,7 +243,8 @@ function __AESystemPosition(_x = 0, _y = 0, _z = 0 ) constructor {
 /// @param {Struct.__AEMusicCurrentMusic} _currentMusics
 /// @param {Struct.__AESystemLibrary} _library
 /// @param {Struct.__AESystemPosition} _position
-function __AESystem(_volumes = new __AESystemVolumes(), _streams = {}, _playing = [], _bus = {}, _defaultBusVolumes = {}, _currentMusics = {}, _library = new __AESystemLibrary(), _position = new __AESystemPosition()) constructor {
+/// @param {Struct} _playingMap
+function __AESystem(_volumes = new __AESystemVolumes(), _streams = {}, _playing = [], _bus = {}, _defaultBusVolumes = {}, _currentMusics = {}, _library = new __AESystemLibrary(), _position = new __AESystemPosition(), _playingMap = {}) constructor {
 	volumes = _volumes;
 	streams = _streams;
 	playing = _playing;
@@ -257,6 +253,7 @@ function __AESystem(_volumes = new __AESystemVolumes(), _streams = {}, _playing 
 	currentMusics = _currentMusics;
 	library = _library;
 	position = _position;
+	playingMap = _playingMap;
 	
 	audio_listener_position(_position.x, _position.y, _position.z);
 	

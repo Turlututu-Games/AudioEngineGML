@@ -47,6 +47,7 @@ function __AEUIPlayMulti(_volumeOffset, _pitchOffset, _newSound, _bus) {
 
 	var _playing = new __AESystemPlaying(_selectedAsset.asset, _ref, $"{__AUDIOENGINE_PREFIX_UI}-{_bus.category}", false, _newSound.volume);
 
+	_system.playingMap[$ _ref] = _playing;
 	array_push(_system.playing, _playing);
 	
 	return _playing;
@@ -70,6 +71,7 @@ function __AEUIPlaySingle(_volumeOffset, _pitchOffset, _newSound, _bus) {
 
 	var _playing = new __AESystemPlaying(_newSound.asset, _ref, $"{__AUDIOENGINE_PREFIX_UI}-{_bus.category}", false, _newSound.volume);
 
+	_system.playingMap[$ _ref] = _playing;
 	array_push(_system.playing, _playing);
 	
 	return _playing;
