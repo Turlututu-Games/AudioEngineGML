@@ -1,7 +1,7 @@
 #macro __AUDIOENGINE_MANAGER_DEPTH  16002
 
 #macro __AUDIOENGINE_VERSION  "1.0.0"
-#macro __AUDIOENGINE_DATE     "2025-12-29"
+#macro __AUDIOENGINE_DATE     "2026-01-10"
 
 #macro __AUDIOENGINE_PREFIX_MUSIC				"music"
 #macro __AUDIOENGINE_PREFIX_UI					"ui"
@@ -14,6 +14,7 @@ function __AudioEngineSystem() {
 	static _system = undefined;
     
 	if (_system != undefined) {
+		// Feather ignore once GM1045
 		return _system;
 	}
 	
@@ -47,7 +48,7 @@ function __AESystemInitManager() {
 		__oAudioEngineManager.persistent = true;
     }	
 	
-	if(!__oAudioEngineManager.depth != __AUDIOENGINE_MANAGER_DEPTH) {
+	if(__oAudioEngineManager.depth != __AUDIOENGINE_MANAGER_DEPTH) {
 		__oAudioEngineManager.depth = __AUDIOENGINE_MANAGER_DEPTH;
 	}
 }
@@ -64,9 +65,9 @@ function __AESystemUniqueId() {
 
 /// @desc Filter and return all the sounds from a category
 /// @param {String} _type
-/// @param {Enum.AUDIO_CATEGORIES,Undefined} _category
+/// @param {Enum.AE_CATEGORIES,Undefined} _category
 /// @return {Array<Struct.__AESystemPlaying>}
-function __AESystemFilterSoundByTypeAndCategory(_type, _category) {
+function __AESystemFilterSoundByTypeAndCategory(_type, _category = undefined) {
 	static _system = __AudioEngineSystem();
 			
 	var _playingLength = array_length(_system.playing);
@@ -76,8 +77,9 @@ function __AESystemFilterSoundByTypeAndCategory(_type, _category) {
 	var _filtered = [];
 	
 	for(var _i = 0; _i < _playingLength; _i++) {
-		_playing = _system.playing[_i];
+		var _playing = _system.playing[_i];
 		
+		// Feather ignore once GM1041
 		if(string_starts_with(_playing.busName, _term) ) {
 			array_push(_filtered, _playing)
 		}
@@ -97,7 +99,7 @@ function __AESystemFindSound(_ref) {
 	var _found = undefined;
 	
 	for(var _i = 0; _i < _playingLength; _i++) {
-		_playing = _system.playing[_i];
+		var _playing = _system.playing[_i];
 		
 		if(_playing.ref == _ref) {
 			_found = _playing;
@@ -108,28 +110,32 @@ function __AESystemFindSound(_ref) {
 	return _found
 }
 
-
 #region Types
 
 /// @desc System Volumes
 /// @param {Real} _music
 /// @param {Real} _ui
 /// @param {Real} _game
-function __AESystemVolumes(_music = 1, _ui = 1, _game = 1 ) constructor {
+function __AESystemVolumes(_music = 1, _ui = 1, _game = 1, _gameSpatialized = 1 ) constructor {
 	music = _music;
 	ui = _ui;
-	game = _game;
+	game = _game;	
+	gameSpatialized = _gameSpatialized;
+
 }
 
 /// @param {Asset.GMSound,String} _asset
 /// @param {Id.Sound} _ref Reference to the sound
 /// @param {String} _busName bus name
-/// @param {Bool} The sound is spatialized
-function __AESystemPlaying(_asset = noone, _ref = noone, _busName = undefined, _spatialized = false ) constructor {
+/// @param {Bool} _spatialized The sound is spatialized
+/// @param {Real} _volume The sound volume
+function __AESystemPlaying(_asset = noone, _ref = noone, _busName = undefined, _spatialized = false, _volume = 1) constructor {
 	asset = _asset;
 	ref = _ref;
 	busName = _busName;
-	spatialized = _spatialized;
+	spatialized = _spatialized;	
+	volume = _volume;
+
 }
 
 
@@ -146,19 +152,18 @@ function __AESystemLibraryMusicSingle(_asset = noone, _volume = 1, _priority = 1
 }
 
 /// @param {Asset.GMSound,String} _asset
-/// @param {Enum.AUDIO_MULTITRACK_MOOD} _mood Music Mood
+/// @param {Enum.AE_MULTITRACK_MOOD} _mood Music Mood
 /// @param {Real} _volume Initial volume
 /// @param {Bool} _isStream Indicate if the track is a stream
-function __AESystemLibraryMusicTrack(_asset = noone, _mood = 0, _volume = 1, _isStream = false) constructor {
+function __AESystemLibraryMusicTrack(_asset, _mood, _volume = 1, _isStream = false) constructor {
 	asset = _asset;
 	mood = _mood;
 	volume = _volume;
 	isStream = _isStream;
 }
 
-/// @param {Array<Struct.__AESystemLibraryMusicTrack>} _assets
-/// @param {Enum.AUDIO_MULTITRACK_MOOD} _mood Music Mood
-/// @param {Real} _priority Sound priority
+/// @param {Array<Struct.__AESystemLibraryMusicTrack>} [_assets]
+/// @param {Real} [_priority] Sound priority
 function __AESystemLibraryMusicMulti(_assets = [], _priority = 1 ) constructor {
 	assets = _assets;
 	priority = _priority;
@@ -171,8 +176,8 @@ function __AESystemLibraryMusicMulti(_assets = [], _priority = 1 ) constructor {
 /// @param {Real} _pitch Initial pitch
 /// @param {Real} _pitchVariance Pitch random variation
 /// @param {Real} _priority Sound priority
-/// @param {Bool} _isStream Indicate if the sound is a stream
 /// @param {Bool} _spatialized Indicate if the sound is spatialized
+/// @param {Bool} _isStream Indicate if the sound is a stream
 /// @param {Bool} _loop Indicate if the sound is a loop
 function __AESystemLibrarySound(_asset = noone, _volume = 1,_volumeVariance = 0, _pitch = 1, _pitchVariance = 0, _priority = 1, _spatialized = false, _isStream = false, _loop = false ) constructor {
 	asset = _asset;
@@ -239,14 +244,16 @@ function __AESystemPosition(_x = 0, _y = 0, _z = 0 ) constructor {
 /// @param {Struct} _streams Stream cache
 /// @param {Array<Struct.__AESystemPlaying>} _playing List of currently played sounds
 /// @param {Struct} _bus
+/// @param {Struct} _defaultBusVolumes
 /// @param {Struct.__AEMusicCurrentMusic} _currentMusics
 /// @param {Struct.__AESystemLibrary} _library
 /// @param {Struct.__AESystemPosition} _position
-function __AESystem(_volumes = new __AESystemVolumes(), _streams = {}, _playing = [], _bus = {}, _currentMusics = {}, _library = new __AESystemLibrary(), _position = new __AESystemPosition()) constructor {
+function __AESystem(_volumes = new __AESystemVolumes(), _streams = {}, _playing = [], _bus = {}, _defaultBusVolumes = {}, _currentMusics = {}, _library = new __AESystemLibrary(), _position = new __AESystemPosition()) constructor {
 	volumes = _volumes;
 	streams = _streams;
 	playing = _playing;
 	bus = _bus;
+	defaultBusVolumes = _defaultBusVolumes;
 	currentMusics = _currentMusics;
 	library = _library;
 	position = _position;

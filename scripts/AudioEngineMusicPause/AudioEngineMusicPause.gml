@@ -1,6 +1,8 @@
 /// @desc Pause the current music
-/// @param {Enum.AUDIO_CATEGORIES} [_category] Optional category. 0 by default
+/// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
+// Feather ignore once GM1045
 function AudioEngineMusicPause(_category = 0) {
+	// Feather ignore once GM1041 The enum value is correct
 	var _currentMusic = __AEMusicGetCurrentMusic(_category);
 	
 	if(_currentMusic.id != -1) {

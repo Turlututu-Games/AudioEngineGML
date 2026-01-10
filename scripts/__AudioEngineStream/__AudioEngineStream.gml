@@ -1,5 +1,5 @@
 /// @desc Return the sound asset
-/// @param {Asset.GMSound,String} _asset
+/// @param {Struct.__AESystemLibraryMusicTrack,Struct.__AESystemLibraryMusicSingle,Struct.__AESystemLibraryMusicSingle,Struct.__AESystemLibrarySound} _asset
 /// @return {Asset.GMSound}
 function __AEStreamReturnAsset(_asset) {
 	if(_asset.isStream) {
@@ -25,16 +25,18 @@ function __AEStreamReturnAsset(_asset) {
 /// @desc Destroy the sound stream and clean the cache
 /// @param {String} _assetName
 /// @param {Asset.GMSound} _assetId
+/// @return {Real} 1 if successfull, -1 otherwise
 function __AEStreamCleanup(_assetName, _assetId) {
 
 	static _system = __AudioEngineSystem();
 	
-	show_debug_message("destroying stream {0} for asset {1}", _assetId, _assetName);
+	// Feather ignore once GM1019 Ignore invalid type error
+	__AELogVerbose($"destroying stream {_assetId} for asset {_assetName}");
 
 	if(_system.streams[$ _assetName] != undefined) {
 		struct_remove(_system.streams, _assetName);
 	}
 	
-	audio_destroy_stream(_assetId);
+	return audio_destroy_stream(_assetId);
 
 }

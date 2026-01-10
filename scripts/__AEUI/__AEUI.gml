@@ -1,21 +1,23 @@
 /// @desc Play a new ui sound
-/// @param {Enum.AUDIO_UI_SOUND} _uiSoundInstance
-/// @param {Enum.AUDIO_CATEGORIES} _category
+/// @param {Enum.AE_UI_SOUND} _uiSoundInstance
+/// @param {Enum.AE_CATEGORIES} _category
 /// @param {Real} _volumeOffset
 /// @param {Real} _pitchOffset
-/// @return {Struct.__AESystemPlaying} Sound reference
+/// @return {Struct.__AESystemPlaying,Undefined} Sound reference
 function __AEUIPlay(_uiSoundInstance, _category, _volumeOffset, _pitchOffset) {
 	static _system = __AudioEngineSystem();
 	
+	// Feather ignore once GM1041 The enum value is correct
 	var _newSound = __AEUILibraryGetSound(_uiSoundInstance);
 	
 	if(!_newSound) {
 		// The sound does not exists! Log it
-		show_debug_message("Invalid ui sound id: {0}", _uiSoundInstance);
+		// Feather ignore once GM1019 Ignore invalid type error
+		__AELogError($"Invalid ui sound id: {_uiSoundInstance}");
 		return;	
 	}	
 	
-	var _bus = __AEBusGet($"{__AUDIOENGINE_PREFIX_UI}-{_category}");
+	var _bus = __AEBusGet(__AUDIOENGINE_PREFIX_UI, _category);
 	
 	if(_newSound.multi) {
 		return __AEUIPlayMulti(_volumeOffset, _pitchOffset, _newSound, _bus);
@@ -37,10 +39,13 @@ function __AEUIPlayMulti(_volumeOffset, _pitchOffset, _newSound, _bus) {
 	var _index = irandom_range(0, array_length(_newSound.assets) - 1);
 	var _selectedAsset = _newSound.assets[_index];
 	var _sound = __AEStreamReturnAsset(_selectedAsset);
+	
+	// Feather ignore once GM1041 The enum value is correct
+	var _volume = __AEUIResolveVolume(_bus.category, _newSound, _bus)
 		
-	var _ref = __AEUIPlaySound(_sound, _bus, _newSound.volume, _newSound.pitch, _newSound.volumeVariance, _newSound.pitchVariance, _volumeOffset, _pitchOffset, _newSound.priority);
+	var _ref = __AEUIPlaySound(_sound, _bus, _volume, _newSound.pitch, _newSound.volumeVariance, _newSound.pitchVariance, _volumeOffset, _pitchOffset, _newSound.priority);
 
-	var _playing = new __AESystemPlaying(_selectedAsset.asset, _ref, __AUDIOENGINE_PREFIX_UI);
+	var _playing = new __AESystemPlaying(_selectedAsset.asset, _ref, $"{__AUDIOENGINE_PREFIX_UI}-{_bus.category}", false, _newSound.volume);
 
 	array_push(_system.playing, _playing);
 	
@@ -58,9 +63,12 @@ function __AEUIPlaySingle(_volumeOffset, _pitchOffset, _newSound, _bus) {
 			
 	var _sound = __AEStreamReturnAsset(_newSound);
 		
-	var _ref = __AEUIPlaySound(_sound, _bus, _newSound.volume, _newSound.pitch, _newSound.volumeVariance, _newSound.pitchVariance, _volumeOffset, _pitchOffset, _newSound.priority);
+	// Feather ignore once GM1041 The enum value is correct
+	var _volume = __AEUIResolveVolume(_bus.category, _newSound, _bus)		
+		
+	var _ref = __AEUIPlaySound(_sound, _bus, _volume, _newSound.pitch, _newSound.volumeVariance, _newSound.pitchVariance, _volumeOffset, _pitchOffset, _newSound.priority);
 
-	var _playing = new __AESystemPlaying(_newSound.asset, _ref, __AUDIOENGINE_PREFIX_UI);
+	var _playing = new __AESystemPlaying(_newSound.asset, _ref, $"{__AUDIOENGINE_PREFIX_UI}-{_bus.category}", false, _newSound.volume);
 
 	array_push(_system.playing, _playing);
 	
@@ -98,10 +106,38 @@ function __AEUIPlaySound(_sound, _bus, _volume, _pitch, _volumeVariance, _pitchV
 }
 
 /// @desc Get a ui sound library item
-/// @param {Enum.AUDIO_UI_SOUND} _uiSoundInstance
+/// @param {Enum.AE_UI_SOUND} _uiSoundInstance
 /// @return {Struct.__AESystemLibrarySound,Struct.__AESystemLibrarySoundArray}
 function __AEUILibraryGetSound(_uiSoundInstance) {
 	static _system = __AudioEngineSystem();
 	
+	// Feather ignore once GM1045
 	return _system.library.ui[$ _uiSoundInstance];
+}
+
+/// @param {Enum.AE_CATEGORIES} _category
+/// @param {Struct.__AEBus} _bus
+function __AEUIUpdateVolume(_category, _bus) {	
+	// Feather ignore once GM1041 The enum value is correct
+	var _filtered = __AESystemFilterSoundByTypeAndCategory(__AUDIOENGINE_PREFIX_UI, _category);
+	
+	
+	for(var _i = 0; _i < array_length(_filtered); _i++) {
+		var _currentSound = _filtered[_i];
+		// Feather ignore once GM1041 The enum value is correct
+		var _volume = __AEUIResolveVolume(_category, _currentSound, _bus);
+			
+	
+		audio_sound_gain(_currentSound.ref, _volume, 0);
+				
+			
+	}		
+}
+
+/// @param {Enum.AE_CATEGORIES} _category
+/// @param {Struct.__AESystemPlaying} _sound
+/// @param {Struct.__AEBus} [_busParam]
+function __AEUIResolveVolume(_category, _sound, _busParam = undefined) {
+	// Feather ignore once GM1041 The enum value is correct
+	return __AEVolumeResolve(__AUDIOENGINE_PREFIX_UI, "ui", _category, _sound, _busParam);
 }

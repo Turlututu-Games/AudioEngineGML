@@ -1,31 +1,34 @@
 /// @desc Play a game sound
-/// @param {Enum.AUDIO_GAME_SOUND} _gameSoundInstance Sound key
-/// @param {Enum.AUDIO_CATEGORIES,Real} _id Id for the category or position
+/// @param {Enum.AE_GAME_SOUND} _gameSoundInstance Sound key
+/// @param {Enum.AE_CATEGORIES,Real} _id Id for the category or position
 /// @param {Real} _x
 /// @param {Real} _y
 /// @param {Real} _z
 /// @param {Real} _volumeOffset
 /// @param {Real} _pitchOffset
 /// @param {Array<Struct.AudioEffect>} _effects
-/// @return {Struct.__AESystemPlaying} Sound reference
+/// @return {Struct.__AESystemPlaying,Undefined} Sound reference
 function __AEGamePlay(_gameSoundInstance, _id, _x, _y, _z, _volumeOffset, _pitchOffset, _effects) {
 	static _system = __AudioEngineSystem();
 	
+	// Feather ignore once GM1041 The enum value is correct
 	var _newSound = __AEGameLibraryGetSound(_gameSoundInstance);
 	
 	if(!_newSound) {
 		// The sound does not exists! Log it
-		show_debug_message("Invalid game sound id: {0}", _gameSoundInstance);
+		// Feather ignore once GM1019 Ignore invalid type error
+		__AELogError($"Invalid game sound id: {_gameSoundInstance}");
 		return;	
 	}	
 	
-	var _busName = $"{__AUDIOENGINE_PREFIX_STATIC_GAME}-{_id}";
+	var _busType = __AUDIOENGINE_PREFIX_STATIC_GAME;
 	
 	if(_newSound.spatialized) {
-		_busName = $"{__AUDIOENGINE_PREFIX_SPATIALIZED_GAME}-{_id}"
+		_busType = __AUDIOENGINE_PREFIX_SPATIALIZED_GAME
 	} 
 	
-	var _bus = __AEBusGet(_busName);
+	var _busName = $"{_busType}-{_id}"
+	var _bus = __AEBusGet(_busType, _id);
 	
 	if(_newSound.spatialized) {
 		audio_emitter_position(_bus.emitter, _x, _y, _z);
@@ -57,9 +60,12 @@ function __AEGamePlayMulti(_volumeOffset, _pitchOffset, _newSound, _bus, _prefix
 	var _selectedAsset = _newSound.assets[_index];
 	var _sound = __AEStreamReturnAsset(_selectedAsset);
 		
-	var _ref = __AEGamePlaySound(_sound, _bus, _newSound.loop, _newSound.volume, _newSound.pitch, _newSound.volumeVariance, _newSound.pitchVariance, _volumeOffset, _pitchOffset, _newSound.priority);
+	// Feather ignore once GM1041 The enum value is correct		
+	var _volume = __AEGameResolveVolume(_bus.category, _newSound, _bus)		
+		
+	var _ref = __AEGamePlaySound(_sound, _bus, _newSound.loop, _volume, _newSound.pitch, _newSound.volumeVariance, _newSound.pitchVariance, _volumeOffset, _pitchOffset, _newSound.priority);
 
-	var _playing = new __AESystemPlaying(_selectedAsset.asset, _ref, _prefix, _newSound.spatialized);
+	var _playing = new __AESystemPlaying(_selectedAsset.asset, _ref, _prefix, _newSound.spatialized, _newSound.volume);
 
 	array_push(_system.playing, _playing);
 	
@@ -79,10 +85,13 @@ function __AEGamePlaySingle(_volumeOffset, _pitchOffset, _newSound, _bus, _prefi
 	static _system = __AudioEngineSystem();
 			
 	var _sound = __AEStreamReturnAsset(_newSound);
+	
+	// Feather ignore once GM1041 The enum value is correct
+	var _volume = __AEGameResolveVolume(_bus.category, _newSound, _bus)		
 		
-	var _ref = __AEGamePlaySound(_sound, _bus, _newSound.loop, _newSound.volume, _newSound.pitch, _newSound.volumeVariance, _newSound.pitchVariance, _volumeOffset, _pitchOffset, _newSound.priority);
+	var _ref = __AEGamePlaySound(_sound, _bus, _newSound.loop, _volume, _newSound.pitch, _newSound.volumeVariance, _newSound.pitchVariance, _volumeOffset, _pitchOffset, _newSound.priority);
 
-	var _playing = new __AESystemPlaying(_newSound.asset, _ref, _prefix, _newSound.spatialized);
+	var _playing = new __AESystemPlaying(_newSound.asset, _ref, _prefix, _newSound.spatialized, _newSound.volume);
 
 	array_push(_system.playing, _playing);
 
@@ -137,10 +146,77 @@ function __AEGamePositionFound(_sound, _x, _y, _z) {
 }
 
 /// @desc Get a game sound library item
-/// @param {Enum.AUDIO_GAME_SOUND} _gameSoundInstance
+/// @param {Enum.AE_GAME_SOUND} _gameSoundInstance
 /// @return {Struct.__AESystemLibrarySound,Struct.__AESystemLibrarySoundArray}
 function __AEGameLibraryGetSound(_gameSoundInstance) {
 	static _system = __AudioEngineSystem();
 	
+	// Feather ignore once GM1045
 	return _system.library.game[$ _gameSoundInstance];
+}
+
+/// @param {Enum.AE_CATEGORIES} _category
+/// @param {Struct.__AEBus} _bus
+function __AEGameUpdateStaticVolume(_category, _bus) {	
+	// Feather ignore once GM1041 The enum value is correct
+	var _filtered = __AESystemFilterSoundByTypeAndCategory(__AUDIOENGINE_PREFIX_STATIC_GAME, _category);
+	
+	
+	for(var _i = 0; _i < array_length(_filtered); _i++) {
+		var _currentSound = _filtered[_i];
+		// Feather ignore once GM1041 The enum value is correct
+		var _volume = __AEGameResolveStaticVolume(_category, _currentSound, _bus);
+			
+	
+		audio_sound_gain(_currentSound.ref, _volume, 0);
+				
+			
+	}		
+}
+
+/// @param {Enum.AE_CATEGORIES} _category
+/// @param {Struct.__AEBus} _bus
+function __AEGameUpdateSpatializedVolume(_category, _bus) {	
+	// Feather ignore once GM1041 The enum value is correct
+	var _filtered = __AESystemFilterSoundByTypeAndCategory(__AUDIOENGINE_PREFIX_SPATIALIZED_GAME, _category);
+	
+	
+	for(var _i = 0; _i < array_length(_filtered); _i++) {
+		var _currentSound = _filtered[_i];
+		// Feather ignore once GM1041 The enum value is correct
+		var _volume = __AEGameResolveSpatializedVolume(_category, _currentSound, _bus);
+			
+	
+		audio_sound_gain(_currentSound.ref, _volume, 0);
+				
+			
+	}		
+}
+
+/// @param {Enum.AE_CATEGORIES} _category
+/// @param {Struct.__AESystemPlaying} _sound
+/// @param {Struct.__AEBus} [_busParam]
+function __AEGameResolveStaticVolume(_category, _sound, _busParam = undefined) {
+	// Feather ignore once GM1041 The enum value is correct
+	return __AEVolumeResolve(__AUDIOENGINE_PREFIX_STATIC_GAME, "game", _category, _sound, _busParam);
+}
+
+/// @param {Enum.AE_CATEGORIES} _category
+/// @param {Struct.__AESystemPlaying} _sound
+/// @param {Struct.__AEBus} [_busParam]
+function __AEGameResolveSpatializedVolume(_category, _sound, _busParam = undefined) {
+	// Feather ignore once GM1041 The enum value is correct
+	return __AEVolumeResolve(__AUDIOENGINE_PREFIX_SPATIALIZED_GAME, "game", _category, _sound, _busParam);
+}
+
+/// @param {Enum.AE_CATEGORIES} _category
+/// @param {Struct.__AESystemPlaying} _sound
+/// @param {Struct.__AEBus} [_busParam]
+function __AEGameResolveVolume(_category, _sound, _busParam = undefined) {
+	if(_sound.spatialized) {
+		// Feather ignore once GM1041 The enum value is correct
+		return __AEGameResolveSpatializedVolume(_category, _sound, _busParam);
+	}
+	// Feather ignore once GM1041 The enum value is correct
+	return __AEGameResolveStaticVolume(_category, _sound, _busParam);
 }

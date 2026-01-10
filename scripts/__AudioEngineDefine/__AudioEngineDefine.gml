@@ -7,7 +7,7 @@ function AudioEngineDefineMusicOptions(_priority = 1, _volume = 1) constructor {
 }
 
 /// Define a single-track music
-/// @param {Enum.AUDIO_MUSIC} _musicIndex
+/// @param {Enum.AE_MUSIC} _musicIndex
 /// @param {Asset.GMSound,String} _asset
 /// @param {Struct.AudioEngineDefineMusicOptions} [_options] Options
 function AudioEngineDefineMusic(_musicIndex, _asset, _options = {}){
@@ -28,22 +28,22 @@ function AudioEngineDefineMusic(_musicIndex, _asset, _options = {}){
 }
 
 /// @param {Asset.GMSound,String} _asset
-/// @param {Enum.AUDIO_MULTITRACK_MOOD} _mood Music Mood
+/// @param {Enum.AE_MULTITRACK_MOOD} _mood Music Mood
 /// @param {Real} _volume Initial volume
-function AudioEngineDefineTrack(_asset, _mood = 0, _volume = 1) constructor {
+function AudioEngineDefineTrack(_asset, _mood, _volume = 1) constructor {
 	asset = _asset;
 	mood = _mood;
 	volume = _volume;
 }
 
 /// Options for a multi-track music
-/// @param {Real} _priority Sound Priority
+/// @param {Real} [_priority] Sound Priority
 function AudioEngineDefineMultiTrackOptions(_priority = 1) constructor {
 	priority = _priority;
 }
 
 /// Define a multi-track music
-/// @param {Enum.AUDIO_MUSIC} _musicIndex
+/// @param {Enum.AE_MUSIC} _musicIndex
 /// @param {Array<Struct.AudioEngineDefineTrack>} _tracks
 /// @param {Struct.AudioEngineDefineMultiTrackOptions} [_options] Options
 function AudioEngineDefineMultiTrackMusic(_musicIndex, _tracks, _options = {}){
@@ -57,10 +57,9 @@ function AudioEngineDefineMultiTrackMusic(_musicIndex, _tracks, _options = {}){
 		for(var _i = 0; _i < array_length(_tracks); _i++) {
 			var _track = _tracks[_i];
 			
-			var _newMusicTrack = new __AESystemLibraryMusicTrack();
-			_newMusicTrack.asset = _track.asset;
+			// Feather ignore once GM1041
+			var _newMusicTrack = new __AESystemLibraryMusicTrack(_track.asset, _track.mood);
 			_newMusicTrack.isStream = is_string(_track.asset);
-			_newMusicTrack.mood = _track.mood;
 			_newMusicTrack.volume = _track.volume;
 			
 			
@@ -91,7 +90,7 @@ function AudioEngineDefineUISoundOptions(_priority = 1, _volume = 1, _volumeVari
 }
 
 /// Define a UI sound
-/// @param {Enum.AUDIO_UI_SOUND} _uiSoundIndex
+/// @param {Enum.AE_UI_SOUND} _uiSoundIndex
 /// @param {Asset.GMSound|String} _asset
 /// @param {Struct.AudioEngineDefineUISoundOptions} [_options] Options
 function AudioEngineDefineUISound(_uiSoundIndex, _asset, _options = {}){
@@ -116,10 +115,10 @@ function AudioEngineDefineUISound(_uiSoundIndex, _asset, _options = {}){
 }
 
 /// Define a UI sound
-/// @param {Enum.AUDIO_UI_SOUND} _uiSoundIndex
-/// @param {Array<Asset.GMSound,String>} _assets
+/// @param {Enum.AE_UI_SOUND} _uiSoundIndex
+/// @param {Array<Asset.GMSound>,Array<String>} _assets
 /// @param {Struct.AudioEngineDefineUISoundOptions} [_options] Options
-function AudioEngineDefineUISoundArray(_uiSoundIndex, _assets, _options = {}){
+function AudioEngineDefineUISoundArray(_uiSoundIndex, _assets, _options = {}) {
 	
 	static _system = __AudioEngineSystem();
 	static _defaultOptions = new AudioEngineDefineUISoundOptions();
@@ -171,10 +170,10 @@ function AudioEngineDefineGameSoundOptions(_loop = false, _cleanOnRoomEnd = true
 }
 
 /// Define a Game sound
-/// @param {Enum.AUDIO_UI_SOUND} _uiSoundIndex
+/// @param {Enum.AE_GAME_SOUND} _gameSoundIndex
 /// @param {Asset.GMSound|String} _asset
 /// @param {Struct.AudioEngineDefineGameSoundOptions} [_options] Options
-function AudioEngineDefineGameSound(_uiSoundIndex, _asset, _options = {}){
+function AudioEngineDefineGameSound(_gameSoundIndex, _asset, _options = {}){
 	
 	static _system = __AudioEngineSystem();
 	static _defaultOptions = new AudioEngineDefineGameSoundOptions();
@@ -193,15 +192,15 @@ function AudioEngineDefineGameSound(_uiSoundIndex, _asset, _options = {}){
 		_newGameSound.spatialized = _options[$ "spatialized"] ?? _defaultOptions.spatialized;
 		_newGameSound.loop = _options[$ "loop"] ?? _defaultOptions.loop;
 		
-		library.game[$ _uiSoundIndex] = _newGameSound;
+		library.game[$ _gameSoundIndex] = _newGameSound;
 	}
 }
 
-/// Define a UI sound
-/// @param {Enum.AUDIO_UI_SOUND} _uiSoundIndex
-/// @param {Array<Asset.GMSound,String>} _assets
+/// Define a Game sound
+/// @param {Enum.AE_GAME_SOUND} _gameSoundIndex
+/// @param {Array<Asset.GMSound>,Array<String>} _assets
 /// @param {Struct.AudioEngineDefineGameSoundOptions} [_options] Options
-function AudioEngineDefineGameSoundArray(_uiSoundIndex, _assets, _options = {}){
+function AudioEngineDefineGameSoundArray(_gameSoundIndex, _assets, _options = {}){
 	
 	static _system = __AudioEngineSystem();
 	static _defaultOptions = new AudioEngineDefineGameSoundOptions();
@@ -229,6 +228,6 @@ function AudioEngineDefineGameSoundArray(_uiSoundIndex, _assets, _options = {}){
 		_newGameSoundArray.spatialized = _options[$ "spatialized"] ?? _defaultOptions.spatialized;
 		_newGameSoundArray.loop = _options[$ "loop"] ?? _defaultOptions.loop;
 		
-		library.game[$ _uiSoundIndex] = _newGameSoundArray;
+		library.game[$ _gameSoundIndex] = _newGameSoundArray;
 	}
 }

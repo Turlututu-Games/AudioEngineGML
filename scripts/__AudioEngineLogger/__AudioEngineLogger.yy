@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"__AudioEngineLogger",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"__AudioEngineLogger",
+  "parent":{
+    "name":"(System)",
+    "path":"folders/AudioEngine/(System).yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

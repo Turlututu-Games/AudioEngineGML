@@ -6,8 +6,10 @@ function AudioEngineUIStop(_ref) {
 }
 
 /// @desc Stop ui sounds from a category
-/// @param {Enum.AUDIO_CATEGORIES} [_category] Optional category. 0 by default
+/// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
+// Feather ignore once GM1045
 function AudioEngineUIStopCategory(_category = 0) {
+	// Feather ignore once GM1041 The enum value is correct
 	var _filtered = __AESystemFilterSoundByTypeAndCategory(__AUDIOENGINE_PREFIX_UI, _category);
 	
 	array_foreach(_filtered, __AEStop);

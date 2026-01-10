@@ -1,11 +1,13 @@
 var _ref = async_load[? "sound_id"];
 var _assetId = async_load[? "asset_id"];
 
-show_debug_message("asset {0} stop playing", {_assetId});
+// Feather ignore once GM1019 Ignore invalid type error
+__AELogVerbose($"asset {_assetId} stop playing");
 
 var _system = __AudioEngineSystem();
 
 var _arraySize = array_length(_system.playing);
+/// @type {Struct.__AESystemPlaying}
 var _found = undefined;
 
 for(var _i = 0; _i < _arraySize; _i++) {
@@ -23,8 +25,6 @@ if(_found == undefined) {
 	return;
 }
 
-show_debug_message({_found});
-
 var _filtered = [];
 _arraySize = array_length(_system.playing);
 
@@ -35,13 +35,9 @@ for(var _i = 0; _i < _arraySize; _i++) {
 	}
 }
 
-
-
 if(string_starts_with(_found.busName, $"{__AUDIOENGINE_PREFIX_SPATIALIZED_GAME}-")) {
 	__AEBusClear(_found.busName);
 }
-
-show_debug_message({_filtered});
 
 if(array_length(_filtered) == 0) {
 	if(is_string(_found.asset)) {

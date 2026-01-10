@@ -1,5 +1,5 @@
 /// @desc Get Current Music
-/// @param {Enum.AUDIO_CATEGORIES} _category
+/// @param {Enum.AE_CATEGORIES} _category
 /// @return {Struct.__AEMusicCurrentMusic}
 function __AEMusicGetCurrentMusic(_category) {
 	static _system = __AudioEngineSystem();
@@ -12,7 +12,7 @@ function __AEMusicGetCurrentMusic(_category) {
 }
 
 /// @desc Reset Current Music
-/// @param {Enum.AUDIO_CATEGORIES} _category
+/// @param {Enum.AE_CATEGORIES} _category
 function __AEMusicResetCurrentMusic(_category) {
 	static _system = __AudioEngineSystem();
 	
@@ -21,8 +21,9 @@ function __AEMusicResetCurrentMusic(_category) {
 }
 
 /// @desc Directly Stop Current Music
-/// @param {Enum.AUDIO_CATEGORIES} _category
+/// @param {Enum.AE_CATEGORIES} _category
 function __AEMusicStop(_category) {
+	// Feather ignore once GM1041 The enum value is correct
 	var _currentMusic = __AEMusicGetCurrentMusic(_category);
 	
 	if(_currentMusic.id != -1) {
@@ -42,7 +43,8 @@ function __AEMusicStop(_category) {
 }
 
 /// @desc Stop crossfaded sounds
-/// @param {Array<Id.Sound>} _crossfadedSounds
+/// @param {Array<Struct.__AEMusicCrossfaded>} _crossfadedSounds
+/// @return {Array<Struct.__AEMusicCrossfaded>}
 function __AEMusicStopCrossfaded(_crossfadedSounds) {
 	
 	var _unfaded = []
@@ -58,7 +60,7 @@ function __AEMusicStopCrossfaded(_crossfadedSounds) {
 		if(_volume == 0) {
 			audio_stop_sound(_sound);	
 		} else {
-			array_push(_unfaded);
+			array_push(_unfaded, _item);
 		}
 	}
 	
@@ -66,10 +68,11 @@ function __AEMusicStopCrossfaded(_crossfadedSounds) {
 }
 
 /// @desc Stop Current Music with fade-out
-/// @param {Enum.AUDIO_CATEGORIES} _category
+/// @param {Enum.AE_CATEGORIES} _category
 /// @param {Real} _fade
 function __AEMusicStopWithFade(_category, _fade) {
 		
+	// Feather ignore once GM1041
 	var _currentMusic = __AEMusicGetCurrentMusic(_category);
 
 	
@@ -81,19 +84,20 @@ function __AEMusicStopWithFade(_category, _fade) {
 					var _track = _currentMusic.tracks[_i];
 				
 					audio_sound_gain(_track.ref, 0, _fade);
-					array_push(crossfadedMusic, {ref: _track.ref, category: _category});
+					array_push(crossfadedMusic, new __AEMusicCrossfaded(_track.ref, _category));
 
 				}	
 			} else {
 				audio_sound_gain(_currentMusic.tracks[0].ref, 0, _fade);
-				array_push(crossfadedMusic, {ref: _currentMusic.tracks[0].ref, category: _category});
+				array_push(crossfadedMusic, new __AEMusicCrossfaded(_currentMusic.tracks[0].ref, _category));
 			}
 		
 			var _seconds = (_fade / 1000) * 5;
 			var _fps = game_get_speed(gamespeed_fps);
 			var _frames = _seconds * game_get_speed(gamespeed_fps);
 			
-			show_debug_message("Triggering alarm for {0} seconds (fps: {1}, frames: {2})", _seconds, _fps, _frames)
+			// Feather ignore once GM1019 Ignore invalid type error
+			__AELogVerbose($"Triggering alarm for {_seconds} seconds (fps: {_fps}, frames: {_frames})")
 			
 			// Trigger the alarm for cleanup 5s after fadeout finish
 			alarm_set(0, _seconds * game_get_speed(gamespeed_fps));
@@ -102,52 +106,69 @@ function __AEMusicStopWithFade(_category, _fade) {
 }
 
 /// @desc Play music with fade-in
-/// @param {Enum.AUDIO_MUSIC} _musicInstance
-/// @param {Enum.AUDIO_CATEGORIES} _category
+/// @param {Enum.AE_MUSIC} _musicInstance
+/// @param {Enum.AE_CATEGORIES} _category
 /// @param {Real} _fade
-/// @param {Array<Enum.AUDIO_MULTITRACK_MOOD>} _previousMoods
-function __AEMusicPlayWithFade(_musicInstance, _category, _fade, _previousMoods) {
+/// @param {Array<Enum.AE_MULTITRACK_MOOD>} _previousMoods
+/// @param {Real,Undefined} _volume
+function __AEMusicPlayWithFade(_musicInstance, _category, _fade, _previousMoods, _volume) {
 	
 	static _system = __AudioEngineSystem();
 	
+	// Feather ignore once GM1041
 	var _newMusic = __AEMusicLibraryGetSound(_musicInstance);
 		
 	if(!_newMusic) {
 		// The music does not exists! Log it
-		show_debug_message("Invalid music id: {0}", _musicInstance);
+		// Feather ignore once GM1019 Ignore invalid type error
+		__AELogError($"Invalid music id: {_musicInstance}");
 		return;	
 	}	
 	
-	var _bus = __AEBusGet($"{__AUDIOENGINE_PREFIX_MUSIC}-{_category}");			
+	var _bus = __AEBusGet(__AUDIOENGINE_PREFIX_MUSIC, _category);	
+	
+	if(_volume != undefined) {
+		_bus.volume = _volume;	
+	}
 		
 	if(_newMusic.multi) {
+		// Feather ignore once GM1041
 		__AEMusicPlayMultiTrackWithFade(_musicInstance, _category, _fade, _previousMoods, _newMusic, _bus);
 	} else {
+		// Feather ignore once GM1041
 		__AEMusicPlaySingleTrackWithFade(_musicInstance, _category, _fade, _newMusic, _bus);
 	}
 }
 
 /// @desc Play multi-track music with fade-in
-/// @param {Enum.AUDIO_MUSIC} _musicInstance
-/// @param {Enum.AUDIO_CATEGORIES} _category
+/// @param {Enum.AE_MUSIC} _musicInstance
+/// @param {Enum.AE_CATEGORIES} _category
 /// @param {Real} _fade
-/// @param {Array<Enum.AUDIO_MULTITRACK_MOOD>} _previousMoods
+/// @param {Array<Enum.AE_MULTITRACK_MOOD>} _previousMoods
 /// @param {Struct.__AESystemLibraryMusicMulti} _newMusic
 /// @param {Struct.__AEBus} _bus
 function __AEMusicPlayMultiTrackWithFade(_musicInstance, _category, _fade, _previousMoods, _newMusic, _bus) {
 	static _system = __AudioEngineSystem();
 	
-	var _currentMusic = new __AEMusicCurrentMusic(_musicInstance, [], true, _previousMoods);		
+	// Feather ignore once GM1041
+	var _currentMusic = new __AEMusicCurrentMusic(_musicInstance, [], true, _previousMoods);	
+	
+	
+	
 			
 	for(var _i = 0; _i < array_length(_newMusic.assets); _i++) {
 		var _music = _newMusic.assets[_i];
+		
+		// Feather ignore once GM1041
+		var _volume = __AEMusicResolveVolume(_category, _music, _bus)
 				
 		var _musicAsset = __AEStreamReturnAsset(_music);
-
+		
 		var _ref = audio_play_sound_on(_bus.emitter, _musicAsset, true, _newMusic.priority);
 			
-		array_push(_system.playing, new __AESystemPlaying(_music.asset, _ref, __AUDIOENGINE_PREFIX_MUSIC));
+		array_push(_system.playing, new __AESystemPlaying(_music.asset, _ref, $"{__AUDIOENGINE_PREFIX_MUSIC}-{_category}", false, _music.volume));
 			
+		// Feather ignore once GM1041 The enum value is correct			
 		array_push(_currentMusic.tracks, new __AEMusicCurrentMusicTrack(_musicAsset, _music.isStream, _music.mood, _music.volume, _ref) );
 
 		if(array_get_index(_currentMusic.moods, _music.mood) == -1) {
@@ -156,9 +177,9 @@ function __AEMusicPlayMultiTrackWithFade(_musicInstance, _category, _fade, _prev
 			if(_fade > 0) {
 				// Immediate start at volume 0 then go to wanted volume on fade time
 				audio_sound_gain(_ref, 0, 0);
-				audio_sound_gain(_ref, _music.volume, _fade);				
+				audio_sound_gain(_ref, _volume, _fade);				
 			} else {
-				audio_sound_gain(_ref, _music.volume, 0);	
+				audio_sound_gain(_ref, _volume, 0);	
 			}
 		}
 	}
@@ -167,8 +188,8 @@ function __AEMusicPlayMultiTrackWithFade(_musicInstance, _category, _fade, _prev
 }
 
 /// @desc Play single-track music with fade-in
-/// @param {Enum.AUDIO_MUSIC} _musicInstance
-/// @param {Enum.AUDIO_CATEGORIES} _category
+/// @param {Enum.AE_MUSIC} _musicInstance
+/// @param {Enum.AE_CATEGORIES} _category
 /// @param {Real} _fade
 /// @param {Struct.__AESystemLibraryMusicSingle} _newMusic
 /// @param {Struct.__AEBus} _bus
@@ -179,16 +200,21 @@ function __AEMusicPlaySingleTrackWithFade(_musicInstance, _category, _fade, _new
 
 	var _ref = audio_play_sound_on(_bus.emitter, _music, true, _newMusic.priority);
 		
+	// Feather ignore once GM1041
+	var _volume = __AEMusicResolveVolume(_category, _newMusic, _bus)
+			
 	if(_fade > 0) {
 		audio_sound_gain(_ref, 0, 0);
-		audio_sound_gain(_ref, _newMusic.volume, _fade);
+		audio_sound_gain(_ref, _volume, _fade);
 	} else {
-		audio_sound_gain(_ref, _newMusic.volume, 0);
+		audio_sound_gain(_ref, _volume, 0);
 	}
 		
-	array_push(_system.playing, new __AESystemPlaying(_newMusic.asset, _ref, __AUDIOENGINE_PREFIX_MUSIC));
+	array_push(_system.playing, new __AESystemPlaying(_newMusic.asset, _ref, $"{__AUDIOENGINE_PREFIX_MUSIC}-{_category}", false, _newMusic.volume));
 			
+	// Feather ignore once GM1041
 	var _currentMusic = new __AEMusicCurrentMusic(_musicInstance);
+	// Feather ignore once GM1041
 	_currentMusic.tracks = [new __AEMusicCurrentMusicTrack(_music, _newMusic.isStream, 0, _newMusic.volume, _ref)];
 	_currentMusic.multi = false;
 			
@@ -200,9 +226,10 @@ function __AEMusicPlaySingleTrackWithFade(_musicInstance, _category, _fade, _new
 /// @desc Current Music Track
 /// @param {Asset.GMSound,String} _asset
 /// @param {Bool} _isStream
-/// @param {Enum.AUDIO_MULTITRACK_MOOD} _mood
+/// @param {Enum.AE_MULTITRACK_MOOD} _mood
 /// @param {Real} _volume
 /// @param {Id.Sound} _ref
+// Feather ignore once GM1045
 function __AEMusicCurrentMusicTrack(_asset = noone, _isStream = false, _mood = 0, _volume = 1, _ref = noone) constructor {
 	asset = _asset;
 	isStream = _isStream;
@@ -212,15 +239,18 @@ function __AEMusicCurrentMusicTrack(_asset = noone, _isStream = false, _mood = 0
 }
 
 /// @desc Current Music
-/// @param {Enum.AUDIO_MUSIC} _id
+/// @param {Enum.AE_MUSIC} _id
 /// @param {Array<Struct.__AEMusicCurrentMusicTrack>} _tracks
 /// @param {Bool} _multi
-/// @param {Array<Enum.AUDIO_MULTITRACK_MOOD>} _moods
-function __AEMusicCurrentMusic(_id = -1, _tracks = [], _multi = false, _moods = [0]) constructor {
+/// @param {Array<Enum.AE_MULTITRACK_MOOD>} _moods
+/// @param {Real} _volume
+// Feather ignore once GM1045
+function __AEMusicCurrentMusic(_id = -1, _tracks = [], _multi = false, _moods = [0], _volume = 1) constructor {
 	id = _id;
 	tracks = _tracks
 	multi = _multi;	
 	moods = _moods;
+	volume = _volume;
 	
 	// Ensure mood 0 is set if moods are empty
 	if(array_length(moods) == 0) {
@@ -229,10 +259,48 @@ function __AEMusicCurrentMusic(_id = -1, _tracks = [], _multi = false, _moods = 
 }
 
 /// @desc Get a music library item
-/// @param {Enum.AUDIO_MUSIC} _musicInstance
+/// @param {Enum.AE_MUSIC} _musicInstance
 /// @return {Struct.__AESystemLibraryMusicSingle,Struct.__AESystemLibraryMusicMulti}
 function __AEMusicLibraryGetSound(_musicInstance) {
 	static _system = __AudioEngineSystem();
 	
+	// Feather ignore once GM1045
 	return _system.library.music[$ _musicInstance];
+}
+
+/// @desc Crossfaded sound reference
+/// @param {Id.Sound} _ref
+/// @param {String} _category
+function __AEMusicCrossfaded(_ref, _category) constructor {
+	ref = _ref
+	category = _category
+}
+
+/// @param {Enum.AE_CATEGORIES} _category
+/// @param {Struct.__AEBus} _bus
+function __AEMusicUpdateVolume(_category, _bus) {	
+	// Feather ignore once GM1041
+	var _currentMusic = __AEMusicGetCurrentMusic(_category);
+	
+	
+	for(var _i = 0; _i < array_length(_currentMusic.tracks); _i++) {
+		var _track = _currentMusic.tracks[_i];
+		// Feather ignore once GM1041
+		var _volume = __AEMusicResolveVolume(_category, _track, _bus);
+			
+		if(array_get_index(_currentMusic.moods, _track.mood) == -1) {
+			audio_sound_gain(_track.ref, 0, 0);
+		} else {
+			audio_sound_gain(_track.ref, _volume, 0);
+		}			
+			
+	}		
+}
+
+/// @param {Enum.AE_CATEGORIES} _category
+/// @param {Struct.__AEMusicCurrentMusicTrack} _music
+/// @param {Struct.__AEBus} [_busParam]
+function __AEMusicResolveVolume(_category, _music, _busParam = undefined) {
+	// Feather ignore once GM1041
+	return __AEVolumeResolve(__AUDIOENGINE_PREFIX_MUSIC, "music", _category, _music, _busParam);
 }
