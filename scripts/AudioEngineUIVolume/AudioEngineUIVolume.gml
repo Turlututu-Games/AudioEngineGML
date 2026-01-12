@@ -6,7 +6,7 @@ function AudioEngineUISetVolume(_newVolume) {
 	
 	var _busArray = __AEBusGetAll(__AUDIOENGINE_PREFIX_UI);
 
-	_system.volumes.ui = _newVolume;
+	_system.volumes.ui = clamp(_newVolume, 0, 1);
 	
 	for(var _i = 0; _i < array_length(_busArray); _i++) {
 		var _bus = _busArray[_i];

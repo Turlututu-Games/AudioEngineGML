@@ -41,8 +41,10 @@ function __AEVolumeUpdate(_type, _volumeType, _category, _newVolume) {
 	var _bus = __AEBusGet(_type, _category);	
 	var _busName = $"{_type}-{_category}"
 
-	_bus.volume = _newVolume;		
-	_system.defaultBusVolumes[$ _busName] = _newVolume;
+	var _clampVolume = clamp(_newVolume, 0, 1);
+
+	_bus.volume = _clampVolume;		
+	_system.defaultBusVolumes[$ _busName] = _clampVolume;
 
 	return _bus;
 }

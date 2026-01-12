@@ -9,7 +9,7 @@ function AudioEngineGameSetVolume(_newVolume) {
 	
 
 
-	_system.volumes.game = _newVolume;
+	_system.volumes.game = clamp(_newVolume, 0, 1);
 	
 	for(var _i = 0; _i < array_length(_busStaticArray); _i++) {
 		var _bus = _busStaticArray[_i];
@@ -38,7 +38,7 @@ function AudioEngineGameSetSpatializedVolume(_newVolume) {
 	for(var _i = 0; _i < array_length(_busArray); _i++) {
 		var _bus = _busArray[_i];
 		
-		_bus.volume = _newVolume;
+		_bus.volume = clamp(_newVolume, 0, 1);
 		
 		// Feather ignore once GM1041 The enum value is correct
 		__AEGameUpdateSpatializedVolume(_bus.category, _bus);
