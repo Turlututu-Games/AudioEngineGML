@@ -1,5 +1,6 @@
-- Manage global volumes
-- Manage per-categories volumes
 - Add Auto-Tracking object
-- Add Auto-Cleaning on room_end
-- Add basic logging system with integration of popular librairies ?
+- Effects helper
+- Control parameters:
+  - Effects
+  - __AudioEngineConfig (track)
+  - __AudioEngineConfig (options)
