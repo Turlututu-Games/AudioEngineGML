@@ -1,0 +1,6 @@
+[
+    {"rules": {
+        "function-params": "warning",
+        "missing-enum-value": "off"
+    }}
+]
