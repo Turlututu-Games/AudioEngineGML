@@ -22,42 +22,42 @@ dbg_slider(ref_create(self, "musicMainVolume"), 0, 1, "Music Main Volume", 0.1);
 dbg_slider(ref_create(self, "musicSecondaryVolume"), 0, 1, "Music Secondary Volume", 0.1);
 
 dbg_button("[ ]", function() {
-    AudioEngineMusicStop(AE_CATEGORIES.MAIN, oExample.getCrossfade());
+    AudioEngineMusicStop(AE_CATEGORIES_MAIN, oExample.getCrossfade());
 }, 40);
 dbg_same_line();
 dbg_button(">", function() {
-    AudioEngineMusicPlay(musicIndex, AE_CATEGORIES.MAIN, oExample.musicMainVolume, oExample.getCrossfade());
+    AudioEngineMusicPlay(musicIndex, AE_CATEGORIES_MAIN, oExample.musicMainVolume, oExample.getCrossfade());
 }, 40);
 dbg_same_line();
 dbg_button("||", function() {
-    AudioEngineMusicPause(AE_CATEGORIES.MAIN);
+    AudioEngineMusicPause(AE_CATEGORIES_MAIN);
 }, 40);
 dbg_same_line();
 dbg_button(">||", function() {
-    AudioEngineMusicResume(AE_CATEGORIES.MAIN);
+    AudioEngineMusicResume(AE_CATEGORIES_MAIN);
 }, 40);
 
 dbg_button("Mood : Cute", function() {
-    AudioEngineMusicMoodSet(AE_MULTITRACK_MOOD.CUTE, AE_CATEGORIES.MAIN, oExample.getCrossfade());
+    AudioEngineMusicMoodSet(AE_MULTITRACK_MOOD_CUTE, AE_CATEGORIES_MAIN, oExample.getCrossfade());
 });
 dbg_same_line();
 dbg_button("Mood : Festive", function() {
-    AudioEngineMusicMoodSet(AE_MULTITRACK_MOOD.FESTIVE, AE_CATEGORIES.MAIN, oExample.getCrossfade());
+    AudioEngineMusicMoodSet(AE_MULTITRACK_MOOD_FESTIVE, AE_CATEGORIES_MAIN, oExample.getCrossfade());
 });
 dbg_same_line();
 dbg_button("Mood : Silly", function() {
-    AudioEngineMusicMoodSet(AE_MULTITRACK_MOOD.SILLY, AE_CATEGORIES.MAIN, oExample.getCrossfade());
+    AudioEngineMusicMoodSet(AE_MULTITRACK_MOOD_SILLY, AE_CATEGORIES_MAIN, oExample.getCrossfade());
 });
 
 dbg_text("River (Secondary channel)");
 dbg_button(">", function() {
 
-    AudioEngineMusicPlay(AE_MUSIC.RIVER_SOUNDSCAPE, AE_CATEGORIES.ALTERNATE, oExample.musicSecondaryVolume);
+    AudioEngineMusicPlay(AE_MUSIC_RIVER_SOUNDSCAPE, AE_CATEGORIES_ALTERNATE, oExample.musicSecondaryVolume);
 
 });
 dbg_same_line();
 dbg_button("[ ]", function() {
-    AudioEngineMusicStop(AE_CATEGORIES.ALTERNATE);
+    AudioEngineMusicStop(AE_CATEGORIES_ALTERNATE);
 });
 
 dbg_watch(ref_create(self, "debugMusicPlayed"), "Music Played");
@@ -74,23 +74,23 @@ dbg_slider(ref_create(self, "uiMainVolume"), 0, 1, "UI Main Volume", 0.1);
 dbg_slider(ref_create(self, "uiSecondaryVolume"), 0, 1, "UI Secondary Volume", 0.1);
 
 dbg_button("Play 'Click'", function() {
-    AudioEngineUIPlay(AE_UI_SOUND.CLICK, AE_CATEGORIES.MAIN, oExample.uiVolumeOffset, oExample.uiPitchOffset);
+    AudioEngineUIPlay(AE_UI_SOUND_CLICK, AE_CATEGORIES_MAIN, oExample.uiVolumeOffset, oExample.uiPitchOffset);
 });
 
 dbg_button("Play 'Attack' (random 8)", function() {
-    AudioEngineUIPlay(AE_UI_SOUND.ATTACK, AE_CATEGORIES.MAIN, oExample.uiVolumeOffset, oExample.uiPitchOffset);
+    AudioEngineUIPlay(AE_UI_SOUND_ATTACK, AE_CATEGORIES_MAIN, oExample.uiVolumeOffset, oExample.uiPitchOffset);
 });
 
 dbg_button("Play 'Cough' (stream)", function() {
-    AudioEngineUIPlay(AE_UI_SOUND.COUGH, AE_CATEGORIES.MAIN, oExample.uiVolumeOffset, oExample.uiPitchOffset);
+    AudioEngineUIPlay(AE_UI_SOUND_COUGH, AE_CATEGORIES_MAIN, oExample.uiVolumeOffset, oExample.uiPitchOffset);
 });
 
 dbg_button("'Click' with pitch/volume variance", function() {
-    AudioEngineUIPlay(AE_UI_SOUND.CLICK_VARIANCE, AE_CATEGORIES.MAIN, oExample.uiVolumeOffset, oExample.uiPitchOffset);
+    AudioEngineUIPlay(AE_UI_SOUND_CLICK_VARIANCE, AE_CATEGORIES_MAIN, oExample.uiVolumeOffset, oExample.uiPitchOffset);
 });
 
 dbg_button("Play 'River'", function() {
-    AudioEngineUIPlay(AE_UI_SOUND.RIVER_SOUNDSCAPE, AE_CATEGORIES.MAIN, oExample.uiVolumeOffset, oExample.uiPitchOffset);
+    AudioEngineUIPlay(AE_UI_SOUND_RIVER_SOUNDSCAPE, AE_CATEGORIES_MAIN, oExample.uiVolumeOffset, oExample.uiPitchOffset);
 });
 #endregion
 
@@ -114,7 +114,7 @@ dbg_button(">", function() {
         AudioEngineGameStop(wiperSound);
     }
 
-    wiperSound = AudioEngineGamePlay(AE_GAME_SOUND.WIPER, AE_CATEGORIES.MAIN, oExample.gameVolumeOffset, oExample.gamePitchOffset);
+    wiperSound = AudioEngineGamePlay(AE_GAME_SOUND_WIPER, AE_CATEGORIES_MAIN, oExample.gameVolumeOffset, oExample.gamePitchOffset);
 });
 dbg_same_line();
 dbg_button("[ ]", function() {
@@ -132,7 +132,7 @@ dbg_button(">", function() {
         AudioEngineGameStop(engineSound);
     }
 
-    var _engineSound = AudioEngineGamePlayAtObject(AE_GAME_SOUND.ENGINE, oEmitterTop, 0, oExample.gameVolumeOffset, oExample.gamePitchOffset);
+    var _engineSound = AudioEngineGamePlayAtObject(AE_GAME_SOUND_ENGINE, oEmitterTop, 0, oExample.gameVolumeOffset, oExample.gamePitchOffset);
     // Check with direct ref instead of playing instance
     engineSound = _engineSound.ref;
 });
@@ -146,16 +146,16 @@ dbg_button("[ ]", function() {
 
 dbg_text("Start Engine (random 2, stream)");
 dbg_button(">", function() {
-    AudioEngineGamePlay(AE_GAME_SOUND.START_ENGINE, AE_CATEGORIES.MAIN, oExample.gameVolumeOffset, oExample.gamePitchOffset);
+    AudioEngineGamePlay(AE_GAME_SOUND_START_ENGINE, AE_CATEGORIES_MAIN, oExample.gameVolumeOffset, oExample.gamePitchOffset);
 });
 
 dbg_text("Warning (spatialized)");
 dbg_button("Left", function() {
-    AudioEngineGamePlayAt(AE_GAME_SOUND.WARNING, oEmitterLeft.x, oEmitterLeft.y, 0, oExample.gameVolumeOffset, oExample.gamePitchOffset);
+    AudioEngineGamePlayAt(AE_GAME_SOUND_WARNING, oEmitterLeft.x, oEmitterLeft.y, 0, oExample.gameVolumeOffset, oExample.gamePitchOffset);
 });
 dbg_same_line();
 dbg_button("Right", function() {
-    AudioEngineGamePlayAt(AE_GAME_SOUND.WARNING, oEmitterRight.x, oEmitterRight.y, 0, oExample.gameVolumeOffset, oExample.gamePitchOffset);
+    AudioEngineGamePlayAt(AE_GAME_SOUND_WARNING, oEmitterRight.x, oEmitterRight.y, 0, oExample.gameVolumeOffset, oExample.gamePitchOffset);
 });
 
 dbg_text("River (circling object)");
@@ -165,7 +165,7 @@ dbg_button(">", function() {
         AudioEngineGameStop(riverSound);
     }
 
-    riverSound = AudioEngineGamePlayAtObject(AE_GAME_SOUND.RIVER, oEmitterCircle, 0, oExample.gameVolumeOffset, oExample.gamePitchOffset);
+    riverSound = AudioEngineGamePlayAtObject(AE_GAME_SOUND_RIVER, oEmitterCircle, 0, oExample.gameVolumeOffset, oExample.gamePitchOffset);
 
 });
 dbg_same_line();

@@ -16,6 +16,32 @@ function AudioEngineDefineMusic(_musicIndex, _asset, _options = {}){
     static _system = __AudioEngineSystem();
     static _defaultOptions = new AudioEngineDefineMusicOptions();
 
+    if(_system.initialized) {
+         __AELogError("define function cannot be called after initialization");
+         return;
+    }
+
+    if(!__AEDefineCheckOptionsValid(_options, [
+        { name: "priority", type: OptionCheckType.Real, minValue: 0, maxValue: 100 },
+        { name: "volume", type: OptionCheckType.Real, minValue: 0, maxValue: 1 }
+    ])) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogError(_options, "is not valid");
+        return;
+    }
+
+    if(!__AEDefineCheckAssetValid(_asset)) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogError(_asset, "is not valid");
+        return;
+    }
+
+    if(!__AEDefineCheckIdValid(_musicIndex)) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogError(_musicIndex, "is not valid");
+        return;
+    }
+
     with(_system) {
         var _newMusicSingle = new __AESystemLibraryMusicSingle();
 
@@ -53,11 +79,48 @@ function AudioEngineDefineMultiTrackMusic(_musicIndex, _tracks, _options = {}){
     static _system = __AudioEngineSystem();
     static _defaultOptions = new AudioEngineDefineMultiTrackOptions();
 
+    if(_system.initialized) {
+         __AELogError("define function cannot be called after initialization");
+         return;
+    }
+
+    if(!__AEDefineCheckOptionsValid(_options, [
+        { name: "priority", type: OptionCheckType.Real, minValue: 0, maxValue: 100 }
+    ])) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogError(_options, "is not valid");
+        return;
+    }
+
+    if(!__AEDefineCheckIdValid(_musicIndex)) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogError(_musicIndex, "is not valid");
+        return;
+    }
+
     with(_system) {
 
         var _assets = [];
         for(var _i = 0; _i < array_length(_tracks); _i++) {
             var _track = _tracks[_i];
+
+            if(!__AEDefineCheckAssetValid(_track.asset)) {
+                // Feather ignore once GM1019 Ignore invalid type error
+                __AELogError(_track.asset, "is not valid");
+                continue;
+            }
+
+            if(!__AEDefineCheckIdValid(_track.mood)) {
+                // Feather ignore once GM1019 Ignore invalid type error
+                __AELogError(_track.mood, "is not valid");
+                continue;
+            }
+
+            if(!__AEDefineCheckVolumeValid(_track.volume)) {
+                // Feather ignore once GM1019 Ignore invalid type error
+                __AELogError(_track.volume, "is not valid");
+                continue;
+            }
 
             // Feather ignore once GM1041
             var _newMusicTrack = new __AESystemLibraryMusicTrack(_track.asset, _track.mood);
@@ -99,6 +162,35 @@ function AudioEngineDefineUISound(_uiSoundIndex, _asset, _options = {}){
     static _system = __AudioEngineSystem();
     static _defaultOptions = new AudioEngineDefineUISoundOptions();
 
+    if(_system.initialized) {
+         __AELogError("define function cannot be called after initialization");
+         return;
+    }
+
+    if(!__AEDefineCheckOptionsValid(_options, [
+        { name: "priority", type: OptionCheckType.Real, minValue: 0, maxValue: 100 },
+        { name: "volume", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
+        { name: "volumeVariance", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
+        { name: "pitch", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
+        { name: "pitchVariance", type: OptionCheckType.Real, minValue: 0, maxValue: 1 }
+    ])) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogError(_options, "is not valid");
+        return;
+    }
+
+    if(!__AEDefineCheckAssetValid(_asset)) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogError(_asset, "is not valid");
+        return;
+    }
+
+    if(!__AEDefineCheckIdValid(_uiSoundIndex)) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogError(_uiSoundIndex, "is not valid");
+        return;
+    }
+
     with(_system) {
 
         var _newUISound = new __AESystemLibrarySound();
@@ -124,11 +216,41 @@ function AudioEngineDefineUISoundArray(_uiSoundIndex, _assets, _options = {}) {
     static _system = __AudioEngineSystem();
     static _defaultOptions = new AudioEngineDefineUISoundOptions();
 
+    if(_system.initialized) {
+         __AELogError("define function cannot be called after initialization");
+         return;
+    }
+
+    if(!__AEDefineCheckOptionsValid(_options, [
+        { name: "priority", type: OptionCheckType.Real, minValue: 0, maxValue: 100 },
+        { name: "volume", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
+        { name: "volumeVariance", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
+        { name: "pitch", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
+        { name: "pitchVariance", type: OptionCheckType.Real, minValue: 0, maxValue: 1 }
+    ])) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogError(_options, "is not valid");
+        return;
+    }
+
+    if(!__AEDefineCheckIdValid(_uiSoundIndex)) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogError(_uiSoundIndex, "is not valid");
+        return;
+    }
+
     with(_system) {
 
         var _assetsList = [];
         for(var _i = 0; _i < array_length(_assets); _i++) {
             var _asset = _assets[_i];
+
+            if(!__AEDefineCheckAssetValid(_asset)) {
+                // Feather ignore once GM1019 Ignore invalid type error
+                __AELogError(_asset, "is not valid");
+                continue;
+            }
+
             var _track = new __AESystemLibrarySoundTrack();
             _track.asset = _asset;
             _track.isStream = is_string(_asset);
@@ -178,6 +300,38 @@ function AudioEngineDefineGameSound(_gameSoundIndex, _asset, _options = {}){
     static _system = __AudioEngineSystem();
     static _defaultOptions = new AudioEngineDefineGameSoundOptions();
 
+    if(_system.initialized) {
+         __AELogError("define function cannot be called after initialization");
+         return;
+    }
+
+    if(!__AEDefineCheckOptionsValid(_options, [
+        { name: "priority", type: OptionCheckType.Real, minValue: 0, maxValue: 100 },
+        { name: "volume", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
+        { name: "volumeVariance", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
+        { name: "pitch", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
+        { name: "pitchVariance", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
+        { name: "spatialized", type: OptionCheckType.Boolean },
+        { name: "loop", type: OptionCheckType.Boolean },
+        { name: "cleanOnRoomEnd", type: OptionCheckType.Boolean }
+    ])) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogError(_options, "is not valid");
+        return;
+    }
+
+    if(!__AEDefineCheckAssetValid(_asset)) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogError(_asset, "is not valid");
+        return;
+    }
+
+    if(!__AEDefineCheckIdValid(_gameSoundIndex)) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogError(_gameSoundIndex, "is not valid");
+        return;
+    }
+
     with(_system) {
 
         var _newGameSound = new __AESystemLibrarySound();
@@ -206,11 +360,44 @@ function AudioEngineDefineGameSoundArray(_gameSoundIndex, _assets, _options = {}
     static _system = __AudioEngineSystem();
     static _defaultOptions = new AudioEngineDefineGameSoundOptions();
 
+    if(_system.initialized) {
+         __AELogError("define function cannot be called after initialization");
+         return;
+    }
+
+    if(!__AEDefineCheckOptionsValid(_options, [
+        { name: "priority", type: OptionCheckType.Real, minValue: 0, maxValue: 100 },
+        { name: "volume", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
+        { name: "volumeVariance", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
+        { name: "pitch", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
+        { name: "pitchVariance", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
+        { name: "spatialized", type: OptionCheckType.Boolean },
+        { name: "loop", type: OptionCheckType.Boolean },
+        { name: "cleanOnRoomEnd", type: OptionCheckType.Boolean }
+    ])) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogError(_options, "is not valid");
+        return;
+    }
+
+    if(!__AEDefineCheckIdValid(_gameSoundIndex)) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogError(_gameSoundIndex, "is not valid");
+        return;
+    }
+
     with(_system) {
 
         var _assetsList = [];
         for(var _i = 0; _i < array_length(_assets); _i++) {
             var _asset = _assets[_i];
+
+            if(!__AEDefineCheckAssetValid(_asset)) {
+                // Feather ignore once GM1019 Ignore invalid type error
+                __AELogError(_asset, "is not valid");
+                continue;
+            }
+
             var _track = new __AESystemLibrarySoundTrack();
             _track.asset = _asset;
             _track.isStream = is_string(_asset);
@@ -230,5 +417,287 @@ function AudioEngineDefineGameSoundArray(_gameSoundIndex, _assets, _options = {}
         _newGameSoundArray.loop = _options[$ "loop"] ?? _defaultOptions.loop;
 
         library.game[$ _gameSoundIndex] = _newGameSoundArray;
+    }
+}
+
+enum OptionCheckType {
+    Real,
+    Boolean,
+    String
+}
+
+/// @desc Option to check
+/// @param {String} _name Name of the option
+/// @param {Enum.OptionCheckType} _type Type of the option
+/// @param {Real} [_maxValue] Maximum value (for Real type)
+/// @param {Real} [_minValue] Minimum value (for Real type)
+function __AEDefineOptionCheck(_name, _type, _maxValue, _minValue) constructor {
+    name = _name;
+    type = _type;
+    maxValue = _maxValue ?? 1;
+    minValue = _minValue ?? 0;
+}
+
+/// @desc Check if an asset is valid. Only executed in "run" mode (development)
+/// @param {Struct} _options
+/// @param {Array<Struct.__AEDefineOptionCheck>} _list
+/// @return {Bool} True if valid, false otherwise
+function __AEDefineCheckOptionsValid(_options, _list) {
+    if(GM_build_type == "exe") {
+        // No check on production
+        return true;
+    }
+
+    try {
+        var _optionsKeys = struct_get_names(_options);
+
+        var _errors = false;
+
+        for(var _i = 0; _i < array_length(_optionsKeys); _i++) {
+            var _optionKey = _optionsKeys[_i];
+            var _option = _options[$ _optionKey];
+
+            var _foundOption = __AESystemFindInArray(_list, "name", _optionKey);
+
+            if(!_foundOption) {
+                __AELogWarning(_optionKey, "is not a valid option");
+                _errors = true;
+            } else {
+
+                switch(_foundOption.type) {
+                    case OptionCheckType.Boolean:
+                        if(!is_bool(_option)) {
+                            _errors = true;
+                            __AELogWarning(_optionKey, "is not a valid boolean value");
+                        }
+                        break;
+                    case OptionCheckType.String:
+                        if(!is_string(_option)) {
+                            _errors = true;
+                            __AELogWarning(_optionKey, "is not a valid string value");
+                        }
+                        break;
+                    case OptionCheckType.Real:
+                        if(!is_real(_option)) {
+                            _errors = true;
+                            __AELogWarning(_optionKey, "is not a valid real value");
+                        }
+                        if(_option < _foundOption.minValue) {
+                            _errors = true;
+                            __AELogWarning(_optionKey, "is less than minimum value of", _foundOption.minValue);
+                        }
+                        if(_option > _foundOption.maxValue) {
+                            _errors = true;
+                            __AELogWarning(_optionKey, "is greater than maximum value of", _foundOption.maxValue);
+                        }
+                        break;
+
+                }
+
+            }
+        }
+
+        return !_errors;
+    } catch(_exception) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogWarning(_options, "Option validation failed:", _exception.message);
+
+        return false;
+    }
+}
+
+/// @desc Check if an asset is valid. Only executed in "run" mode (development)
+/// @param {Asset.GMSound,String} _asset Asset to check
+/// @return {Bool} True if valid, false otherwise
+function __AEDefineCheckAssetValid(_asset) {
+    if(GM_build_type == "exe") {
+        // No check on production
+        return true;
+    }
+
+    try {
+
+        if(is_undefined(_asset)) {
+            // Feather ignore once GM1019 Ignore invalid type error
+            __AELogWarning(_asset, "is undefined");
+            return false;
+        }
+
+        if(is_string(_asset)) {
+            // check validity of the stream asset
+            return __AEDefineCheckAssetStreamValid(_asset);
+        }
+
+        if(!is_handle(_asset)) {
+            // Feather ignore once GM1019 Ignore invalid type error
+            __AELogWarning(_asset, "is not a handle");
+            return false;
+        }
+
+        if(!audio_exists(_asset)) {
+            // Feather ignore once GM1019 Ignore invalid type error
+            __AELogWarning(_asset, "is not a audio asset");
+            return false;
+        }
+
+        if(audio_get_type(_asset) != 0) {
+
+            audio_destroy_stream(_asset);
+
+            // Feather ignore once GM1019 Ignore invalid type error
+            __AELogWarning(_asset, "is not a audio asset");
+            return false;
+        }
+
+        return true;
+    } catch(_exception) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogWarning(_asset, "Asset validation failed:", _exception.message);
+
+        return false;
+    }
+}
+
+/// @desc Check if an stream asset is valid.
+/// @param {String} _asset Path to the stream asset
+/// @return {Bool} True if valid, false otherwise
+function __AEDefineCheckAssetStreamValid(_asset) {
+
+    var _cleanupStream;
+
+    try {
+
+        if(!file_exists(_asset)) {
+            // Feather ignore once GM1019 Ignore invalid type error
+            __AELogWarning(_asset, "does not exists");
+            return false
+        }
+
+        if(!__AUDIOENGINE_DEBUG_CHECK_STREAM) {
+            return true;
+        }
+
+        _cleanupStream = audio_create_stream(_asset);
+
+        if(!is_handle(_cleanupStream)) {
+
+            audio_destroy_stream(_cleanupStream);
+
+            // Feather ignore once GM1019 Ignore invalid type error
+            __AELogWarning(_asset, "stream is not a handle");
+            return false;
+        }
+
+        if(!audio_exists(_cleanupStream)) {
+
+            audio_destroy_stream(_cleanupStream);
+
+            // Feather ignore once GM1019 Ignore invalid type error
+            __AELogWarning(_asset, "stream is not a audio asset");
+            return false;
+        }
+
+        if(audio_get_type(_cleanupStream) != 1) {
+
+            audio_destroy_stream(_cleanupStream);
+
+            // Feather ignore once GM1019 Ignore invalid type error
+            __AELogWarning(_asset, "stream is not a audio asset");
+            return false;
+        }
+
+        audio_destroy_stream(_cleanupStream);
+
+        return true;
+    } catch(_exception) {
+
+        if(_cleanupStream != undefined) {
+            audio_destroy_stream(_cleanupStream);
+        }
+
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogWarning(_asset, "Stream Asset validation failed:", _exception.message);
+
+        return false;
+    }
+}
+
+/// @desc Check if an id is valid. Only executed in "run" mode (development)
+/// @param {Real} _id Id to check
+/// @return {Bool} True if valid, false otherwise
+function __AEDefineCheckIdValid(_id) {
+    if(GM_build_type == "exe") {
+        // No check on production
+        return true;
+    }
+
+    try {
+        if(is_undefined(_id)) {
+            // Feather ignore once GM1019 Ignore invalid type error
+            __AELogWarning(_id, "is undefined");
+            return false;
+        }
+
+        if(!is_numeric(_id)) {
+            // Feather ignore once GM1019 Ignore invalid type error
+            __AELogWarning(_id, "is not a number");
+            return false;
+        }
+
+        if(_id < 0) {
+            // Feather ignore once GM1019 Ignore invalid type error
+            __AELogWarning(_id, "is negative");
+            return false;
+        }
+
+        return true
+    } catch(_exception) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogWarning(_id, "Id validation failed:", _exception.message);
+
+        return false;
+    }
+}
+
+/// @desc Check if a volume value is valid. Only executed in "run" mode (development)
+/// @param {Real} _volume Volume to check
+/// @return {Bool} True if valid, false otherwise
+function __AEDefineCheckVolumeValid(_volume) {
+    if(GM_build_type == "exe") {
+        // No check on production
+        return true;
+    }
+
+    try {
+        if(is_undefined(_volume)) {
+            // Feather ignore once GM1019 Ignore invalid type error
+            __AELogWarning(_volume, "is undefined");
+            return false;
+        }
+
+        if(!is_numeric(_volume)) {
+            // Feather ignore once GM1019 Ignore invalid type error
+            __AELogWarning(_volume, "is not a number");
+            return false;
+        }
+
+        if(_volume < 0) {
+            // Feather ignore once GM1019 Ignore invalid type error
+            __AELogWarning(_volume, "is negative");
+            return false;
+        }
+
+        if(_volume > 1) {
+            // Feather ignore once GM1019 Ignore invalid type error
+            __AELogWarning(_volume, "is greater than 1");
+            return false;
+        }
+
+        return true
+    } catch(_exception) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogWarning(_volume, "Volume validation failed:", _exception.message);
+
+        return false;
     }
 }

@@ -30,6 +30,8 @@ function __AudioEngineSystem() {
 
     __AESystemInitManager();
 
+    _system.initialized = true;
+
     return _system;
 }
 
@@ -92,6 +94,25 @@ function __AESystemFilterSoundByTypeAndCategory(_type, _category = undefined) {
     }
 
     return _filtered
+}
+
+/// @desc Find an item in an array by property value
+/// @param {Array<Struct>} _array Array to search in
+/// @param {String} _property Property name to check
+/// @param {Any} _value Value to find
+/// @return {Struct,Undefined} Found item or undefined if not found
+function __AESystemFindInArray(_array, _property, _value) {
+    var _length = array_length(_array);
+
+    for(var _i = 0; _i < _length; _i++) {
+        var _item = _array[_i];
+
+        if(_item[$ _property] == _value) {
+            return _item;
+        }
+    }
+
+    return undefined;
 }
 
 /// @desc Find a sound in the playing array
@@ -261,6 +282,8 @@ function __AESystem(_volumes = new __AESystemVolumes(), _streams = {}, _playing 
     library = _library;
     position = _position;
     playingMap = _playingMap;
+
+    initialized = false;
 
     audio_listener_position(_position.x, _position.y, _position.z);
 

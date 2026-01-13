@@ -2,7 +2,7 @@
   "$GMProject":"v1",
   "%Name":"AudioEngineGML",
   "AudioGroups":[
-    {"$GMAudioGroup":"v1","%Name":"audiogroup_default","exportDir":"","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
+    {"$GMAudioGroup":"","%Name":"audiogroup_default","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
   ],
   "configs":{
     "children":[],
@@ -25,6 +25,7 @@
   "ForcedPrefabProjectReferences":[],
   "IncludedFiles":[
     {"$GMIncludedFile":"","%Name":"Interior Birdecorator Menu_LOOP.ogg","CopyToMask":-1,"filePath":"datafiles","name":"Interior Birdecorator Menu_LOOP.ogg","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"test.md","CopyToMask":-1,"filePath":"datafiles","name":"test.md","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"Vehicle_Car_Start_Engine_Exterior_Mono.ogg","CopyToMask":-1,"filePath":"datafiles","name":"Vehicle_Car_Start_Engine_Exterior_Mono.ogg","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
     {"$GMIncludedFile":"","%Name":"Voice_Male_V1_Cough_Multiple_Mono_04.ogg","CopyToMask":-1,"filePath":"datafiles","name":"Voice_Male_V1_Cough_Multiple_Mono_04.ogg","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
   ],

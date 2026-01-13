@@ -36,7 +36,14 @@ function __AELogger(){
 /// @param {Enum.AE_LOGGER_LEVEL} _level Logger level
 /// @return {Undefined}
 function AudioEngineLoggerSetLogLevel(_level) {
- // TODO
+
+    if(!is_numeric(_level) ||  _level < 0 || _level > 3) {
+        throw ("AudioEngine Logger: Invalid Level");
+    }
+
+    static _logger = __AELogger();
+
+    _logger.level = _level;
 }
 
 /// @desc Set Logger Target
@@ -46,10 +53,21 @@ function AudioEngineLoggerSetLogLevel(_level) {
 /// @param {Function,Undefined} _verboseCallback Verbose callback
 /// @return {Undefined}
 function AudioEngineLoggerSetTarget(_target, _errorCallback, _warningCallback, _verboseCallback) {
+
+    if(!is_numeric(_target) ||  _target < 0 || _target > 4) {
+        throw ("AudioEngine Logger: Invalid Target");
+    }
+
     if(_target != AE_LOGGER_TARGET.CUSTOM &&
         (!is_undefined(_errorCallback) || !is_undefined(_warningCallback) || !is_undefined(_verboseCallback)
     )) {
         throw ("AudioEngine Logger: Custom Callback can only be used with Custom target");
+    }
+
+    if(_target == AE_LOGGER_TARGET.CUSTOM &&
+        (!is_callable(_errorCallback) || !is_callable(_warningCallback) || !is_callable(_verboseCallback)
+    )) {
+        throw ("AudioEngine Logger: Custom Callback are not callable");
     }
 
     static _logger = __AELogger();
@@ -96,7 +114,19 @@ function __AELogError(){
         return;
     }
 
-    _logger.callback.error(argument);
+    var _args = [];
+
+    var _i = 0;
+
+    repeat(argument_count)
+    {
+        array_push(_args, argument[_i]);
+        ++_i;
+    }
+
+    var _method = _logger.callback.error;
+
+    method_call(_method, _args);
 }
 
 /// @desc Log an warning message
@@ -118,7 +148,19 @@ function __AELogWarning(){
         return;
     }
 
-    _logger.callback.warning(argument);
+    var _args = [];
+
+    var _i = 0;
+
+    repeat(argument_count)
+    {
+        array_push(_args, argument[_i]);
+        ++_i;
+    }
+
+    var _method = _logger.callback.warning;
+
+    method_call(_method, _args);
 }
 
 /// @desc Log an verbose message
@@ -140,7 +182,19 @@ function __AELogVerbose(){
         return;
     }
 
-    _logger.callback.verbose(argument);
+    var _args = [];
+
+    var _i = 0;
+
+    repeat(argument_count)
+    {
+        array_push(_args, argument[_i]);
+        ++_i;
+    }
+
+    var _method = _logger.callback.verbose;
+
+    method_call(_method, _args);
 }
 
 /// @desc Internal Verbose message callback
@@ -157,6 +211,9 @@ function __AELoggerInternalVerbose() {
 
     repeat(argument_count)
     {
+        if(_i != 0) {
+            _string += " ";
+        }
         _string += string(argument[_i]);
         ++_i;
     }
@@ -178,6 +235,9 @@ function __AELoggerInternalWarning() {
 
     repeat(argument_count)
     {
+        if(_i != 0) {
+            _string += " ";
+        }
         _string += string(argument[_i]);
         ++_i;
     }
@@ -199,6 +259,9 @@ function __AELoggerInternalError() {
 
     repeat(argument_count)
     {
+        if(_i != 0) {
+            _string += " ";
+        }
         _string += string(argument[_i]);
         ++_i;
     }
@@ -241,9 +304,9 @@ function __AELoggerTargetNone(_logger) {
 /// @param {Struct.__AELoggerInstance} _logger Logger instance
 /// @return {Undefined}
 function __AELoggerTargetInternal(_logger) {
-    _logger.callback.verbose = show_debug_message;
-    _logger.callback.warning = show_debug_message;
-    _logger.callback.error = show_debug_message;
+    _logger.callback.verbose = __AELoggerInternalVerbose;
+    _logger.callback.warning = __AELoggerInternalWarning;
+    _logger.callback.error = __AELoggerInternalError;
 }
 
 /// @desc Set Snitch logging functions

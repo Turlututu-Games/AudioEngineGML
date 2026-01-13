@@ -3,32 +3,22 @@ enum AE_CATEGORIES {
     ALTERNATE
 }
 
+// Musics
 enum AE_MUSIC {
-    DECORATE,
-    EXPLORE,
-    MENU,
-    RIVER_SOUNDSCAPE,
 
 }
 
+// Moods
 enum AE_MULTITRACK_MOOD {
-    CUTE,
-    FESTIVE,
-    SILLY,
+
 }
 
+// UI sounds
 enum AE_UI_SOUND {
-    CLICK,
-    ATTACK,
-    COUGH,
-    CLICK_VARIANCE,
-    RIVER_SOUNDSCAPE,
+
 }
 
+// Game sounds
 enum AE_GAME_SOUND {
-    WIPER,
-    START_ENGINE,
-    ENGINE,
-    WARNING,
-    RIVER
+
 }
