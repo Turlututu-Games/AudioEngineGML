@@ -1,11 +1,9 @@
 
+// User Event 0
 dbg_view("AudioEngineGML Demo", true, -1, -1, 800, 600);
-
-
 
 #region General
 dbg_section("General");
-
 
 dbg_checkbox(ref_create(self, "crusherEnabled"), "Crusher Effect");
 dbg_checkbox(ref_create(self, "reverbEnabled"), "Reverb Effect");
@@ -52,15 +50,14 @@ dbg_button("Mood : Silly", function() {
 });
 
 dbg_text("River (Secondary channel)");
-dbg_button(">", function() {	
+dbg_button(">", function() {
 
-	
     AudioEngineMusicPlay(AE_MUSIC.RIVER_SOUNDSCAPE, AE_CATEGORIES.ALTERNATE, oExample.musicSecondaryVolume);
 
 });
 dbg_same_line();
 dbg_button("[ ]", function() {
-	AudioEngineMusicStop(AE_CATEGORIES.ALTERNATE);
+    AudioEngineMusicStop(AE_CATEGORIES.ALTERNATE);
 });
 
 dbg_watch(ref_create(self, "debugMusicPlayed"), "Music Played");
@@ -112,39 +109,39 @@ dbg_button("Room End", function() {
 
 dbg_text("Wiper sound (loop, no auto-clean)");
 dbg_button(">", function() {
-	if(wiperSound != undefined) {
-		// Restart sound
-		AudioEngineGameStop(wiperSound);
-	}
-	
+    if(wiperSound != undefined) {
+        // Restart sound
+        AudioEngineGameStop(wiperSound);
+    }
+
     wiperSound = AudioEngineGamePlay(AE_GAME_SOUND.WIPER, AE_CATEGORIES.MAIN, oExample.gameVolumeOffset, oExample.gamePitchOffset);
 });
 dbg_same_line();
 dbg_button("[ ]", function() {
-	if(wiperSound != undefined) {
-		AudioEngineGameStop(wiperSound);
-	}
-	wiperSound = undefined;
+    if(wiperSound != undefined) {
+        AudioEngineGameStop(wiperSound);
+    }
+    wiperSound = undefined;
 });
 
 dbg_text("Engine sound (loop, spatialized)");
 dbg_button(">", function() {
-	
-	if(engineSound != undefined) {
-		// Restart sound
-		AudioEngineGameStop(engineSound);
-	}	
-	
+
+    if(engineSound != undefined) {
+        // Restart sound
+        AudioEngineGameStop(engineSound);
+    }
+
     var _engineSound = AudioEngineGamePlayAtObject(AE_GAME_SOUND.ENGINE, oEmitterTop, 0, oExample.gameVolumeOffset, oExample.gamePitchOffset);
-	// Check with direct ref instead of playing instance
-	engineSound = _engineSound.ref;
+    // Check with direct ref instead of playing instance
+    engineSound = _engineSound.ref;
 });
 dbg_same_line();
 dbg_button("[ ]", function() {
-	if(engineSound != undefined) {
-		AudioEngineGameStop(engineSound);
-	}
-	engineSound = undefined;
+    if(engineSound != undefined) {
+        AudioEngineGameStop(engineSound);
+    }
+    engineSound = undefined;
 });
 
 dbg_text("Start Engine (random 2, stream)");
@@ -162,21 +159,21 @@ dbg_button("Right", function() {
 });
 
 dbg_text("River (circling object)");
-dbg_button(">", function() {	
-	if(riverSound != undefined) {
-		// Restart sound
-		AudioEngineGameStop(riverSound);
-	}	
-	
+dbg_button(">", function() {
+    if(riverSound != undefined) {
+        // Restart sound
+        AudioEngineGameStop(riverSound);
+    }
+
     riverSound = AudioEngineGamePlayAtObject(AE_GAME_SOUND.RIVER, oEmitterCircle, 0, oExample.gameVolumeOffset, oExample.gamePitchOffset);
 
 });
 dbg_same_line();
 dbg_button("[ ]", function() {
-	if(riverSound != undefined) {
-		AudioEngineGameStop(riverSound);
-	}
-	riverSound = undefined;
+    if(riverSound != undefined) {
+        AudioEngineGameStop(riverSound);
+    }
+    riverSound = undefined;
 });
 #endregion
 
@@ -192,6 +189,4 @@ dbg_watch(ref_create(self, "cachedStreamCount"), "Cached Stream Count");
 dbg_watch(ref_create(self, "defaultVolumes"), "Default volumes");
 dbg_watch(ref_create(self, "buses"), "Buses");
 
-
 #endregion
-

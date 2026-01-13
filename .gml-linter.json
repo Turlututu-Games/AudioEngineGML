@@ -1,6 +1,37 @@
-[
-    {"rules": {
-        "function-params": "warning",
-        "missing-enum-value": "off"
-    }}
-]
+{
+  "configs": [
+    {
+      "useRecommended": true,
+      "rules": {
+        "missing-enum-value": "off",
+        "missing-event-description": "off",
+        "no-multi-empty-lines": "warning",
+        "function-comment-params-description": "warning",
+        "function-comment-returns": "warning",
+        "function-comment-returns-description": "warning"
+      }
+    },
+    {
+      "ignores": [
+        "scripts/AudioEngineDefineEnums/AudioEngineDefineEnums.gml"
+      ],
+      "rules": {
+        "missing-enum-value": "warning"
+      }
+    },
+    {
+      "ignores": [
+        "objects/oExample",
+        "objects/oEmitter"
+      ],
+      "rules": {
+        "missing-event-description": [
+          "warning",
+          {
+            "onlyAlarmsAndEvents": false
+          }
+        ]
+      }
+    }
+  ]
+}

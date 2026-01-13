@@ -6,7 +6,7 @@ enum AE_CATEGORIES {
 enum AE_MUSIC {
     DECORATE,
     EXPLORE,
-    MENU,		
+    MENU,
     RIVER_SOUNDSCAPE,
 
 }
@@ -15,7 +15,7 @@ enum AE_MULTITRACK_MOOD {
     CUTE,
     FESTIVE,
     SILLY,
-}	
+}
 
 enum AE_UI_SOUND {
     CLICK,
@@ -31,4 +31,4 @@ enum AE_GAME_SOUND {
     ENGINE,
     WARNING,
     RIVER
-}	
+}

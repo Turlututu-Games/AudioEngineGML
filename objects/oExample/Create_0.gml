@@ -12,7 +12,7 @@ crusherEffect = audio_effect_create(AudioEffectType.Bitcrusher, {
 reverbEnabled = false;
 debugReberbPrevious = false;
 reverbEffect = audio_effect_create(AudioEffectType.Reverb1, {
-	size: 0.5, damp: 0.5, mix: 0.2
+    size: 0.5, damp: 0.5, mix: 0.2
 });
 
 // Effects Count

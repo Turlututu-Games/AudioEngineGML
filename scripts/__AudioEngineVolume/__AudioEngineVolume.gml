@@ -1,50 +1,52 @@
-/// @param {String} _type
-/// @param {String} _volumeType
-/// @param {Enum.AE_CATEGORIES} _category
-/// @param {Struct.__AESystemPlaying} _sound
-/// @param {Struct.__AEBus} [_busParam]
+/// @desc Resolve volume for a type and volume type
+/// @param {String} _type Type of bus
+/// @param {String} _volumeType Volume type
+/// @param {Enum.AE_CATEGORIES} _category Category
+/// @param {Struct.__AESystemPlaying} _sound Sound struct
+/// @param {Struct.__AEBus} [_busParam] Optional bus struct to use
 /// @return {Real} Calculated volume
 function __AEVolumeResolve(_type, _volumeType, _category, _sound, _busParam = undefined) {
-	static _system = __AudioEngineSystem();
-	var _bus = _busParam ?? __AEBusGet(_type, _category);	
-	
-	var _baseVolume = _system.volumes[$ _volumeType];
-	
-	if(__AUDIOENGINE_DEBUG_VOLUME) {
-		// Feather ignore once GM1019 Ignore invalid type error
-		__AELogVerbose("Base volume", _system.volumes[$ _volumeType]);
-		// Feather ignore once GM1019 Ignore invalid type error
-		__AELogVerbose("Category volume", _bus.volume);
-		// Feather ignore once GM1019 Ignore invalid type error
-		__AELogVerbose("Sound volume", _sound.volume);
-	}
-		
-	_baseVolume *= _bus.volume;
-	_baseVolume *= _sound.volume;	
-	
-	if(__AUDIOENGINE_DEBUG_VOLUME) {
-		// Feather ignore once GM1019 Ignore invalid type error
-		__AELogVerbose("Result volume", _baseVolume);
-	}
-	
-	return _baseVolume;
+    static _system = __AudioEngineSystem();
+    var _bus = _busParam ?? __AEBusGet(_type, _category);
+
+    var _baseVolume = _system.volumes[$ _volumeType];
+
+    if(__AUDIOENGINE_DEBUG_VOLUME) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogVerbose("Base volume", _system.volumes[$ _volumeType]);
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogVerbose("Category volume", _bus.volume);
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogVerbose("Sound volume", _sound.volume);
+    }
+
+    _baseVolume *= _bus.volume;
+    _baseVolume *= _sound.volume;
+
+    if(__AUDIOENGINE_DEBUG_VOLUME) {
+        // Feather ignore once GM1019 Ignore invalid type error
+        __AELogVerbose("Result volume", _baseVolume);
+    }
+
+    return _baseVolume;
 }
 
-/// @param {String} _type
-/// @param {String} _volumeType
-/// @param {Enum.AE_CATEGORIES} _category
-/// @param {Real} _newVolume
+/// @desc Update volume for a type and volume type
+/// @param {String} _type Type of bus
+/// @param {String} _volumeType Volume type
+/// @param {Enum.AE_CATEGORIES} _category Category
+/// @param {Real} _newVolume New volume
 /// @return {Struct.__AEBus} Updated bus
 function __AEVolumeUpdate(_type, _volumeType, _category, _newVolume) {
-	static _system = __AudioEngineSystem();
-	
-	var _bus = __AEBusGet(_type, _category);	
-	var _busName = $"{_type}-{_category}"
+    static _system = __AudioEngineSystem();
 
-	var _clampVolume = clamp(_newVolume, 0, 1);
+    var _bus = __AEBusGet(_type, _category);
+    var _busName = $"{_type}-{_category}"
 
-	_bus.volume = _clampVolume;		
-	_system.defaultBusVolumes[$ _busName] = _clampVolume;
+    var _clampVolume = clamp(_newVolume, 0, 1);
 
-	return _bus;
+    _bus.volume = _clampVolume;
+    _system.defaultBusVolumes[$ _busName] = _clampVolume;
+
+    return _bus;
 }
