@@ -1,0 +1,2 @@
+-   [Releases](https://github.com/Turlututu-Games/AudioEngineGML/releases)
+-   [Report a bug](https://github.com/Turlututu-Games/AudioEngineGML/issues)
