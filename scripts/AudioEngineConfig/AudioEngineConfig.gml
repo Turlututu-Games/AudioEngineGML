@@ -1,8 +1,18 @@
+// Crossfading length, in milliseconds
 #macro __AUDIOENGINE_MUSIC_DEFAULT_FADE  0
 
+// If true, stream will be checked on run mode
+#macro __AUDIOENGINE_DEBUG_CHECK_STREAM false
+
 /// @desc Configure AudioEngine
+/// @module Configuration
 /// @return {Undefined}
 function __AudioEngineConfig() {
+	
+	#region Logger configuration (Optional)
+	//AudioEngineLoggerSetTarget(AE_LOGGER_TARGET.SNITCH);
+	//AudioEngineLoggerSetLogLevel(AE_LOGGER_LEVEL.ERROR);
+	#endregion
 
     #region Add your music here
     // Simple music with slightly reduced volume

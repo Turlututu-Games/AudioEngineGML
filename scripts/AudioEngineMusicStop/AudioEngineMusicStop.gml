@@ -1,4 +1,5 @@
 /// @desc Stop the current music
+/// @module Music
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @param {Real} [_crossfadeTime] Optional crossfade value. Default to __AUDIOENGINE_MUSIC_DEFAULT_FADE
 /// @return {Undefined}

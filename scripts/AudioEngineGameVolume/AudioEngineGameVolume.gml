@@ -1,4 +1,5 @@
 /// @desc Set the global music volume
+/// @module Game
 /// @param {Real} _newVolume New Volume
 /// @return {Undefined}
 function AudioEngineGameSetVolume(_newVolume) {
@@ -32,6 +33,7 @@ function AudioEngineGameSetVolume(_newVolume) {
 }
 
 /// @desc Set the global music volume
+/// @module Game
 /// @param {Real} _newVolume New Volume
 /// @return {Undefined}
 function AudioEngineGameSetSpatializedVolume(_newVolume) {
@@ -59,6 +61,7 @@ function AudioEngineGameSetSpatializedVolume(_newVolume) {
 }
 
 /// @desc Set the music volume for a category
+/// @module Game
 /// @param {Real} _newVolume New Volume
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @return {Undefined}
@@ -73,6 +76,7 @@ function AudioEngineGameSetStaticVolume(_newVolume, _category = 0) {
 }
 
 /// @desc Get the music volume for a category
+/// @module Game
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @return {Real} Category volume
 // Feather ignore once GM1045

@@ -11,9 +11,6 @@
 // If true, volume calculation will be added in verbose logs
 #macro __AUDIOENGINE_DEBUG_VOLUME false
 
-// If true, stream will be checked on run mode
-#macro __AUDIOENGINE_DEBUG_CHECK_STREAM false
-
 /// @desc Get the AudioEngine System
 /// @private
 /// @return {Struct.__AESystem} AudioEngine System struct

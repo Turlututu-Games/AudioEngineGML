@@ -1,4 +1,5 @@
 /// @desc Resume the current paused music
+/// @module Music
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @return {Undefined}
 // Feather ignore once GM1045
@@ -14,6 +15,7 @@ function AudioEngineMusicResume(_category = 0) {
 }
 
 /// @desc Resume all current music
+/// @module Music
 /// @return {Undefined}
 function AudioEngineMusicResumeAll() {
 

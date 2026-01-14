@@ -1,4 +1,5 @@
-/// @desc Change the position of an emetter
+/// @desc Change the position of an emitter
+/// @module Game
 /// @param {Id.Sound,Struct.__AESystemPlaying} _ref Sound reference
 /// @param {Real} _x X position
 /// @param {Real} _y Y position
@@ -17,7 +18,8 @@ function AudioEngineGamePosition(_ref, _x, _y, _z = 0){
     }
 }
 
-/// @desc Change the position of an emetter to match an object
+/// @desc Change the position of an emitter to match an object
+/// @module Game
 /// @param {Id.Sound,Struct.__AESystemPlaying} _ref Sound reference
 /// @param {Id.Instance,Asset.GMObject} _instance Object instance used to get the position
 /// @param {Real} [_z] Z position. Default to 0

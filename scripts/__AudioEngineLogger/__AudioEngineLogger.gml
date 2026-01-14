@@ -35,6 +35,8 @@ function __AELogger(){
 #region Public Functions
 
 /// @desc Set Logger Level
+/// @module Configuration
+/// @example AudioEngineLoggerSetLogLevel(AE_LOGGER_LEVEL.ERROR);
 /// @param {Enum.AE_LOGGER_LEVEL} _level Logger level
 /// @return {Undefined}
 function AudioEngineLoggerSetLogLevel(_level) {
@@ -49,6 +51,8 @@ function AudioEngineLoggerSetLogLevel(_level) {
 }
 
 /// @desc Set Logger Target
+/// @module Configuration
+/// @example AudioEngineLoggerSetTarget(AE_LOGGER_TARGET.SNITCH);
 /// @param {Enum.AE_LOGGER_TARGET} _target Logger target
 /// @param {Function,Undefined} _errorCallback Error callback
 /// @param {Function,Undefined} _warningCallback Warning callback

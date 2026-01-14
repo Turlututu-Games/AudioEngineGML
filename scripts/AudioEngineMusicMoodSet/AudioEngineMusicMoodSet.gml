@@ -1,4 +1,5 @@
 /// @desc Set the moods for the current multi-track music
+/// @module Music
 /// @param {Enum.AE_MULTITRACK_MOOD,Array<Enum.AE_MULTITRACK_MOOD>} _mood New mood. Can be an array to play multiple mood track on the same time
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @param {Real} [_crossfadeTime] Optional crossfade value. Default to __AUDIOENGINE_MUSIC_DEFAULT_FADE

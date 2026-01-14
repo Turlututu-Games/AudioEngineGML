@@ -1,4 +1,5 @@
 /// @desc Set the global music volume
+/// @module UI
 /// @param {Real} _newVolume New Volume
 /// @return {Undefined}
 function AudioEngineUISetVolume(_newVolume) {
@@ -19,6 +20,7 @@ function AudioEngineUISetVolume(_newVolume) {
 }
 
 /// @desc Set the music volume for a category
+/// @module UI
 /// @param {Real} _newVolume New Volume
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @return {Undefined}
@@ -33,6 +35,7 @@ function AudioEngineUISetCategoryVolume(_newVolume, _category = 0) {
 }
 
 /// @desc Get the music volume for a category
+/// @module UI
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @return {Real} Category volume
 // Feather ignore once GM1045

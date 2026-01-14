@@ -1,4 +1,5 @@
 /// @desc Play a ui sound
+/// @module UI
 /// @param {Enum.AE_UI_SOUND} _uiSoundInstance Sound key
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @param {Real} [_volumeOffset] Optional offset for the volume
