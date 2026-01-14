@@ -24,7 +24,7 @@ function __AudioEngineSystem() {
 
     _system = new __AESystem();
 
-    __AudioEngineConfig();
+    AudioEngineConfig();
 
     __AESystemInitManager();
 

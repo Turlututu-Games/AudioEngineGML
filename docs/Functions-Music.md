@@ -60,6 +60,27 @@ Set an effect to a music category
 &nbsp;
 
 
+## AudioEngineMusicGetCategoryVolume
+
+`AudioEngineMusicGetCategoryVolume([_category=0])`
+
+<!-- tabs:start -->
+
+#### **Description**
+
+**Returns:** Real - Category volume
+
+|Name | Datatype | Purpose |
+|---|---|---|
+| [_category] | Enum.AE_CATEGORIES | Optional category. 0 by default |
+
+Get the music volume for a category
+
+<!-- tabs:end -->
+
+&nbsp;
+
+
 ## AudioEngineMusicMoodSet
 
 `AudioEngineMusicMoodSet(_mood, [_category=0], [_crossfadeTime=__AUDIOENGINE_MUSIC_DEFAULT_FADE])`
@@ -171,9 +192,9 @@ Resume all current music
 &nbsp;
 
 
-## AudioEngineMusicStop
+## AudioEngineMusicSetCategoryVolume
 
-`AudioEngineMusicStop([_category=0], [_crossfadeTime=__AUDIOENGINE_MUSIC_DEFAULT_FADE])`
+`AudioEngineMusicSetCategoryVolume(_newVolume, [_category=0])`
 
 <!-- tabs:start -->
 
@@ -181,10 +202,10 @@ Resume all current music
 
 |Name | Datatype | Purpose |
 |---|---|---|
+| _newVolume | Real | New Volume |
 | [_category] | Enum.AE_CATEGORIES | Optional category. 0 by default |
-| [_crossfadeTime] | Real | Optional crossfade value. Default to __AUDIOENGINE_MUSIC_DEFAULT_FADE |
 
-Stop the current music
+Set the music volume for a category
 
 <!-- tabs:end -->
 
@@ -210,9 +231,9 @@ Set the global music volume
 &nbsp;
 
 
-## AudioEngineMusicSetCategoryVolume
+## AudioEngineMusicStop
 
-`AudioEngineMusicSetCategoryVolume(_newVolume, [_category=0])`
+`AudioEngineMusicStop([_category=0], [_crossfadeTime=__AUDIOENGINE_MUSIC_DEFAULT_FADE])`
 
 <!-- tabs:start -->
 
@@ -220,31 +241,10 @@ Set the global music volume
 
 |Name | Datatype | Purpose |
 |---|---|---|
-| _newVolume | Real | New Volume |
 | [_category] | Enum.AE_CATEGORIES | Optional category. 0 by default |
+| [_crossfadeTime] | Real | Optional crossfade value. Default to __AUDIOENGINE_MUSIC_DEFAULT_FADE |
 
-Set the music volume for a category
-
-<!-- tabs:end -->
-
-&nbsp;
-
-
-## AudioEngineMusicGetCategoryVolume
-
-`AudioEngineMusicGetCategoryVolume([_category=0])`
-
-<!-- tabs:start -->
-
-#### **Description**
-
-**Returns:** Real - Category volume
-
-|Name | Datatype | Purpose |
-|---|---|---|
-| [_category] | Enum.AE_CATEGORIES | Optional category. 0 by default |
-
-Get the music volume for a category
+Stop the current music
 
 <!-- tabs:end -->
 

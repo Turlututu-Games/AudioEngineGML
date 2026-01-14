@@ -60,6 +60,27 @@ Set an effect to a ui category
 &nbsp;
 
 
+## AudioEngineUIGetCategoryVolume
+
+`AudioEngineUIGetCategoryVolume([_category=0])`
+
+<!-- tabs:start -->
+
+#### **Description**
+
+**Returns:** Real - Category volume
+
+|Name | Datatype | Purpose |
+|---|---|---|
+| [_category] | Enum.AE_CATEGORIES | Optional category. 0 by default |
+
+Get the music volume for a category
+
+<!-- tabs:end -->
+
+&nbsp;
+
+
 ## AudioEngineUIPause
 
 `AudioEngineUIPause(_ref)`
@@ -79,6 +100,21 @@ Pause a ui sound
 &nbsp;
 
 
+## AudioEngineUIPauseAll
+
+`AudioEngineUIPauseAll()`
+
+<!-- tabs:start -->
+
+#### **Description**
+
+Pause all ui sounds
+
+<!-- tabs:end -->
+
+&nbsp;
+
+
 ## AudioEngineUIPauseCategory
 
 `AudioEngineUIPauseCategory([_category=0])`
@@ -92,21 +128,6 @@ Pause a ui sound
 | [_category] | Enum.AE_CATEGORIES | Optional category. 0 by default |
 
 Pause all ui sounds from a category
-
-<!-- tabs:end -->
-
-&nbsp;
-
-
-## AudioEngineUIPauseAll
-
-`AudioEngineUIPauseAll()`
-
-<!-- tabs:start -->
-
-#### **Description**
-
-Pause all ui sounds
 
 <!-- tabs:end -->
 
@@ -156,25 +177,6 @@ Resume a ui sound
 &nbsp;
 
 
-## AudioEngineUIResumeCategory
-
-`AudioEngineUIResumeCategory([_category=0])`
-
-<!-- tabs:start -->
-
-#### **Description**
-
-|Name | Datatype | Purpose |
-|---|---|---|
-| [_category] | Enum.AE_CATEGORIES | Optional category. 0 by default |
-
-Resume all ui sounds from a category
-
-<!-- tabs:end -->
-
-&nbsp;
-
-
 ## AudioEngineUIResumeAll
 
 `AudioEngineUIResumeAll()`
@@ -190,28 +192,9 @@ Pause all ui sounds
 &nbsp;
 
 
-## AudioEngineUIStop
+## AudioEngineUIResumeCategory
 
-`AudioEngineUIStop(_ref)`
-
-<!-- tabs:start -->
-
-#### **Description**
-
-|Name | Datatype | Purpose |
-|---|---|---|
-| _ref | Id.Sound,Struct.__AESystemPlaying | Sound reference |
-
-Stop a ui sound
-
-<!-- tabs:end -->
-
-&nbsp;
-
-
-## AudioEngineUIStopCategory
-
-`AudioEngineUIStopCategory([_category=0])`
+`AudioEngineUIResumeCategory([_category=0])`
 
 <!-- tabs:start -->
 
@@ -221,41 +204,7 @@ Stop a ui sound
 |---|---|---|
 | [_category] | Enum.AE_CATEGORIES | Optional category. 0 by default |
 
-Stop ui sounds from a category
-
-<!-- tabs:end -->
-
-&nbsp;
-
-
-## AudioEngineUIStopAll
-
-`AudioEngineUIStopAll()`
-
-<!-- tabs:start -->
-
-#### **Description**
-
-Stop all ui sounds
-
-<!-- tabs:end -->
-
-&nbsp;
-
-
-## AudioEngineUISetVolume
-
-`AudioEngineUISetVolume(_newVolume)`
-
-<!-- tabs:start -->
-
-#### **Description**
-
-|Name | Datatype | Purpose |
-|---|---|---|
-| _newVolume | Real | New Volume |
-
-Set the global music volume
+Resume all ui sounds from a category
 
 <!-- tabs:end -->
 
@@ -282,21 +231,72 @@ Set the music volume for a category
 &nbsp;
 
 
-## AudioEngineUIGetCategoryVolume
+## AudioEngineUISetVolume
 
-`AudioEngineUIGetCategoryVolume([_category=0])`
+`AudioEngineUISetVolume(_newVolume)`
 
 <!-- tabs:start -->
 
 #### **Description**
 
-**Returns:** Real - Category volume
+|Name | Datatype | Purpose |
+|---|---|---|
+| _newVolume | Real | New Volume |
+
+Set the global music volume
+
+<!-- tabs:end -->
+
+&nbsp;
+
+
+## AudioEngineUIStop
+
+`AudioEngineUIStop(_ref)`
+
+<!-- tabs:start -->
+
+#### **Description**
+
+|Name | Datatype | Purpose |
+|---|---|---|
+| _ref | Id.Sound,Struct.__AESystemPlaying | Sound reference |
+
+Stop a ui sound
+
+<!-- tabs:end -->
+
+&nbsp;
+
+
+## AudioEngineUIStopAll
+
+`AudioEngineUIStopAll()`
+
+<!-- tabs:start -->
+
+#### **Description**
+
+Stop all ui sounds
+
+<!-- tabs:end -->
+
+&nbsp;
+
+
+## AudioEngineUIStopCategory
+
+`AudioEngineUIStopCategory([_category=0])`
+
+<!-- tabs:start -->
+
+#### **Description**
 
 |Name | Datatype | Purpose |
 |---|---|---|
 | [_category] | Enum.AE_CATEGORIES | Optional category. 0 by default |
 
-Get the music volume for a category
+Stop ui sounds from a category
 
 <!-- tabs:end -->
 

@@ -5,10 +5,25 @@
       "rules": {
         "missing-enum-value": "off",
         "missing-event-description": "off",
-        "no-multi-empty-lines": "warning",
         "function-comment-params-description": "warning",
         "function-comment-returns": "warning",
-        "function-comment-returns-description": "warning"
+        "function-comment-tags": [
+          "warning",
+          {
+            "urlPublicOnly": false,
+            "examplePublicOnly": false
+          }
+        ],
+        "function-comment-returns-description": "warning",
+        "function-name": [
+          "warning",
+          {
+            "privateClass": "^__(AE|AudioEngine)[A-Z][A-Za-z]",
+            "privateFunction": "^__(AE|AudioEngine)[A-Z][A-Za-z]",
+            "publicClass": "^AudioEngine[A-Z]",
+            "publicFunction": "^AudioEngine[A-Z]"
+          }
+        ]
       }
     },
     {

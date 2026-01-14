@@ -79,34 +79,15 @@ Pause a game sound
 &nbsp;
 
 
-## AudioEngineGamePauseCategory
+## AudioEngineGamePauseAll
 
-`AudioEngineGamePauseCategory([_category=0])`
-
-<!-- tabs:start -->
-
-#### **Description**
-
-|Name | Datatype | Purpose |
-|---|---|---|
-| [_category] | Enum.AE_CATEGORIES | Optional category. 0 by default |
-
-Pause all game static sounds from a category
-
-<!-- tabs:end -->
-
-&nbsp;
-
-
-## AudioEngineGamePauseAllStatic
-
-`AudioEngineGamePauseAllStatic()`
+`AudioEngineGamePauseAll()`
 
 <!-- tabs:start -->
 
 #### **Description**
 
-Pause all game static sounds
+Pause all game sounds
 
 <!-- tabs:end -->
 
@@ -128,15 +109,34 @@ Pause all game spatialized sounds
 &nbsp;
 
 
-## AudioEngineGamePauseAll
+## AudioEngineGamePauseAllStatic
 
-`AudioEngineGamePauseAll()`
+`AudioEngineGamePauseAllStatic()`
 
 <!-- tabs:start -->
 
 #### **Description**
 
-Pause all game sounds
+Pause all game static sounds
+
+<!-- tabs:end -->
+
+&nbsp;
+
+
+## AudioEngineGamePauseCategory
+
+`AudioEngineGamePauseCategory([_category=0])`
+
+<!-- tabs:start -->
+
+#### **Description**
+
+|Name | Datatype | Purpose |
+|---|---|---|
+| [_category] | Enum.AE_CATEGORIES | Optional category. 0 by default |
+
+Pause all game static sounds from a category
 
 <!-- tabs:end -->
 
@@ -282,34 +282,15 @@ Resume a game sound
 &nbsp;
 
 
-## AudioEngineGameResumeCategory
+## AudioEngineGameResumeAll
 
-`AudioEngineGameResumeCategory([_category=0])`
-
-<!-- tabs:start -->
-
-#### **Description**
-
-|Name | Datatype | Purpose |
-|---|---|---|
-| [_category] | Enum.AE_CATEGORIES | Optional category. 0 by default |
-
-Resume all game static sounds from a category
-
-<!-- tabs:end -->
-
-&nbsp;
-
-
-## AudioEngineGameResumeAllStatic
-
-`AudioEngineGameResumeAllStatic()`
+`AudioEngineGameResumeAll()`
 
 <!-- tabs:start -->
 
 #### **Description**
 
-Resume all game static sounds
+Resume all game sounds
 
 <!-- tabs:end -->
 
@@ -331,43 +312,24 @@ Resume all game spatialized sounds
 &nbsp;
 
 
-## AudioEngineGameResumeAll
+## AudioEngineGameResumeAllStatic
 
-`AudioEngineGameResumeAll()`
+`AudioEngineGameResumeAllStatic()`
 
 <!-- tabs:start -->
 
 #### **Description**
 
-Resume all game sounds
+Resume all game static sounds
 
 <!-- tabs:end -->
 
 &nbsp;
 
 
-## AudioEngineGameStop
+## AudioEngineGameResumeCategory
 
-`AudioEngineGameStop(_ref)`
-
-<!-- tabs:start -->
-
-#### **Description**
-
-|Name | Datatype | Purpose |
-|---|---|---|
-| _ref | Id.Sound,Struct.__AESystemPlaying | Sound reference |
-
-Stop a game sound
-
-<!-- tabs:end -->
-
-&nbsp;
-
-
-## AudioEngineGameStopCategory
-
-`AudioEngineGameStopCategory([_category=0])`
+`AudioEngineGameResumeCategory([_category=0])`
 
 <!-- tabs:start -->
 
@@ -377,71 +339,7 @@ Stop a game sound
 |---|---|---|
 | [_category] | Enum.AE_CATEGORIES | Optional category. 0 by default |
 
-Stop game static sounds from a category
-
-<!-- tabs:end -->
-
-&nbsp;
-
-
-## AudioEngineGameStopAllStatic
-
-`AudioEngineGameStopAllStatic()`
-
-<!-- tabs:start -->
-
-#### **Description**
-
-Stop all game static sounds
-
-<!-- tabs:end -->
-
-&nbsp;
-
-
-## AudioEngineGameStopAllSpatialized
-
-`AudioEngineGameStopAllSpatialized()`
-
-<!-- tabs:start -->
-
-#### **Description**
-
-Stop all game spatialized sounds
-
-<!-- tabs:end -->
-
-&nbsp;
-
-
-## AudioEngineGameStopAll
-
-`AudioEngineGameStopAll()`
-
-<!-- tabs:start -->
-
-#### **Description**
-
-Stop all game sounds
-
-<!-- tabs:end -->
-
-&nbsp;
-
-
-## AudioEngineGameSetVolume
-
-`AudioEngineGameSetVolume(_newVolume)`
-
-<!-- tabs:start -->
-
-#### **Description**
-
-|Name | Datatype | Purpose |
-|---|---|---|
-| _newVolume | Real | New Volume |
-
-Set the global music volume
+Resume all game static sounds from a category
 
 <!-- tabs:end -->
 
@@ -487,6 +385,25 @@ Set the music volume for a category
 &nbsp;
 
 
+## AudioEngineGameSetVolume
+
+`AudioEngineGameSetVolume(_newVolume)`
+
+<!-- tabs:start -->
+
+#### **Description**
+
+|Name | Datatype | Purpose |
+|---|---|---|
+| _newVolume | Real | New Volume |
+
+Set the global music volume
+
+<!-- tabs:end -->
+
+&nbsp;
+
+
 ## AudioEngineGameStaticGetCategoryVolume
 
 `AudioEngineGameStaticGetCategoryVolume([_category=0])`
@@ -502,6 +419,89 @@ Set the music volume for a category
 | [_category] | Enum.AE_CATEGORIES | Optional category. 0 by default |
 
 Get the music volume for a category
+
+<!-- tabs:end -->
+
+&nbsp;
+
+
+## AudioEngineGameStop
+
+`AudioEngineGameStop(_ref)`
+
+<!-- tabs:start -->
+
+#### **Description**
+
+|Name | Datatype | Purpose |
+|---|---|---|
+| _ref | Id.Sound,Struct.__AESystemPlaying | Sound reference |
+
+Stop a game sound
+
+<!-- tabs:end -->
+
+&nbsp;
+
+
+## AudioEngineGameStopAll
+
+`AudioEngineGameStopAll()`
+
+<!-- tabs:start -->
+
+#### **Description**
+
+Stop all game sounds
+
+<!-- tabs:end -->
+
+&nbsp;
+
+
+## AudioEngineGameStopAllSpatialized
+
+`AudioEngineGameStopAllSpatialized()`
+
+<!-- tabs:start -->
+
+#### **Description**
+
+Stop all game spatialized sounds
+
+<!-- tabs:end -->
+
+&nbsp;
+
+
+## AudioEngineGameStopAllStatic
+
+`AudioEngineGameStopAllStatic()`
+
+<!-- tabs:start -->
+
+#### **Description**
+
+Stop all game static sounds
+
+<!-- tabs:end -->
+
+&nbsp;
+
+
+## AudioEngineGameStopCategory
+
+`AudioEngineGameStopCategory([_category=0])`
+
+<!-- tabs:start -->
+
+#### **Description**
+
+|Name | Datatype | Purpose |
+|---|---|---|
+| [_category] | Enum.AE_CATEGORIES | Optional category. 0 by default |
+
+Stop game static sounds from a category
 
 <!-- tabs:end -->
 

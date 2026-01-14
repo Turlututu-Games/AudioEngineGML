@@ -7,12 +7,12 @@
 /// @desc Configure AudioEngine
 /// @module Configuration
 /// @return {Undefined}
-function __AudioEngineConfig() {
-	
-	#region Logger configuration (Optional)
-	//AudioEngineLoggerSetTarget(AE_LOGGER_TARGET.SNITCH);
-	//AudioEngineLoggerSetLogLevel(AE_LOGGER_LEVEL.ERROR);
-	#endregion
+function AudioEngineConfig() {
+
+    #region Logger configuration (Optional)
+    //AudioEngineLoggerSetTarget(AE_LOGGER_TARGET.SNITCH);
+    //AudioEngineLoggerSetLogLevel(AE_LOGGER_LEVEL.ERROR);
+    #endregion
 
     #region Add your music here
     // Simple music with slightly reduced volume

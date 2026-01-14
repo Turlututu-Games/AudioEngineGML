@@ -125,7 +125,7 @@ Log targets can be :
 
 In custom mode, you'll need to configure callback for errors, warnings and verbose
 
-The logger configuration can be called from everywhere, but I suggest to add it on top of the `__AudioEngineConfig` function
+The logger configuration can be called from everywhere, but I suggest to add it on top of the `AudioEngineConfig` function
 
 Example of configuration
 ```gml
