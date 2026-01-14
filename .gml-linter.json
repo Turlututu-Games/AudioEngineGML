@@ -10,8 +10,8 @@
         "function-comment-tags": [
           "warning",
           {
-            "urlPublicOnly": false,
-            "examplePublicOnly": false
+            "examplePublicOnly": false,
+            "fixUrlBase": "https://turlututu-games.github.io/AudioEngineGML"
           }
         ],
         "function-comment-returns-description": "warning",

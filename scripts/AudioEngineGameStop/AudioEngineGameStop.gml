@@ -1,5 +1,6 @@
 /// @desc Stop a game sound
 /// @module Game
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGameStop
 /// @param {Id.Sound,Struct.__AESystemPlaying} _ref Sound reference
 /// @return {Undefined}
 function AudioEngineGameStop(_ref) {
@@ -9,6 +10,7 @@ function AudioEngineGameStop(_ref) {
 
 /// @desc Stop game static sounds from a category
 /// @module Game
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGameStopCategory
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @return {Undefined}
 // Feather ignore once GM1045
@@ -21,6 +23,7 @@ function AudioEngineGameStopCategory(_category = 0) {
 
 /// @desc Stop all game static sounds
 /// @module Game
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGameStopAllStatic
 /// @return {Undefined}
 function AudioEngineGameStopAllStatic() {
     var _filtered = __AESystemFilterSoundByTypeAndCategory(__AUDIOENGINE_PREFIX_STATIC_GAME);
@@ -30,6 +33,7 @@ function AudioEngineGameStopAllStatic() {
 
 /// @desc Stop all game spatialized sounds
 /// @module Game
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGameStopAllSpatialized
 /// @return {Undefined}
 function AudioEngineGameStopAllSpatialized() {
     var _filtered = __AESystemFilterSoundByTypeAndCategory(__AUDIOENGINE_PREFIX_SPATIALIZED_GAME);
@@ -39,6 +43,7 @@ function AudioEngineGameStopAllSpatialized() {
 
 /// @desc Stop all game sounds
 /// @module Game
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGameStopAll
 /// @return {Undefined}
 function AudioEngineGameStopAll() {
     AudioEngineGameStopAllStatic();

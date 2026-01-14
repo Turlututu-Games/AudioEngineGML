@@ -1,5 +1,6 @@
 /// @desc Play a music, replacing existing one
 /// @module Music
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Music?id=AudioEngineMusicPlay
 /// @param {Enum.AE_MUSIC} _musicInstance Music key
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @param {Real,Undefined} [_volume] Initial volume. If not set, will use previous music volume, or 1

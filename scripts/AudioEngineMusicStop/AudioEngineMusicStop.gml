@@ -1,5 +1,6 @@
 /// @desc Stop the current music
 /// @module Music
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Music?id=AudioEngineMusicStop
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @param {Real} [_crossfadeTime] Optional crossfade value. Default to __AUDIOENGINE_MUSIC_DEFAULT_FADE
 /// @return {Undefined}

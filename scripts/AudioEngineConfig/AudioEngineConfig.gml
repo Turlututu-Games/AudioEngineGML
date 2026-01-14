@@ -4,8 +4,9 @@
 // If true, stream will be checked on run mode
 #macro __AUDIOENGINE_DEBUG_CHECK_STREAM false
 
-/// @desc Configure AudioEngine
+/// @desc Configure AudioEngine. This function is called automatically on system initialization, and don't need to be called manually.
 /// @module Configuration
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Configuration?id=AudioEngineConfig
 /// @return {Undefined}
 function AudioEngineConfig() {
 

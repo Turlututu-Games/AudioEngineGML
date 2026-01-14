@@ -1,5 +1,6 @@
 /// @desc Play a ui sound
 /// @module UI
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-UI?id=AudioEngineUIPlay
 /// @param {Enum.AE_UI_SOUND} _uiSoundInstance Sound key
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @param {Real} [_volumeOffset] Optional offset for the volume

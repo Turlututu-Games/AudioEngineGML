@@ -1,7 +1,8 @@
 /// @desc Options for a single-track music
 /// @module Configuration
-/// @param {Real} [_priority] Sound Priority
-/// @param {Real} [_volume] Initial _volume
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Configuration?id=AudioEngineDefineMusicOptions
+/// @param {Real} [_priority] Sound Priority. Must be between 0 and 100. Lower is higher priority
+/// @param {Real} [_volume] Initial volume. Must be between 0 and 1
 function AudioEngineDefineMusicOptions(_priority = 1, _volume = 1) constructor {
     priority = _priority;
     volume = _volume;
@@ -9,6 +10,8 @@ function AudioEngineDefineMusicOptions(_priority = 1, _volume = 1) constructor {
 
 /// @desc Define a single-track music
 /// @module Configuration
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Configuration?id=AudioEngineDefineMusic
+/// @example AudioEngineDefineMusic(AE_MUSIC.DECORATE, Interior_Birdecorator_Decorate, {volume: 0.8});
 /// @param {Enum.AE_MUSIC} _musicIndex Music index
 /// @param {Asset.GMSound,String} _asset Sound asset
 /// @param {Struct.AudioEngineDefineMusicOptions} [_options] Options
@@ -58,6 +61,7 @@ function AudioEngineDefineMusic(_musicIndex, _asset, _options = {}){
 
 /// @desc Define a track for multi-track music
 /// @module Configuration
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Configuration?id=AudioEngineDefineTrack
 /// @param {Asset.GMSound,String} _asset Sound asset
 /// @param {Enum.AE_MULTITRACK_MOOD} _mood Music Mood
 /// @param {Real} [_volume] Initial volume
@@ -69,6 +73,7 @@ function AudioEngineDefineTrack(_asset, _mood, _volume = 1) constructor {
 
 /// @desc Options for a multi-track music
 /// @module Configuration
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Configuration?id=AudioEngineDefineMultiTrackOptions
 /// @param {Real} [_priority] Sound Priority
 function AudioEngineDefineMultiTrackOptions(_priority = 1) constructor {
     priority = _priority;
@@ -76,6 +81,7 @@ function AudioEngineDefineMultiTrackOptions(_priority = 1) constructor {
 
 /// @desc Define a multi-track music
 /// @module Configuration
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Configuration?id=AudioEngineDefineMultiTrackMusic
 /// @param {Enum.AE_MUSIC} _musicIndex Music index
 /// @param {Array<Struct.AudioEngineDefineTrack>} _tracks Array of tracks
 /// @param {Struct.AudioEngineDefineMultiTrackOptions} [_options] Options
@@ -147,6 +153,7 @@ function AudioEngineDefineMultiTrackMusic(_musicIndex, _tracks, _options = {}){
 
 /// @desc Options for a UI sound
 /// @module Configuration
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Configuration?id=AudioEngineDefineUISoundOptions
 /// @param {Real} [_priority] Sound Priority
 /// @param {Real} [_volume] Initial volume
 /// @param {Real} [_volumeVariance] Random volume variance
@@ -162,6 +169,7 @@ function AudioEngineDefineUISoundOptions(_priority = 1, _volume = 1, _volumeVari
 
 /// @desc Define a UI sound
 /// @module Configuration
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Configuration?id=AudioEngineDefineUISound
 /// @param {Enum.AE_UI_SOUND} _uiSoundIndex UI sound index
 /// @param {Asset.GMSound,String} _asset Sound asset
 /// @param {Struct.AudioEngineDefineUISoundOptions} [_options] Options
@@ -218,6 +226,7 @@ function AudioEngineDefineUISound(_uiSoundIndex, _asset, _options = {}){
 
 /// @desc Define a UI sound
 /// @module Configuration
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Configuration?id=AudioEngineDefineUISoundArray
 /// @param {Enum.AE_UI_SOUND} _uiSoundIndex UI sound index
 /// @param {Array<Asset.GMSound,String>} _assets Array of sound assets
 /// @param {Struct.AudioEngineDefineUISoundOptions} [_options] Options
@@ -284,6 +293,7 @@ function AudioEngineDefineUISoundArray(_uiSoundIndex, _assets, _options = {}) {
 
 /// @desc Options for a Game sound
 /// @module Configuration
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Configuration?id=AudioEngineDefineGameSoundOptions
 /// @param {Bool} [_loop] Indicate if the sound is a loop
 /// @param {Bool} [_cleanOnRoomEnd] The sound will be cleaned on room_end event
 /// @param {Bool} [_spatialized] Indicate if the sound is spatialized
@@ -305,6 +315,7 @@ function AudioEngineDefineGameSoundOptions(_loop = false, _cleanOnRoomEnd = true
 
 /// @desc Define a Game sound
 /// @module Configuration
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Configuration?id=AudioEngineDefineGameSound
 /// @param {Enum.AE_GAME_SOUND} _gameSoundIndex Game sound index
 /// @param {Asset.GMSound|String} _asset Sound asset
 /// @param {Struct.AudioEngineDefineGameSoundOptions} [_options] Options
@@ -367,6 +378,7 @@ function AudioEngineDefineGameSound(_gameSoundIndex, _asset, _options = {}){
 
 /// @desc Define a Game sound
 /// @module Configuration
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Configuration?id=AudioEngineDefineGameSoundArray
 /// @param {Enum.AE_GAME_SOUND} _gameSoundIndex Game sound index
 /// @param {Array<Asset.GMSound,String>} _assets Array of sound assets
 /// @param {Struct.AudioEngineDefineGameSoundOptions} [_options] Options

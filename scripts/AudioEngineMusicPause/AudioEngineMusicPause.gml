@@ -1,5 +1,6 @@
 /// @desc Pause the current music
 /// @module Music
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Music?id=AudioEngineMusicPause
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @return {Undefined}
 // Feather ignore once GM1045
@@ -16,6 +17,7 @@ function AudioEngineMusicPause(_category = 0) {
 
 /// @desc Pause all current music
 /// @module Music
+/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Music?id=AudioEngineMusicPauseAll
 /// @return {Undefined}
 function AudioEngineMusicPauseAll() {
 
