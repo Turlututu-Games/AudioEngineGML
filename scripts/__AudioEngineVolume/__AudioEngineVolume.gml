@@ -1,4 +1,5 @@
 /// @desc Resolve volume for a type and volume type
+/// @private
 /// @param {String} _type Type of bus
 /// @param {String} _volumeType Volume type
 /// @param {Enum.AE_CATEGORIES} _category Category
@@ -32,12 +33,19 @@ function __AEVolumeResolve(_type, _volumeType, _category, _sound, _busParam = un
 }
 
 /// @desc Update volume for a type and volume type
+/// @private
 /// @param {String} _type Type of bus
 /// @param {String} _volumeType Volume type
 /// @param {Enum.AE_CATEGORIES} _category Category
 /// @param {Real} _newVolume New volume
 /// @return {Struct.__AEBus} Updated bus
 function __AEVolumeUpdate(_type, _volumeType, _category, _newVolume) {
+
+    if (!is_real(_newVolume)) {
+        __AELogError("Volume must be a real number, got: " + string(typeof(_newVolume)));
+        return;
+    }
+
     static _system = __AudioEngineSystem();
 
     var _bus = __AEBusGet(_type, _category);

@@ -3,6 +3,11 @@
 /// @return {Undefined}
 function AudioEngineMusicSetVolume(_newVolume) {
 
+    if (!is_real(_newVolume)) {
+        __AELogError("Volume must be a real number, got: " + string(typeof(_newVolume)));
+        return;
+    }
+
     static _system = __AudioEngineSystem();
 
     var _busArray = __AEBusGetAll(__AUDIOENGINE_PREFIX_MUSIC);

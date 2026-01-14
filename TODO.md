@@ -1,6 +1,0 @@
-- Add Auto-Tracking object
-- Effects helper
-- Control parameters:
-  - Effects
-  - __AudioEngineConfig (track)
-  - __AudioEngineConfig (options)

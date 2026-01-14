@@ -1,6 +1,7 @@
 #macro __AUDIOENGINE_MAX_EFFECT_SLOTS 8
 
 /// @desc AudioEngine Bus Instance
+/// @private
 /// @param {Id.AudioEmitter} _emitter Emitter
 /// @param {Struct.AudioBus} _bus Audio Bus
 /// @param {Real} _volume Volume offset
@@ -17,6 +18,7 @@ function __AEBus(_emitter, _bus, _volume, _category, _cleanOnRoomEnd, _type) con
 }
 
 /// @desc Set Main Listener position. All emitter from categories music, ui and static will move too
+/// @private
 /// @param {Real} _x X position
 /// @param {Real} _y Y position
 /// @param {Real} [_z] Z position. Optional
@@ -48,6 +50,7 @@ function __AEBusSetListenerPosition(_x, _y, _z = 0) {
 }
 
 /// @desc Get or create Bus
+/// @private
 /// @param {String} _busName Bus name
 /// @return {Struct.__AEBus,Undefined} Bus instance or undefined if not found
 function __AEBusGetByName(_busName) {
@@ -59,6 +62,7 @@ function __AEBusGetByName(_busName) {
 }
 
 /// @desc Get or create Bus
+/// @private
 /// @param {String} _busType Bus type
 /// @param {Real} _busCategory Bus category/id
 /// @param {Bool} [_cleanOnRoomEnd] Indicate that the bus must be cleaned on room_end event
@@ -100,6 +104,7 @@ function __AEBusGet(_busType, _busCategory, _cleanOnRoomEnd = false) {
 }
 
 /// @desc Get all the buses for a type
+/// @private
 /// @param {String} _busType Bus type
 /// @return {Array<Struct.__AEBus>} Array of buses
 function __AEBusGetAll(_busType) {
@@ -124,6 +129,7 @@ function __AEBusGetAll(_busType) {
 }
 
 /// @desc Clear a bus
+/// @private
 /// @param {String} _busName Bus name
 /// @return {Undefined}
 function __AEBusClear(_busName) {
@@ -143,6 +149,7 @@ function __AEBusClear(_busName) {
 }
 
 /// @desc Clear all Buses
+/// @private
 /// @return {Undefined}
 function __AEBusClearAll() {
     static _system = __AudioEngineSystem();
@@ -160,6 +167,7 @@ function __AEBusClearAll() {
 }
 
 /// @desc Set an effect to a bus
+/// @private
 /// @param {Struct.AudioEffect} _effect Effect to apply
 /// @param {Real} _effectIndex Canal to apply the effect. Must be a number between 0 and 7
 /// @param {String} _busName Bus name
@@ -189,6 +197,7 @@ function __AEBusEffectSet(_effect, _effectIndex, _busName) {
 }
 
 /// @desc Set multiple effects to a bus
+/// @private
 /// @param {Array<Struct.AudioEffect>} _effects Array of effect to apply
 /// @param {String} _busName Bus name
 /// @return {Undefined}
@@ -216,6 +225,7 @@ function __AEBusEffectsSet(_effects, _busName) {
 }
 
 /// @desc Clear an effect from a bus
+/// @private
 /// @param {Real} _effectIndex Canal to apply the effect. Must be a number between 0 and 7
 /// @param {String} _busName Bus name
 /// @return {Undefined}
@@ -237,6 +247,7 @@ function __AEBusEffectClear(_effectIndex, _busName) {
 }
 
 /// @desc Clear all effects from a bus
+/// @private
 /// @param {String} _busName Bus name
 /// @return {Undefined}
 function __AEBusEffectClearAll(_busName) {
@@ -252,6 +263,7 @@ function __AEBusEffectClearAll(_busName) {
 }
 
 /// @desc Check if an effect is valid. Only executed in "run" mode (development)
+/// @private
 /// @param {Struct.AudioEffect} _effect Effect to apply
 /// @return {Bool} True if valid, false otherwise
 function __AEBusCheckEffectValid(_effect) {

@@ -1,4 +1,5 @@
 /// @desc Play a game sound
+/// @private
 /// @param {Enum.AE_GAME_SOUND} _gameSoundInstance Sound key
 /// @param {Enum.AE_CATEGORIES,Real} _id Id for the category or position
 /// @param {Real} _x X position
@@ -47,6 +48,7 @@ function __AEGamePlay(_gameSoundInstance, _id, _x, _y, _z, _volumeOffset, _pitch
 }
 
 /// @desc Play a game sound from an array
+/// @private
 /// @param {Real} _volumeOffset Volume offset
 /// @param {Real} _pitchOffset Pitch offset
 /// @param {Struct.__AESystemLibrarySoundArray} _newSound Sound to play
@@ -75,6 +77,7 @@ function __AEGamePlayMulti(_volumeOffset, _pitchOffset, _newSound, _bus, _prefix
 }
 
 /// @desc Play a game sound from an single track
+/// @private
 /// @param {Real} _volumeOffset Volume offset
 /// @param {Real} _pitchOffset Pitch offset
 /// @param {Struct.__AESystemLibrarySound} _newSound Sound to play
@@ -100,6 +103,7 @@ function __AEGamePlaySingle(_volumeOffset, _pitchOffset, _newSound, _bus, _prefi
 }
 
 /// @desc Play the prepared sound
+/// @private
 /// @param {Asset.GMSound} _sound Sound asset
 /// @param {Struct.__AEBus} _bus Bus to play the sound on
 /// @param {Bool} _loop Loop the sound
@@ -130,6 +134,7 @@ function __AEGamePlaySound(_sound, _bus, _loop, _volume, _pitch, _volumeVariance
 }
 
 /// @desc Set the position for an object
+/// @private
 /// @param {Struct.__AESystemPlaying} _sound Sound playing
 /// @param {Real} _x X position
 /// @param {Real} _y Y position
@@ -153,6 +158,7 @@ function __AEGamePositionFound(_sound, _x, _y, _z) {
 }
 
 /// @desc Get a game sound library item
+/// @private
 /// @param {Enum.AE_GAME_SOUND} _gameSoundInstance Game sound instance
 /// @return {Struct.__AESystemLibrarySound,Struct.__AESystemLibrarySoundArray} Sound library item
 function __AEGameLibraryGetSound(_gameSoundInstance) {
@@ -163,6 +169,7 @@ function __AEGameLibraryGetSound(_gameSoundInstance) {
 }
 
 /// @desc Update the volume of all static game sounds in a category
+/// @private
 /// @param {Enum.AE_CATEGORIES} _category Game sound category
 /// @param {Struct.__AEBus} _bus Bus to update volume on
 /// @return {Undefined}
@@ -181,6 +188,7 @@ function __AEGameUpdateStaticVolume(_category, _bus) {
 }
 
 /// @desc Resolve the final volume for a static game sound
+/// @private
 /// @param {Enum.AE_CATEGORIES} _category Game sound category
 /// @param {Struct.__AEBus} _bus Bus to update volume on
 /// @return {Undefined}
@@ -199,6 +207,7 @@ function __AEGameUpdateSpatializedVolume(_category, _bus) {
 }
 
 /// @desc Resolve the final volume for a static game sound
+/// @private
 /// @param {Enum.AE_CATEGORIES} _category Game sound category
 /// @param {Struct.__AESystemPlaying} _sound Current playing sound
 /// @param {Struct.__AEBus} [_busParam] Optional bus parameter
@@ -209,6 +218,7 @@ function __AEGameResolveStaticVolume(_category, _sound, _busParam = undefined) {
 }
 
 /// @desc Resolve the final volume for a spatialized game sound
+/// @private
 /// @param {Enum.AE_CATEGORIES} _category Game sound category
 /// @param {Struct.__AESystemPlaying} _sound Current playing sound
 /// @param {Struct.__AEBus} [_busParam] Optional bus parameter
@@ -219,6 +229,7 @@ function __AEGameResolveSpatializedVolume(_category, _sound, _busParam = undefin
 }
 
 /// @desc Resolve the final volume for a game sound
+/// @private
 /// @param {Enum.AE_CATEGORIES} _category Game sound category
 /// @param {Struct.__AESystemPlaying} _sound Current playing sound
 /// @param {Struct.__AEBus} [_busParam] Optional bus parameter

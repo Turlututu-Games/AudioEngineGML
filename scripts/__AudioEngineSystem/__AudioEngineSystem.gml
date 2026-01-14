@@ -15,6 +15,7 @@
 #macro __AUDIOENGINE_DEBUG_CHECK_STREAM false
 
 /// @desc Get the AudioEngine System
+/// @private
 /// @return {Struct.__AESystem} AudioEngine System struct
 function __AudioEngineSystem() {
     static _system = undefined;
@@ -36,6 +37,7 @@ function __AudioEngineSystem() {
 }
 
 /// @desc Initialize the AudioEngine Manager Object
+/// @private
 /// @return {Undefined}
 function __AESystemInitManager() {
 
@@ -62,6 +64,7 @@ function __AESystemInitManager() {
 }
 
 /// @desc Get an auto-incremented id
+/// @private
 /// @return {Real} Unique id
 function __AESystemUniqueId() {
     static counter = 0;
@@ -72,6 +75,7 @@ function __AESystemUniqueId() {
 }
 
 /// @desc Filter and return all the sounds from a category
+/// @private
 /// @param {String} _type Type of bus
 /// @param {Enum.AE_CATEGORIES,Undefined} [_category] Optional category
 /// @return {Array<Struct.__AESystemPlaying>} Filtered sounds
@@ -97,6 +101,8 @@ function __AESystemFilterSoundByTypeAndCategory(_type, _category = undefined) {
 }
 
 /// @desc Find an item in an array by property value
+/// @private
+/// @pure
 /// @param {Array<Struct>} _array Array to search in
 /// @param {String} _property Property name to check
 /// @param {Any} _value Value to find
@@ -116,6 +122,7 @@ function __AESystemFindInArray(_array, _property, _value) {
 }
 
 /// @desc Find a sound in the playing array
+/// @private
 /// @param {Id.Sound} _ref Reference to the sound
 /// @return {Struct.__AESystemPlaying,Undefined} Found sound struct or undefined if not found
 function __AESystemFindSound(_ref) {
@@ -127,6 +134,7 @@ function __AESystemFindSound(_ref) {
 #region Types
 
 /// @desc System Volumes
+/// @private
 /// @param {Real} [_music] Music volume
 /// @param {Real} [_ui] UI volume
 /// @param {Real} [_game] Game volume
@@ -140,6 +148,7 @@ function __AESystemVolumes(_music = 1, _ui = 1, _game = 1, _gameSpatialized = 1 
 }
 
 /// @desc Currently Playing Sound
+/// @private
 /// @param {Asset.GMSound,String} [_asset] Sound asset
 /// @param {Id.Sound} [_ref] Reference to the sound
 /// @param {String} [_busName] bus name
@@ -155,6 +164,7 @@ function __AESystemPlaying(_asset = noone, _ref = noone, _busName = undefined, _
 }
 
 /// @desc Single-Track Music Definition
+/// @private
 /// @param {Asset.GMSound,String} [_asset] Sound asset
 /// @param {Real} [_volume] Initial volume
 /// @param {Real} [_priority] Sound priority
@@ -168,6 +178,7 @@ function __AESystemLibraryMusicSingle(_asset = noone, _volume = 1, _priority = 1
 }
 
 /// @desc Sound Track Definition
+/// @private
 /// @param {Asset.GMSound,String} _asset Sound asset
 /// @param {Enum.AE_MULTITRACK_MOOD} _mood Music Mood
 /// @param {Real} [_volume] Initial volume
@@ -180,6 +191,7 @@ function __AESystemLibraryMusicTrack(_asset, _mood, _volume = 1, _isStream = fal
 }
 
 /// @desc Multi-Track Music Definition
+/// @private
 /// @param {Array<Struct.__AESystemLibraryMusicTrack>} [_assets] Array of music tracks
 /// @param {Real} [_priority] Sound priority
 function __AESystemLibraryMusicMulti(_assets = [], _priority = 1 ) constructor {
@@ -189,6 +201,7 @@ function __AESystemLibraryMusicMulti(_assets = [], _priority = 1 ) constructor {
 }
 
 /// @desc Sound Definition
+/// @private
 /// @param {Asset.GMSound,String} [_asset] Sound asset
 /// @param {Real} [_volume] Initial volume
 /// @param {Real} [_volumeVariance] Volume random variation
@@ -214,6 +227,7 @@ function __AESystemLibrarySound(_asset = noone, _volume = 1,_volumeVariance = 0,
 }
 
 /// @desc Sound Track Definition
+/// @private
 /// @param {Asset.GMSound,String} [_asset] Sound asset
 /// @param {Bool} [_isStream] Indicate if the track is a stream
 function __AESystemLibrarySoundTrack(_asset = noone, _isStream = false ) constructor {
@@ -222,6 +236,7 @@ function __AESystemLibrarySoundTrack(_asset = noone, _isStream = false ) constru
 }
 
 /// @desc Sound Array Definition
+/// @private
 /// @param {Array<Struct.__AESystemLibrarySoundTrack>} [_assets] Array of sound tracks
 /// @param {Real} [_volume] Initial volume
 /// @param {Real} [_volumeVariance] Volume random variation
@@ -243,6 +258,7 @@ function __AESystemLibrarySoundArray(_assets = [], _volume = 1,_volumeVariance =
 }
 
 /// @desc System Libraries
+/// @private
 /// @param {Array<Struct.__AESystemLibraryMusicSingle,Struct.__AESystemLibraryMusicMulti>} [_music] Music sound library
 /// @param {Array<Struct.__AESystemLibrarySound,Struct.__AESystemLibrarySoundArray>} [_ui] UI sound library
 /// @param {Array<Struct.__AESystemLibrarySound,Struct.__AESystemLibrarySoundArray>} [_game] Game sound library
@@ -253,9 +269,10 @@ function __AESystemLibrary(_music = {}, _ui = {}, _game = {} ) constructor {
 }
 
 /// @desc System Position
-/// @param {Real} _x
-/// @param {Real} _y
-/// @param {Real} _z
+/// @private
+/// @param {Real} [_x] X position
+/// @param {Real} [_y] Y position
+/// @param {Real} [_z] Z position
 function __AESystemPosition(_x = 0, _y = 0, _z = 0 ) constructor {
     x = _x;
     y = _y;
@@ -263,15 +280,16 @@ function __AESystemPosition(_x = 0, _y = 0, _z = 0 ) constructor {
 }
 
 /// @desc System
-/// @param {Struct.__AESystemVolumes} _volumes
-/// @param {Struct} _streams Stream cache
-/// @param {Array<Struct.__AESystemPlaying>} _playing List of currently played sounds
-/// @param {Struct} _bus
-/// @param {Struct} _defaultBusVolumes
-/// @param {Struct.__AEMusicCurrentMusic} _currentMusics
-/// @param {Struct.__AESystemLibrary} _library
-/// @param {Struct.__AESystemPosition} _position
-/// @param {Struct} _playingMap
+/// @private
+/// @param {Struct.__AESystemVolumes} [_volumes] System volumes
+/// @param {Struct} [_streams] Stream cache
+/// @param {Array<Struct.__AESystemPlaying>} [_playing] List of currently played sounds
+/// @param {Struct} [_bus] Bus definitions
+/// @param {Struct} [_defaultBusVolumes] Default bus volumes
+/// @param {Struct.__AEMusicCurrentMusic} [_currentMusics] Current musics
+/// @param {Struct.__AESystemLibrary} [_library] Sound library
+/// @param {Struct.__AESystemPosition} [_position] Listener position
+/// @param {Struct} [_playingMap] Map of currently played sounds by reference
 function __AESystem(_volumes = new __AESystemVolumes(), _streams = {}, _playing = [], _bus = {}, _defaultBusVolumes = {}, _currentMusics = {}, _library = new __AESystemLibrary(), _position = new __AESystemPosition(), _playingMap = {}) constructor {
     volumes = _volumes;
     streams = _streams;

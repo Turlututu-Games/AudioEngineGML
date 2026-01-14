@@ -1,4 +1,5 @@
 /// @desc Play a new ui sound
+/// @private
 /// @param {Enum.AE_UI_SOUND} _uiSoundInstance UI sound instance
 /// @param {Enum.AE_CATEGORIES} _category UI sound category
 /// @param {Real} _volumeOffset Volume offset
@@ -27,6 +28,7 @@ function __AEUIPlay(_uiSoundInstance, _category, _volumeOffset, _pitchOffset) {
 }
 
 /// @desc Play a new ui sound from an array
+/// @private
 /// @param {Real} _volumeOffset Volume offset
 /// @param {Real} _pitchOffset Pitch offset
 /// @param {Struct.__AESystemLibrarySoundArray} _newSound Sound to play
@@ -53,6 +55,7 @@ function __AEUIPlayMulti(_volumeOffset, _pitchOffset, _newSound, _bus) {
 }
 
 /// @desc Play a new ui sound from an single track
+/// @private
 /// @param {Real} _volumeOffset Volume offset
 /// @param {Real} _pitchOffset Pitch offset
 /// @param {Struct.__AESystemLibrarySound} _newSound Sound to play
@@ -77,6 +80,7 @@ function __AEUIPlaySingle(_volumeOffset, _pitchOffset, _newSound, _bus) {
 }
 
 /// @desc Play the prepared sound
+/// @private
 /// @param {Asset.GMSound} _sound Sound asset
 /// @param {Struct.__AEBus} _bus Bus to play the sound on
 /// @param {Real} _volume Base volume
@@ -107,6 +111,7 @@ function __AEUIPlaySound(_sound, _bus, _volume, _pitch, _volumeVariance, _pitchV
 }
 
 /// @desc Get a ui sound library item
+/// @private
 /// @param {Enum.AE_UI_SOUND} _uiSoundInstance UI sound instance
 /// @return {Struct.__AESystemLibrarySound,Struct.__AESystemLibrarySoundArray} Sound library item
 function __AEUILibraryGetSound(_uiSoundInstance) {
@@ -117,6 +122,7 @@ function __AEUILibraryGetSound(_uiSoundInstance) {
 }
 
 /// @desc Update the volume of all ui sounds in a category
+/// @private
 /// @param {Enum.AE_CATEGORIES} _category UI sound category
 /// @param {Struct.__AEBus} _bus Bus to update
 /// @return {Undefined}
@@ -135,6 +141,7 @@ function __AEUIUpdateVolume(_category, _bus) {
 }
 
 /// @desc Resolve the final volume for a ui sound
+/// @private
 /// @param {Enum.AE_CATEGORIES} _category UI sound category
 /// @param {Struct.__AESystemPlaying} _sound Current playing sound
 /// @param {Struct.__AEBus} [_busParam] Optional bus parameter

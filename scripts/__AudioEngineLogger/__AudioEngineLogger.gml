@@ -14,7 +14,9 @@ enum AE_LOGGER_LEVEL {
 }
 
 #region Static Getter
+
 /// @desc Get the Logger Instance
+/// @private
 /// @return {Struct.__AELoggerInstance} _logger
 function __AELogger(){
     static _logger = undefined;
@@ -96,6 +98,7 @@ function AudioEngineLoggerSetTarget(_target, _errorCallback, _warningCallback, _
 
 #region Private Functions
 /// @desc Log an error message
+/// @private
 /// @param {Any} [arg1] arguments to log
 /// @param {Any} [arg2] arguments to log
 /// @param {Any} [arg3] arguments to log
@@ -130,6 +133,7 @@ function __AELogError(){
 }
 
 /// @desc Log an warning message
+/// @private
 /// @param {Any} [arg1] arguments to log
 /// @param {Any} [arg2] arguments to log
 /// @param {Any} [arg3] arguments to log
@@ -164,6 +168,7 @@ function __AELogWarning(){
 }
 
 /// @desc Log an verbose message
+/// @private
 /// @param {Any} [arg1] arguments to log
 /// @param {Any} [arg2] arguments to log
 /// @param {Any} [arg3] arguments to log
@@ -198,6 +203,7 @@ function __AELogVerbose(){
 }
 
 /// @desc Internal Verbose message callback
+/// @private
 /// @param {Any} [arg1] arguments to log
 /// @param {Any} [arg2] arguments to log
 /// @param {Any} [arg3] arguments to log
@@ -222,6 +228,7 @@ function __AELoggerInternalVerbose() {
 }
 
 /// @desc Internal Warning message callback
+/// @private
 /// @param {Any} [arg1] arguments to log
 /// @param {Any} [arg2] arguments to log
 /// @param {Any} [arg3] arguments to log
@@ -246,6 +253,7 @@ function __AELoggerInternalWarning() {
 }
 
 /// @desc Internal Error message callback
+/// @private
 /// @param {Any} [arg1] arguments to log
 /// @param {Any} [arg2] arguments to log
 /// @param {Any} [arg3] arguments to log
@@ -270,6 +278,7 @@ function __AELoggerInternalError() {
 }
 
 /// @desc Logger Instance
+/// @private
 /// @param {Struct.__AELoggerInstance} _logger Logger instance
 /// @return {Undefined}
 function __AELoggerInit(_logger){
@@ -292,6 +301,7 @@ function __AELoggerInit(_logger){
 }
 
 /// @desc Set No logging functions
+/// @private
 /// @param {Struct.__AELoggerInstance} _logger Logger instance
 /// @return {Undefined}
 function __AELoggerTargetNone(_logger) {
@@ -301,6 +311,7 @@ function __AELoggerTargetNone(_logger) {
 }
 
 /// @desc Set Internal logging functions
+/// @private
 /// @param {Struct.__AELoggerInstance} _logger Logger instance
 /// @return {Undefined}
 function __AELoggerTargetInternal(_logger) {
@@ -310,6 +321,7 @@ function __AELoggerTargetInternal(_logger) {
 }
 
 /// @desc Set Snitch logging functions
+/// @private
 /// @param {Struct.__AELoggerInstance} _logger Logger instance
 /// @return {Undefined}
 function __AELoggerTargetSnitch(_logger) {
@@ -319,6 +331,7 @@ function __AELoggerTargetSnitch(_logger) {
 }
 
 /// @desc Set Turlututu logging functions
+/// @private
 /// @param {Struct.__AELoggerInstance} _logger Logger instance
 /// @return {Undefined}
 function __AELoggerTargetTurlututu(_logger) {
@@ -328,6 +341,7 @@ function __AELoggerTargetTurlututu(_logger) {
 }
 
 /// @desc Set custom callbacks for logging
+/// @private
 /// @param {Struct.__AELoggerInstance} _logger Logger instance
 /// @param {Function,Undefined} [_errorCallback] Error callback
 /// @param {Function,Undefined} [_warningCallback] Warning callback
@@ -340,6 +354,7 @@ function __AELoggerTargetCustom(_logger, _errorCallback = undefined, _warningCal
 }
 
 /// @desc Return the default target, checking if some functions exists
+/// @private
 /// @return {Enum.AE_LOGGER_TARGET} Default target for logger
 function __AELoggerInitTarget(){
     if(variable_global_exists("Snitch")) {
@@ -358,6 +373,7 @@ function __AELoggerInitTarget(){
 }
 
 /// @desc Return the default log level using the build type and debug value
+/// @private
 /// @return {Undefined}
 function __AELoggerInitLevel() {
     if(GM_build_type == "exe") {
@@ -375,6 +391,7 @@ function __AELoggerInitLevel() {
 
 #region Type
 /// @desc Logger Instance
+/// @private
 /// @param {Enum.AE_LOGGER_TARGET} [_target] Logger target
 /// @param {Enum.AE_LOGGER_LEVEL} [_level] Logger level
 /// @param {Function,Undefined} [_errorCallback] Error callback

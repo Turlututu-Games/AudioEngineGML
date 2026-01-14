@@ -1,4 +1,5 @@
 /// @desc Get Current Music
+/// @private
 /// @param {Enum.AE_CATEGORIES} _category Music category
 /// @return {Struct.__AEMusicCurrentMusic} Current Music
 function __AEMusicGetCurrentMusic(_category) {
@@ -12,6 +13,7 @@ function __AEMusicGetCurrentMusic(_category) {
 }
 
 /// @desc Reset Current Music
+/// @private
 /// @param {Enum.AE_CATEGORIES} _category Music category
 /// @return {Undefined}
 function __AEMusicResetCurrentMusic(_category) {
@@ -22,6 +24,7 @@ function __AEMusicResetCurrentMusic(_category) {
 }
 
 /// @desc Directly Stop Current Music
+/// @private
 /// @param {Enum.AE_CATEGORIES} _category Music category
 /// @return {Undefined}
 function __AEMusicStop(_category) {
@@ -45,6 +48,7 @@ function __AEMusicStop(_category) {
 }
 
 /// @desc Stop crossfaded sounds
+/// @private
 /// @param {Array<Struct.__AEMusicCrossfaded>} _crossfadedSounds Crossfaded sounds to stop
 /// @return {Array<Struct.__AEMusicCrossfaded>} Unfaded sounds
 function __AEMusicStopCrossfaded(_crossfadedSounds) {
@@ -69,6 +73,7 @@ function __AEMusicStopCrossfaded(_crossfadedSounds) {
 }
 
 /// @desc Stop Current Music with fade-out
+/// @private
 /// @param {Enum.AE_CATEGORIES} _category Music category
 /// @param {Real} _fade Fade duration
 /// @return {Undefined}
@@ -107,6 +112,7 @@ function __AEMusicStopWithFade(_category, _fade) {
 }
 
 /// @desc Play music with fade-in
+/// @private
 /// @param {Enum.AE_MUSIC} _musicInstance Music instance
 /// @param {Enum.AE_CATEGORIES} _category Music category
 /// @param {Real} _fade Fade duration
@@ -143,6 +149,7 @@ function __AEMusicPlayWithFade(_musicInstance, _category, _fade, _previousMoods,
 }
 
 /// @desc Play multi-track music with fade-in
+/// @private
 /// @param {Enum.AE_MUSIC} _musicInstance Music instance
 /// @param {Enum.AE_CATEGORIES} _category Music category
 /// @param {Real} _fade Fade duration
@@ -190,6 +197,7 @@ function __AEMusicPlayMultiTrackWithFade(_musicInstance, _category, _fade, _prev
 }
 
 /// @desc Play single-track music with fade-in
+/// @private
 /// @param {Enum.AE_MUSIC} _musicInstance Music instance
 /// @param {Enum.AE_CATEGORIES} _category Music category
 /// @param {Real} _fade Fade duration
@@ -228,6 +236,7 @@ function __AEMusicPlaySingleTrackWithFade(_musicInstance, _category, _fade, _new
 }
 
 /// @desc Current Music Track
+/// @private
 /// @param {Asset.GMSound,String} [_asset] Sound asset
 /// @param {Bool} [_isStream] Is stream
 /// @param {Enum.AE_MULTITRACK_MOOD} [_mood] Mood
@@ -243,6 +252,7 @@ function __AEMusicCurrentMusicTrack(_asset = noone, _isStream = false, _mood = 0
 }
 
 /// @desc Current Music
+/// @private
 /// @param {Enum.AE_MUSIC} [_id] Music id
 /// @param {Array<Struct.__AEMusicCurrentMusicTrack>} [_tracks] Tracks
 /// @param {Bool} [_multi] Is multi-track
@@ -263,6 +273,7 @@ function __AEMusicCurrentMusic(_id = -1, _tracks = [], _multi = false, _moods = 
 }
 
 /// @desc Get a music library item
+/// @private
 /// @param {Enum.AE_MUSIC} _musicInstance Music instance
 /// @return {Struct.__AESystemLibraryMusicSingle,Struct.__AESystemLibraryMusicMulti} Music library item
 function __AEMusicLibraryGetSound(_musicInstance) {
@@ -273,6 +284,7 @@ function __AEMusicLibraryGetSound(_musicInstance) {
 }
 
 /// @desc Crossfaded sound reference
+/// @private
 /// @param {Id.Sound} _ref Sound reference
 /// @param {String} _category Music category
 function __AEMusicCrossfaded(_ref, _category) constructor {
@@ -281,6 +293,7 @@ function __AEMusicCrossfaded(_ref, _category) constructor {
 }
 
 /// @desc Update the volume of all music sounds in a category
+/// @private
 /// @param {Enum.AE_CATEGORIES} _category Music category
 /// @param {Struct.__AEBus} _bus Bus to update
 /// @return {Undefined}
@@ -303,6 +316,7 @@ function __AEMusicUpdateVolume(_category, _bus) {
 }
 
 /// @desc Resolve the final volume for a music sound
+/// @private
 /// @param {Enum.AE_CATEGORIES} _category Music category
 /// @param {Struct.__AEMusicCurrentMusicTrack} _music Music track
 /// @param {Struct.__AEBus} [_busParam] Optional bus parameter

@@ -1,4 +1,5 @@
 /// @desc Return the sound asset
+/// @private
 /// @param {Struct.__AESystemLibraryMusicTrack,Struct.__AESystemLibraryMusicSingle,Struct.__AESystemLibraryMusicSingle,Struct.__AESystemLibrarySound} _asset Sound asset
 /// @return {Asset.GMSound} Sound asset
 function __AEStreamReturnAsset(_asset) {
@@ -23,6 +24,7 @@ function __AEStreamReturnAsset(_asset) {
 }
 
 /// @desc Destroy the sound stream and clean the cache
+/// @private
 /// @param {String} _assetName Asset name
 /// @param {Asset.GMSound} _assetId Asset Id
 /// @return {Real} 1 if successfull, -1 otherwise
@@ -42,6 +44,7 @@ function __AEStreamCleanup(_assetName, _assetId) {
 }
 
 /// @desc Destroy all the streams
+/// @private
 /// @return {Undefined}
 function __AEStreamCleanupAll() {
     static _system = __AudioEngineSystem();

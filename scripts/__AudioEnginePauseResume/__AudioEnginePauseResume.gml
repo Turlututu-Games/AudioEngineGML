@@ -1,4 +1,5 @@
 /// @desc Pause a sound currently playing
+/// @private
 /// @param {Struct.__AESystemPlaying} _sound Sound playing
 /// @return {Undefined}
 function __AEPause(_sound) {
@@ -8,6 +9,7 @@ function __AEPause(_sound) {
 }
 
 /// @desc Pause a sound currently playing by ref
+/// @private
 /// @param {Id.Sound,Struct.__AESystemPlaying} _ref Sound reference
 /// @return {Undefined}
 function __AEPauseByRef(_ref) {
@@ -26,6 +28,7 @@ function __AEPauseByRef(_ref) {
 }
 
 /// @desc Resume a sound
+/// @private
 /// @param {Struct.__AESystemPlaying} _sound Sound playing
 /// @return {Undefined}
 function __AEResume(_sound) {
@@ -35,6 +38,7 @@ function __AEResume(_sound) {
 }
 
 /// @desc Resume a sound by ref
+/// @private
 /// @param {Id.Sound,Struct.__AESystemPlaying} _ref Sound reference
 /// @return {Undefined}
 function __AEResumeByRef(_ref) {

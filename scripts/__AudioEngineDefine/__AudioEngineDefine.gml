@@ -1,4 +1,5 @@
 /// @desc Options for a single-track music
+/// @module Configuration
 /// @param {Real} [_priority] Sound Priority
 /// @param {Real} [_volume] Initial _volume
 function AudioEngineDefineMusicOptions(_priority = 1, _volume = 1) constructor {
@@ -7,6 +8,7 @@ function AudioEngineDefineMusicOptions(_priority = 1, _volume = 1) constructor {
 }
 
 /// @desc Define a single-track music
+/// @module Configuration
 /// @param {Enum.AE_MUSIC} _musicIndex Music index
 /// @param {Asset.GMSound,String} _asset Sound asset
 /// @param {Struct.AudioEngineDefineMusicOptions} [_options] Options
@@ -55,6 +57,7 @@ function AudioEngineDefineMusic(_musicIndex, _asset, _options = {}){
 }
 
 /// @desc Define a track for multi-track music
+/// @module Configuration
 /// @param {Asset.GMSound,String} _asset Sound asset
 /// @param {Enum.AE_MULTITRACK_MOOD} _mood Music Mood
 /// @param {Real} [_volume] Initial volume
@@ -64,16 +67,19 @@ function AudioEngineDefineTrack(_asset, _mood, _volume = 1) constructor {
     volume = _volume;
 }
 
-/// Options for a multi-track music
+/// @desc Options for a multi-track music
+/// @module Configuration
 /// @param {Real} [_priority] Sound Priority
 function AudioEngineDefineMultiTrackOptions(_priority = 1) constructor {
     priority = _priority;
 }
 
-/// Define a multi-track music
-/// @param {Enum.AE_MUSIC} _musicIndex
-/// @param {Array<Struct.AudioEngineDefineTrack>} _tracks
+/// @desc Define a multi-track music
+/// @module Configuration
+/// @param {Enum.AE_MUSIC} _musicIndex Music index
+/// @param {Array<Struct.AudioEngineDefineTrack>} _tracks Array of tracks
 /// @param {Struct.AudioEngineDefineMultiTrackOptions} [_options] Options
+/// @return {Undefined}
 function AudioEngineDefineMultiTrackMusic(_musicIndex, _tracks, _options = {}){
 
     static _system = __AudioEngineSystem();
@@ -139,12 +145,13 @@ function AudioEngineDefineMultiTrackMusic(_musicIndex, _tracks, _options = {}){
     }
 }
 
-/// Options for a UI sound
-/// @param {Real} _priority Sound Priority
-/// @param {Real} _volume Initial volume
-/// @param {Real} _volumeVariance Random volume variance
-/// @param {Real} _pitch Initial pitch
-/// @param {Real} _pitchVariance Random pitch variance
+/// @desc Options for a UI sound
+/// @module Configuration
+/// @param {Real} [_priority] Sound Priority
+/// @param {Real} [_volume] Initial volume
+/// @param {Real} [_volumeVariance] Random volume variance
+/// @param {Real} [_pitch] Initial pitch
+/// @param {Real} [_pitchVariance] Random pitch variance
 function AudioEngineDefineUISoundOptions(_priority = 1, _volume = 1, _volumeVariance = 0, _pitch = 1, _pitchVariance = 0) constructor {
     priority = _priority;
     volume = _volume;
@@ -153,10 +160,12 @@ function AudioEngineDefineUISoundOptions(_priority = 1, _volume = 1, _volumeVari
     pitchVariance = _pitchVariance;
 }
 
-/// Define a UI sound
-/// @param {Enum.AE_UI_SOUND} _uiSoundIndex
-/// @param {Asset.GMSound,String} _asset
+/// @desc Define a UI sound
+/// @module Configuration
+/// @param {Enum.AE_UI_SOUND} _uiSoundIndex UI sound index
+/// @param {Asset.GMSound,String} _asset Sound asset
 /// @param {Struct.AudioEngineDefineUISoundOptions} [_options] Options
+/// @return {Undefined}
 function AudioEngineDefineUISound(_uiSoundIndex, _asset, _options = {}){
 
     static _system = __AudioEngineSystem();
@@ -207,10 +216,12 @@ function AudioEngineDefineUISound(_uiSoundIndex, _asset, _options = {}){
     }
 }
 
-/// Define a UI sound
-/// @param {Enum.AE_UI_SOUND} _uiSoundIndex
-/// @param {Array<Asset.GMSound>,Array<String>} _assets
+/// @desc Define a UI sound
+/// @module Configuration
+/// @param {Enum.AE_UI_SOUND} _uiSoundIndex UI sound index
+/// @param {Array<Asset.GMSound,String>} _assets Array of sound assets
 /// @param {Struct.AudioEngineDefineUISoundOptions} [_options] Options
+/// @return {Undefined}
 function AudioEngineDefineUISoundArray(_uiSoundIndex, _assets, _options = {}) {
 
     static _system = __AudioEngineSystem();
@@ -271,15 +282,16 @@ function AudioEngineDefineUISoundArray(_uiSoundIndex, _assets, _options = {}) {
     }
 }
 
-/// Options for a Game sound
-/// @param {Bool} _loop Indicate if the sound is a loop
-/// @param {Bool} _cleanOnRoomEnd The sound will be cleaned on room_end event
-/// @param {Bool} _spatialized Indicate if the sound is spatialized
-/// @param {Real} _priority Sound Priority
-/// @param {Real} _volume Initial volume
-/// @param {Real} _volumeVariance Random volume variance
-/// @param {Real} _pitch Initial pitch
-/// @param {Real} _pitchVariance Random pitch variance
+/// @desc Options for a Game sound
+/// @module Configuration
+/// @param {Bool} [_loop] Indicate if the sound is a loop
+/// @param {Bool} [_cleanOnRoomEnd] The sound will be cleaned on room_end event
+/// @param {Bool} [_spatialized] Indicate if the sound is spatialized
+/// @param {Real} [_priority] Sound Priority
+/// @param {Real} [_volume] Initial volume
+/// @param {Real} [_volumeVariance] Random volume variance
+/// @param {Real} [_pitch] Initial pitch
+/// @param {Real} [_pitchVariance] Random pitch variance
 function AudioEngineDefineGameSoundOptions(_loop = false, _cleanOnRoomEnd = true, _spatialized = false, _priority = 1, _volume = 1, _volumeVariance = 0, _pitch = 1, _pitchVariance = 0) constructor {
     loop = _loop;
     cleanOnRoomEnd = _cleanOnRoomEnd;
@@ -291,10 +303,12 @@ function AudioEngineDefineGameSoundOptions(_loop = false, _cleanOnRoomEnd = true
     pitchVariance = _pitchVariance;
 }
 
-/// Define a Game sound
-/// @param {Enum.AE_GAME_SOUND} _gameSoundIndex
-/// @param {Asset.GMSound|String} _asset
+/// @desc Define a Game sound
+/// @module Configuration
+/// @param {Enum.AE_GAME_SOUND} _gameSoundIndex Game sound index
+/// @param {Asset.GMSound|String} _asset Sound asset
 /// @param {Struct.AudioEngineDefineGameSoundOptions} [_options] Options
+/// @return {Undefined}
 function AudioEngineDefineGameSound(_gameSoundIndex, _asset, _options = {}){
 
     static _system = __AudioEngineSystem();
@@ -351,10 +365,12 @@ function AudioEngineDefineGameSound(_gameSoundIndex, _asset, _options = {}){
     }
 }
 
-/// Define a Game sound
-/// @param {Enum.AE_GAME_SOUND} _gameSoundIndex
-/// @param {Array<Asset.GMSound>,Array<String>} _assets
+/// @desc Define a Game sound
+/// @module Configuration
+/// @param {Enum.AE_GAME_SOUND} _gameSoundIndex Game sound index
+/// @param {Array<Asset.GMSound,String>} _assets Array of sound assets
 /// @param {Struct.AudioEngineDefineGameSoundOptions} [_options] Options
+/// @return {Undefined}
 function AudioEngineDefineGameSoundArray(_gameSoundIndex, _assets, _options = {}){
 
     static _system = __AudioEngineSystem();
@@ -421,26 +437,28 @@ function AudioEngineDefineGameSoundArray(_gameSoundIndex, _assets, _options = {}
 }
 
 enum OptionCheckType {
-    Real,
-    Boolean,
-    String
+    Real = 0,
+    Boolean = 1,
+    String = 2
 }
 
 /// @desc Option to check
+/// @private
 /// @param {String} _name Name of the option
 /// @param {Enum.OptionCheckType} _type Type of the option
 /// @param {Real} [_maxValue] Maximum value (for Real type)
 /// @param {Real} [_minValue] Minimum value (for Real type)
-function __AEDefineOptionCheck(_name, _type, _maxValue, _minValue) constructor {
+function __AEDefineOptionCheck(_name, _type, _maxValue = 1, _minValue = 0) constructor {
     name = _name;
     type = _type;
-    maxValue = _maxValue ?? 1;
-    minValue = _minValue ?? 0;
+    maxValue = _maxValue;
+    minValue = _minValue;
 }
 
 /// @desc Check if an asset is valid. Only executed in "run" mode (development)
-/// @param {Struct} _options
-/// @param {Array<Struct.__AEDefineOptionCheck>} _list
+/// @private
+/// @param {Struct} _options Options to check
+/// @param {Array<Struct.__AEDefineOptionCheck>} _list List of valid options
 /// @return {Bool} True if valid, false otherwise
 function __AEDefineCheckOptionsValid(_options, _list) {
     if(GM_build_type == "exe") {
@@ -507,6 +525,7 @@ function __AEDefineCheckOptionsValid(_options, _list) {
 }
 
 /// @desc Check if an asset is valid. Only executed in "run" mode (development)
+/// @private
 /// @param {Asset.GMSound,String} _asset Asset to check
 /// @return {Bool} True if valid, false otherwise
 function __AEDefineCheckAssetValid(_asset) {
@@ -559,6 +578,7 @@ function __AEDefineCheckAssetValid(_asset) {
 }
 
 /// @desc Check if an stream asset is valid.
+/// @private
 /// @param {String} _asset Path to the stream asset
 /// @return {Bool} True if valid, false otherwise
 function __AEDefineCheckAssetStreamValid(_asset) {
@@ -623,6 +643,7 @@ function __AEDefineCheckAssetStreamValid(_asset) {
 }
 
 /// @desc Check if an id is valid. Only executed in "run" mode (development)
+/// @private
 /// @param {Real} _id Id to check
 /// @return {Bool} True if valid, false otherwise
 function __AEDefineCheckIdValid(_id) {
@@ -660,6 +681,7 @@ function __AEDefineCheckIdValid(_id) {
 }
 
 /// @desc Check if a volume value is valid. Only executed in "run" mode (development)
+/// @private
 /// @param {Real} _volume Volume to check
 /// @return {Bool} True if valid, false otherwise
 function __AEDefineCheckVolumeValid(_volume) {

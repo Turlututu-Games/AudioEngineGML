@@ -1,4 +1,5 @@
 /// @desc Stop a sound currently playing
+/// @private
 /// @param {Struct.__AESystemPlaying} _sound Sound playing
 /// @return {Undefined}
 function __AEStop(_sound) {
@@ -6,6 +7,7 @@ function __AEStop(_sound) {
 }
 
 /// @desc Stop a sound by ref
+/// @private
 /// @param {Id.Sound,Struct.__AESystemPlaying} _ref Sound reference
 /// @return {Undefined}
 function __AEStopByRef(_ref) {

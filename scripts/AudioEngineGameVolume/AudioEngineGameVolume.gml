@@ -3,6 +3,11 @@
 /// @return {Undefined}
 function AudioEngineGameSetVolume(_newVolume) {
 
+    if (!is_real(_newVolume)) {
+        __AELogError("Volume must be a real number, got: " + string(typeof(_newVolume)));
+        return;
+    }
+
     static _system = __AudioEngineSystem();
 
     var _busStaticArray = __AEBusGetAll(__AUDIOENGINE_PREFIX_STATIC_GAME);
@@ -30,6 +35,11 @@ function AudioEngineGameSetVolume(_newVolume) {
 /// @param {Real} _newVolume New Volume
 /// @return {Undefined}
 function AudioEngineGameSetSpatializedVolume(_newVolume) {
+
+    if (!is_real(_newVolume)) {
+        __AELogError("Volume must be a real number, got: " + string(typeof(_newVolume)));
+        return;
+    }
 
     static _system = __AudioEngineSystem();
 
