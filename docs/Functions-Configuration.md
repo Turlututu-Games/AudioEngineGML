@@ -8,7 +8,7 @@
 
 #### **Description**
 
-Configure AudioEngine
+Configure AudioEngine. This function is called automatically on system initialization, and don't need to be called manually.
 
 <!-- tabs:end -->
 
@@ -139,6 +139,12 @@ Options for a multi-track music
 
 Define a single-track music
 
+#### **Example**
+
+```gml
+AudioEngineDefineMusic(AE_MUSIC.DECORATE, Interior_Birdecorator_Decorate, {volume: 0.8});
+```
+
 <!-- tabs:end -->
 
 &nbsp;
@@ -154,8 +160,8 @@ Define a single-track music
 
 |Name | Datatype | Purpose |
 |---|---|---|
-| [_priority] | Real | Sound Priority |
-| [_volume] | Real | Initial _volume |
+| [_priority] | Real | Sound Priority. Must be between 0 and 100. Lower is higher priority |
+| [_volume] | Real | Initial volume. Must be between 0 and 1 |
 
 Options for a single-track music
 
