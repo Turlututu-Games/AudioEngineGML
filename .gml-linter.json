@@ -11,7 +11,8 @@
           "warning",
           {
             "examplePublicOnly": false,
-            "fixUrlBase": "https://turlututu-games.github.io/AudioEngineGML"
+            "preferringSee": true,
+            "fixUrlBase": "https://turlututu-games.github.io/AudioEngineGML/#/"
           }
         ],
         "function-comment-returns-description": "warning",

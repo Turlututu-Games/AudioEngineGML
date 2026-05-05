@@ -35,6 +35,11 @@ AudioEngineGML is a library designed to simplify all this, with pre-configured s
 
 ---
 
+## Disclaimer
+No AI tool was used in the development of this code. AI tools were only used during code review steps.
+
+---
+
 ## Credits
 The development of this library was heavily influenced by the tools created by [Juju Adams](https://github.com/JujuAdams).
 

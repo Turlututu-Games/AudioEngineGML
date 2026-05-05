@@ -1,6 +1,6 @@
 /// @desc Pause a game sound
 /// @module Game
-/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGamePause
+/// @see https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGamePause
 /// @param {Id.Sound,Struct.__AESystemPlaying} _ref Sound reference
 /// @return {Undefined}
 function AudioEngineGamePause(_ref) {
@@ -10,7 +10,7 @@ function AudioEngineGamePause(_ref) {
 
 /// @desc Pause all game static sounds from a category
 /// @module Game
-/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGamePauseCategory
+/// @see https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGamePauseCategory
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @return {Undefined}
 // Feather ignore once GM1045 The enum name cannot be known here
@@ -24,7 +24,7 @@ function AudioEngineGamePauseCategory(_category = 0) {
 
 /// @desc Pause all game static sounds
 /// @module Game
-/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGamePauseAllStatic
+/// @see https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGamePauseAllStatic
 /// @return {Undefined}
 function AudioEngineGamePauseAllStatic() {
     var _filtered = __AESystemFilterSoundByTypeAndCategory(__AUDIOENGINE_PREFIX_STATIC_GAME);
@@ -35,7 +35,7 @@ function AudioEngineGamePauseAllStatic() {
 
 /// @desc Pause all game spatialized sounds
 /// @module Game
-/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGamePauseAllSpatialized
+/// @see https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGamePauseAllSpatialized
 /// @return {Undefined}
 function AudioEngineGamePauseAllSpatialized() {
     var _filtered = __AESystemFilterSoundByTypeAndCategory(__AUDIOENGINE_PREFIX_SPATIALIZED_GAME);
@@ -46,7 +46,7 @@ function AudioEngineGamePauseAllSpatialized() {
 
 /// @desc Pause all game sounds
 /// @module Game
-/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGamePauseAll
+/// @see https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGamePauseAll
 /// @return {Undefined}
 function AudioEngineGamePauseAll() {
     AudioEngineGamePauseAllStatic();

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__gamemaker-mcp"
+    ],
+    "deny": [
+      "Edit(*.yy)",
+      "Edit(*.yyp)"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "gamemaker-mcp"
+  ],
+  "enableAllProjectMcpServers": true
+}
