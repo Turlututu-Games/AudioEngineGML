@@ -1,6 +1,6 @@
 /// @desc Set the global music volume
 /// @module Game
-/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGameSetVolume
+/// @see https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGameSetVolume
 /// @param {Real} _newVolume New Volume
 /// @return {Undefined}
 function AudioEngineGameSetVolume(_newVolume) {
@@ -35,7 +35,7 @@ function AudioEngineGameSetVolume(_newVolume) {
 
 /// @desc Set the global music volume
 /// @module Game
-/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGameSetSpatializedVolume
+/// @see https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGameSetSpatializedVolume
 /// @param {Real} _newVolume New Volume
 /// @return {Undefined}
 function AudioEngineGameSetSpatializedVolume(_newVolume) {
@@ -64,7 +64,7 @@ function AudioEngineGameSetSpatializedVolume(_newVolume) {
 
 /// @desc Set the music volume for a category
 /// @module Game
-/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGameSetStaticVolume
+/// @see https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGameSetStaticVolume
 /// @param {Real} _newVolume New Volume
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @return {Undefined}
@@ -80,7 +80,7 @@ function AudioEngineGameSetStaticVolume(_newVolume, _category = 0) {
 
 /// @desc Get the music volume for a category
 /// @module Game
-/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGameStaticGetCategoryVolume
+/// @see https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGameStaticGetCategoryVolume
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @return {Real} Category volume
 // Feather ignore once GM1045

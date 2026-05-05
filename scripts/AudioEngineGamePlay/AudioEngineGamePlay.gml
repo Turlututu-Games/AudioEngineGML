@@ -1,6 +1,6 @@
 /// @desc Play a game sound
 /// @module Game
-/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGamePlay
+/// @see https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGamePlay
 /// @param {Enum.AE_GAME_SOUND} _gameSoundInstance Sound key
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @param {Real} [_volumeOffset] Optional offset for the volume
@@ -14,7 +14,7 @@ function AudioEngineGamePlay(_gameSoundInstance, _category = 0, _volumeOffset = 
 
 /// @desc Play a spatialized game sound at a position. Position do nothing for non-spatialized sounds
 /// @module Game
-/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGamePlayAt
+/// @see https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGamePlayAt
 /// @param {Enum.AE_GAME_SOUND} _gameSoundInstance Sound key
 /// @param {Real} _x X position
 /// @param {Real} _y Y position
@@ -34,7 +34,7 @@ function AudioEngineGamePlayAt(_gameSoundInstance, _x, _y, _z = 0, _volumeOffset
 
 /// @desc Play a spatialized game sound at a position. Position do nothing for non-spatialized sounds
 /// @module Game
-/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGamePlayAtObject
+/// @see https://turlututu-games.github.io/AudioEngineGML/#/Functions-Game?id=AudioEngineGamePlayAtObject
 /// @param {Enum.AE_GAME_SOUND} _gameSoundInstance Sound key
 /// @param {Id.Instance,Asset.GMObject} _instance Object instance used to get the position
 /// @param {Real} [_z] Z position. Default to 0

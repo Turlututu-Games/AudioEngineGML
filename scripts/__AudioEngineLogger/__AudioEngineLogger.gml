@@ -36,7 +36,7 @@ function __AELogger(){
 
 /// @desc Set Logger Level
 /// @module Configuration
-/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Configuration?id=AudioEngineLoggerSetLogLevel
+/// @see https://turlututu-games.github.io/AudioEngineGML/#/Functions-Configuration?id=AudioEngineLoggerSetLogLevel
 /// @example AudioEngineLoggerSetLogLevel(AE_LOGGER_LEVEL.ERROR);
 /// @param {Enum.AE_LOGGER_LEVEL} _level Logger level
 /// @return {Undefined}
@@ -53,7 +53,7 @@ function AudioEngineLoggerSetLogLevel(_level) {
 
 /// @desc Set Logger Target
 /// @module Configuration
-/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Configuration?id=AudioEngineLoggerSetTarget
+/// @see https://turlututu-games.github.io/AudioEngineGML/#/Functions-Configuration?id=AudioEngineLoggerSetTarget
 /// @example AudioEngineLoggerSetTarget(AE_LOGGER_TARGET.SNITCH);
 /// @param {Enum.AE_LOGGER_TARGET} _target Logger target
 /// @param {Function,Undefined} _errorCallback Error callback

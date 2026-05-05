@@ -1,6 +1,6 @@
 /// @desc Set the global music volume
 /// @module Music
-/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Music?id=AudioEngineMusicSetVolume
+/// @see https://turlututu-games.github.io/AudioEngineGML/#/Functions-Music?id=AudioEngineMusicSetVolume
 /// @param {Real} _newVolume New Volume
 /// @return {Undefined}
 function AudioEngineMusicSetVolume(_newVolume) {
@@ -27,7 +27,7 @@ function AudioEngineMusicSetVolume(_newVolume) {
 
 /// @desc Set the music volume for a category
 /// @module Music
-/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Music?id=AudioEngineMusicSetCategoryVolume
+/// @see https://turlututu-games.github.io/AudioEngineGML/#/Functions-Music?id=AudioEngineMusicSetCategoryVolume
 /// @param {Real} _newVolume New Volume
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @return {Undefined}
@@ -43,7 +43,7 @@ function AudioEngineMusicSetCategoryVolume(_newVolume, _category = 0) {
 
 /// @desc Get the music volume for a category
 /// @module Music
-/// @url https://turlututu-games.github.io/AudioEngineGML/#/Functions-Music?id=AudioEngineMusicGetCategoryVolume
+/// @see https://turlututu-games.github.io/AudioEngineGML/#/Functions-Music?id=AudioEngineMusicGetCategoryVolume
 /// @param {Enum.AE_CATEGORIES} [_category] Optional category. 0 by default
 /// @return {Real} Category volume
 // Feather ignore once GM1045
