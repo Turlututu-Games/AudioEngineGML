@@ -188,8 +188,8 @@ function AudioEngineDefineUISound(_uiSoundIndex, _asset, _options = {}){
         { name: "priority", type: OptionCheckType.Real, minValue: 0, maxValue: 100 },
         { name: "volume", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
         { name: "volumeVariance", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
-        { name: "pitch", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
-        { name: "pitchVariance", type: OptionCheckType.Real, minValue: 0, maxValue: 1 }
+        { name: "pitch", type: OptionCheckType.Real, minValue: 0, maxValue: 10 },
+        { name: "pitchVariance", type: OptionCheckType.Real, minValue: 0, maxValue: 10 }
     ])) {
         // Feather ignore once GM1019 Ignore invalid type error
         __AELogError(_options, "is not valid");
@@ -245,8 +245,8 @@ function AudioEngineDefineUISoundArray(_uiSoundIndex, _assets, _options = {}) {
         { name: "priority", type: OptionCheckType.Real, minValue: 0, maxValue: 100 },
         { name: "volume", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
         { name: "volumeVariance", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
-        { name: "pitch", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
-        { name: "pitchVariance", type: OptionCheckType.Real, minValue: 0, maxValue: 1 }
+        { name: "pitch", type: OptionCheckType.Real, minValue: 0, maxValue: 10 },
+        { name: "pitchVariance", type: OptionCheckType.Real, minValue: 0, maxValue: 10 }
     ])) {
         // Feather ignore once GM1019 Ignore invalid type error
         __AELogError(_options, "is not valid");
@@ -334,8 +334,8 @@ function AudioEngineDefineGameSound(_gameSoundIndex, _asset, _options = {}){
         { name: "priority", type: OptionCheckType.Real, minValue: 0, maxValue: 100 },
         { name: "volume", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
         { name: "volumeVariance", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
-        { name: "pitch", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
-        { name: "pitchVariance", type: OptionCheckType.Real, minValue: 0, maxValue: 1 },
+        { name: "pitch", type: OptionCheckType.Real, minValue: 0, maxValue: 10 },
+        { name: "pitchVariance", type: OptionCheckType.Real, minValue: 0, maxValue: 10 },
         { name: "spatialized", type: OptionCheckType.Boolean },
         { name: "loop", type: OptionCheckType.Boolean },
         { name: "cleanOnRoomEnd", type: OptionCheckType.Boolean }
