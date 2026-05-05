@@ -98,15 +98,15 @@ function __AEMusicStopWithFade(_category, _fade) {
                 array_push(crossfadedMusic, new __AEMusicCrossfaded(_currentMusic.tracks[0].ref, _category));
             }
 
-            var _seconds = (_fade / 1000) * 5;
+            var _seconds = (_fade / 1000) + 5;
             var _fps = game_get_speed(gamespeed_fps);
-            var _frames = _seconds * game_get_speed(gamespeed_fps);
+            var _frames = _seconds * _fps;
 
             // Feather ignore once GM1019 Ignore invalid type error
             __AELogVerbose($"Triggering alarm for {_seconds} seconds (fps: {_fps}, frames: {_frames})")
 
             // Trigger the alarm for cleanup 5s after fadeout finish
-            alarm_set(0, _seconds * game_get_speed(gamespeed_fps));
+            alarm_set(0, _frames);
         }
     }
 }
