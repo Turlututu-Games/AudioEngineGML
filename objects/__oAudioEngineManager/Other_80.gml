@@ -15,7 +15,7 @@ for(var _i = 0; _i < _arraySize; _i++) {
     if(_system.playing[_i].ref == _ref) {
 
         _found = _system.playing[_i];
-        _system.playingMap[$ _ref] = undefined;
+        struct_remove(_system.playingMap, _ref);
         array_delete(_system.playing, _i, 1);
         break;
     }
@@ -37,7 +37,20 @@ for(var _i = 0; _i < _arraySize; _i++) {
 }
 
 if(string_starts_with(_found.busName, $"{__AUDIOENGINE_PREFIX_SPATIALIZED_GAME}-")) {
-    __AEBusClear(_found.busName);
+    // Sounds played via AudioEngineGamePlayAtObject share a bus per instance.id —
+    // only clear the bus once no other playing sound is still routed through it.
+    var _busStillInUse = false;
+    var _remaining = array_length(_system.playing);
+    for(var _j = 0; _j < _remaining; _j++) {
+        if(_system.playing[_j].busName == _found.busName) {
+            _busStillInUse = true;
+            break;
+        }
+    }
+
+    if(!_busStillInUse) {
+        __AEBusClear(_found.busName);
+    }
 }
 
 if(array_length(_filtered) == 0) {
