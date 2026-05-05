@@ -87,9 +87,15 @@ function __AESystemFilterSoundByTypeAndCategory(_type, _category = undefined) {
 
     for(var _i = 0; _i < _playingLength; _i++) {
         var _playing = _system.playing[_i];
+        var _push = false;
 
-        // Feather ignore once GM1041
-        if(string_starts_with(_playing.busName, _term) ) {
+        if(is_undefined(_category)) {
+             _push = string_starts_with(_playing.busName, $"{_type}-")
+        } else {
+             _push = _playing.busName == _term;
+        }
+
+        if(_push) {
             array_push(_filtered, _playing)
         }
     }
