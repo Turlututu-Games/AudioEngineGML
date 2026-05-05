@@ -572,9 +572,6 @@ function __AEDefineCheckAssetValid(_asset) {
         }
 
         if(audio_get_type(_asset) != 0) {
-
-            audio_destroy_stream(_asset);
-
             // Feather ignore once GM1019 Ignore invalid type error
             __AELogWarning(_asset, "is not a audio asset");
             return false;
