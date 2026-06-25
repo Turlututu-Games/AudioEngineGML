@@ -1,15 +1,16 @@
 {
   "permissions": {
     "allow": [
-      "mcp__gamemaker-mcp"
+      "mcp__gamemaker-mcp",
+      "Bash(npx @gamemaker/gm-cli compile --errors-only)"
     ],
     "deny": [
       "Edit(*.yy)",
       "Edit(*.yyp)"
     ]
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "gamemaker-mcp"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }
