@@ -11,16 +11,9 @@ function __AEStop(_sound) {
 /// @param {Id.Sound,Struct.__AESystemPlaying} _ref Sound reference
 /// @return {Undefined}
 function __AEStopByRef(_ref) {
+    var _sound = __AESystemResolveSound(_ref);
 
-    // If it's a real value, it means we receive the Id.Sound instead of Played reference
-    if(is_real(_ref)) {
-        var _sound = __AESystemFindSound(_ref);
-
-        if(_sound != undefined) {
-            __AEStop(_sound)
-        }
-    } else {
-        __AEStop(_ref)
+    if(_sound != undefined) {
+        __AEStop(_sound);
     }
-
 }

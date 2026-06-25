@@ -13,18 +13,11 @@ function __AEPause(_sound) {
 /// @param {Id.Sound,Struct.__AESystemPlaying} _ref Sound reference
 /// @return {Undefined}
 function __AEPauseByRef(_ref) {
+    var _sound = __AESystemResolveSound(_ref);
 
-    // If it's a real value, it means we receive the Id.Sound instead of Played reference
-    if(is_real(_ref)) {
-        var _sound = __AESystemFindSound(_ref);
-
-        if(_sound != undefined) {
-            __AEPause(_sound)
-        }
-    } else {
-        __AEPause(_ref)
+    if(_sound != undefined) {
+        __AEPause(_sound);
     }
-
 }
 
 /// @desc Resume a sound
@@ -42,16 +35,9 @@ function __AEResume(_sound) {
 /// @param {Id.Sound,Struct.__AESystemPlaying} _ref Sound reference
 /// @return {Undefined}
 function __AEResumeByRef(_ref) {
+    var _sound = __AESystemResolveSound(_ref);
 
-    // If it's a real value, it means we receive the Id.Sound instead of Played reference
-    if(is_real(_ref)) {
-        var _sound = __AESystemFindSound(_ref);
-
-        if(_sound != undefined) {
-            __AEResume(_sound)
-        }
-    } else {
-        __AEResume(_ref)
+    if(_sound != undefined) {
+        __AEResume(_sound);
     }
-
 }

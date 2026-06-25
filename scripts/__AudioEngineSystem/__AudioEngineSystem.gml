@@ -134,6 +134,25 @@ function __AESystemFindSound(_ref) {
     return _system.playingMap[$ _ref];
 }
 
+/// @desc Resolve a public-facing sound reference into its __AESystemPlaying struct
+/// @private
+/// @param {Id.Sound,Struct.__AESystemPlaying} _ref Sound id or playing struct
+/// @return {Struct.__AESystemPlaying,Undefined} Resolved struct, or undefined if input is invalid
+function __AESystemResolveSound(_ref) {
+    if(is_real(_ref)) {
+        return __AESystemFindSound(_ref);
+    }
+
+    if(is_struct(_ref) && struct_exists(_ref, "ref")) {
+        // Feather ignore once GM1045
+        return _ref;
+    }
+
+    // Feather ignore once GM1019 Ignore invalid type error
+    __AELogWarning(_ref, "is not a valid sound reference");
+    return undefined;
+}
+
 #region Types
 
 /// @desc System Volumes

@@ -7,15 +7,10 @@
 /// @param {Real} [_z] Z position. Default to 0
 /// @return {Undefined}
 function AudioEngineGamePosition(_ref, _x, _y, _z = 0){
-    // If it's a real value, it means we receive the Id.Sound instead of Played reference
-    if(is_real(_ref)) {
-        var _sound = __AESystemFindSound(_ref);
+    var _sound = __AESystemResolveSound(_ref);
 
-        if(_sound != undefined) {
-            __AEGamePositionFound(_sound, _x, _y, _z);
-        }
-    } else {
-        __AEGamePositionFound(_ref, _x, _y, _z);
+    if(_sound != undefined) {
+        __AEGamePositionFound(_sound, _x, _y, _z);
     }
 }
 
